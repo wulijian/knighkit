@@ -1,0 +1,63 @@
+<div id="phrsListTab" class="trans-wrapper clearfix">
+    <% var word = _data.word, baseTrans = word.baseTrans; %>
+        <% if (baseTrans["pic-dict"]) { %>
+            <%(function(_data){%><!--pic-dict-->
+<% var pics = _data["picdict-pics"]; %>
+<%(function(_data){%><ul>
+    <li>21</li>
+    <li>22 <%(function(_data){%><div>hohohohohohohohohoho</div><%})(_data);%></li>
+    <li>23</li>
+    <li>24</li>
+</ul><%})(_data);%>
+<div class="selected-container">
+    <a class="selected_img" href="#">
+        <img src="<%= pics[0].url %>" alt="图片词典-有道"/>
+        <span>点击更换图片</span>
+    </a>
+</div>
+<div class="img-list">
+    <span class="select-just">点击选择您觉得符合这个词条的图片<a class="close-img" href="#">关闭</a></span>
+    <ul class="all-img">
+    <%  for (var i = 0; i < pics.length; i++ ) { %>
+        <li>
+            <a href="#"><span><img src="<%= pics[i].url %>" alt="" data-link="http://renren.com" data-site="人人"></span></a>
+        </li>
+    <% } %>
+    </ul>
+    <%(function(_data){%><ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+</ul><%})(_data);%>
+    <div class="full-content">
+        <img src="" alt="">
+        <a class="source-link" href="http://www.163.com" target="_blank">163.com</a>
+    </div>
+</div><%})(getVal.val(baseTrans, "pic-dict"));%>
+        <% } %>
+        <% if ( baseTrans["simple-dict"] ) { %>
+            <h2>
+                <span class="keyword"><%= word.input %></span>
+                <a href="#" title="加入单词本" class="sp add-fav add-faved"></a>
+                <a href="#" title="加入单词本" class="sp add-fav"></a>
+                <div class="baav">
+                    <span class="pronounce">英<span class="phonetic"><%= getVal.val(baseTrans, "ukphone") %></span>
+                        <a href="#" title="发音" class="sp dictvoice"></a></span>
+                    <span class="pronounce">美<span class="phonetic"><%= getVal.val(baseTrans, "usphone") %></span>
+                        <a href="#" title="发音" class="sp dictvoice"></a></span>
+                </div>
+            </h2>
+            <% var trs = getVal.val(baseTrans, "trs"), trsLength = trs.length; if ( trsLength > 0 ) { %>
+            <div class="trans-container">
+                <ul>
+                    <% for ( var i = 0; i < trsLength; i++ ) { %>
+                    <% var senObj = trs[i].l; %>
+                    <% for (var key1 in senObj ) %>
+                    <li><span class="def"><%= senObj[key1] %></span></li>
+                    <%}%>
+                    <% } %>
+                </ul>
+            </div>
+        <% } %>
+</div

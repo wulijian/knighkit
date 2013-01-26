@@ -1,0 +1,24 @@
+<!--pic-dict-->
+<% var pics = _data["picdict-pics"]; %>
+<%== ./sub/testsub2(_data) %>
+<div class="selected-container">
+    <a class="selected_img" href="#">
+        <img src="<%= pics[0].url %>" alt="图片词典-有道"/>
+        <span>点击更换图片</span>
+    </a>
+</div>
+<div class="img-list">
+    <span class="select-just">点击选择您觉得符合这个词条的图片<a class="close-img" href="#">关闭</a></span>
+    <ul class="all-img">
+    <%  for (var i = 0; i < pics.length; i++ ) { %>
+        <li>
+            <a href="#"><span><img src="<%= pics[i].url %>" alt="" data-link="http://renren.com" data-site="人人"></span></a>
+        </li>
+    <% } %>
+    </ul>
+    <%== ./sub/testsub(_data) %>
+    <div class="full-content">
+        <img src="" alt="">
+        <a class="source-link" href="http://www.163.com" target="_blank">163.com</a>
+    </div>
+</div>

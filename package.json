@@ -1,0 +1,29 @@
+{
+    "name": "Knighkit",
+    "title": "Knighkit",
+    "description": "",
+    "version": "1.0.0",
+    "homepage": "",
+    "author": {
+        "name": "KnightWu"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git地址"
+    },
+    "bugs": {
+        "url": "XXX"
+    },
+    "devDependencies": {
+        "uglify-js": "latest",
+        "mocha": "latest",
+        "source-map": "latest",
+        "velocity.js": "latest",
+        "hogan.js": "latest",
+        "express": "latest",
+        "shelljs": "latest",
+        "seajs": "latest",
+        "amdefine": "latest"
+    },
+    "keywords": []
+}

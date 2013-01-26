@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="m.css">
+</head>
+<body>
+<div id="result"></div>
+<script type="text/javascript" src="test.js"></script>
+<script type="text/javascript">
+    /**
+         * 递归取值
+         */
+        var findVal = function (obj, key) {
+            var res;
+            return (function (o) {
+                if (typeof o !== 'object') {
+                    return;
+                }
+                if (o[key]) {
+                    return o[key];
+                }
+                for (var k in o) {
+                    res = arguments.callee(o[k]);
+                    if (res) {
+                        return res;
+                    }
+                }
+            })(obj);
+        };
+
+        /**
+         * 递归取值
+         */
+        var find = function (obj, keyStrings) {
+            var keys = keyStrings.split(".");
+            if (keys.length === 1) {
+                if (obj[keys[0]]) {
+                    return obj[keys[0]];
+                } else {
+                    return;
+                }
+            }
+            var curKey = keys[0];
+            for (var k in obj) {
+                if (k == curKey) {
+                    return find(obj[curKey], keyStrings.substring(keyStrings.indexOf(".") + 1));
+                }
+            }
+        };
+    var getVal={};
+    getVal.val=findVal;
+   
+    window.onload = function () {
+        document.getElementById('result').innerHTML = anonymous({
+                "word": {
+                    "lang": "eng",
+                    "input": "hi",
+                    "return-phrase": "$",
+                    "baseTrans": {
+                        "simple-dict": {
+                            "type": "ec",
+                            "name": "英汉翻译",
+                            "simple-dict": {
+                                "word": {
+                                    "return-phrase": {
+                                        "l": {
+                                            "i": "hi"
+                                        }
+                                    },
+                                    "ukspeech": "hi&type=1",
+                                    "usspeech": "hi&type=2",
+                                    "ukphone": "haɪ",
+                                    "usphone": "haɪ",
+                                    "trs": [
+                                        {
+                                            "l": {
+                                                "i": "n. 运气；幸运；带来好运的东西"
+                                            }
+                                        },
+                                        {
+                                            "l": {
+                                                "i": "vi. 靠运气，走运；凑巧碰上"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "source": {
+                                    "url": "http://dict.youdao.com",
+                                    "name": "有道词典",
+                                    "copyright": []
+                                }
+                            }
+                        },
+                        "pic-dict": {
+                            "type": "pic-dict",
+                            "name": "图片词典",
+                            "picdict-pics": [
+                                {
+                                    "url": "http://oimagea2.ydstatic.com/image?url=http://oimagec7.ydstatic.com/image?url=http://jacky-talky.com/wp-content/uploads/2011/04/apple-full.jpg&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimagec7.ydstatic.com/image?url=http://jacky-talky.com/wp-content/uploads/2011/04/apple-full.jpg&product=PICDICT_EDIT"
+                                },
+                                {
+                                    "url": "http://oimagec8.ydstatic.com/image?url=http://oimageb8.ydstatic.com/image?url=http://www.diancong.com/wp-content/uploads/2011/08/apple-logo.jpg&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimageb8.ydstatic.com/image?url=http://www.diancong.com/wp-content/uploads/2011/08/apple-logo.jpg&product=PICDICT_EDIT"
+                                },
+                                {
+                                    "url": "http://oimagec8.ydstatic.com/image?url=http://oimageb3.ydstatic.com/image?url=http://en.wikipedia.org/wiki/File:95apple.jpeg&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimageb3.ydstatic.com/image?url=http://en.wikipedia.org/wiki/File:95apple.jpeg&product=PICDICT_EDIT"
+                                },
+                                {
+                                    "url": "http://oimageb5.ydstatic.com/image?url=http://oimagec1.ydstatic.com/image?url=http://www.mjhy.cn/pmwiki/uploads/English/apple.jpg&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimagec1.ydstatic.com/image?url=http://www.mjhy.cn/pmwiki/uploads/English/apple.jpg&product=PICDICT_EDIT"
+                                },
+                                {
+                                    "url": "http://oimagec6.ydstatic.com/image?url=http://oimagea7.ydstatic.com/image?url=http://www.waterfootprint.org/images/gallery/original/apple.jpg&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimagea7.ydstatic.com/image?url=http://www.waterfootprint.org/images/gallery/original/apple.jpg&product=PICDICT_EDIT"
+                                },
+                                {
+                                    "url": "http://oimagec3.ydstatic.com/image?url=http://oimagec5.ydstatic.com/image?url=http://creativebits.org/files/500px-Apple_Computer_Logo.svg_.png&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimagec5.ydstatic.com/image?url=http://creativebits.org/files/500px-Apple_Computer_Logo.svg_.png&product=PICDICT_EDIT"
+                                },
+                                {
+                                    "url": "http://oimagea1.ydstatic.com/image?url=http://oimageb4.ydstatic.com/image?url=http://userserve-ak.last.fm/serve/_/38194427/Apple%2BInc%2BApple.jpg&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimageb4.ydstatic.com/image?url=http://userserve-ak.last.fm/serve/_/38194427/Apple%2BInc%2BApple.jpg&product=PICDICT_EDIT"
+                                },
+                                {
+                                    "url": "http://oimagec7.ydstatic.com/image?url=http://oimagea1.ydstatic.com/image?url=http://3d-wallpapers.net/wp-content/gallery/apple/apple_in_the_spotlight_by_atomicpinkgoth.jpg&product=PICDICT_EDIT&product=PICDICT",
+                                    "host": [],
+                                    "image": "http://oimagea1.ydstatic.com/image?url=http://3d-wallpapers.net/wp-content/gallery/apple/apple_in_the_spotlight_by_atomicpinkgoth.jpg&product=PICDICT_EDIT"
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+    };
+</script>
+</body>
+</html>

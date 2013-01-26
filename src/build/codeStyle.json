@@ -1,0 +1,16 @@
+{
+    "indent_start": 0,
+    "indent_level": 4,
+    "quote_keys": true,
+    "space_colon": true,
+    "ascii_only": false,
+    "inline_script": false,
+    "width": 80,
+    "max_line_len": 32000,
+    "ie_proof": true,
+    "beautify": true,
+    "source_map": null,
+    "bracketize": false,
+    "comments": true,
+    "semicolons": true
+}

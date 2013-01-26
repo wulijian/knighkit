@@ -1,0 +1,35 @@
+<div id="phrsListTab" class="trans-wrapper clearfix">
+    <% var word = _data.word, baseTrans = word.baseTrans; %>
+    <% if (baseTrans["pic-dict"]) { %>
+        <%== ./imgDict(getVal.val(baseTrans, "pic-dict"))%>
+    <% } %><!-- asdgasdgas) <!--dg--> a --> asdga <!--
+       good
+asg is band   ->- --
+       non
+    sdg --><h1>thanks</h1>
+    <% if ( baseTrans["simple-dict"] ) { %>
+    <h2>
+        <span class="keyword"><%= word.input %></span>
+        <a href="#" title="加入单词本" class="sp add-fav add-faved"></a>
+        <a href="#" title="加入单词本" class="sp add-fav"></a>
+
+        <div class="baav">
+            <span class="pronounce">英<span class="phonetic"><%= getVal.val(baseTrans, "ukphone") %></span>
+                <a href="#" title="发音" class="sp dictvoice"></a></span>
+            <span class="pronounce">美<span class="phonetic"><%= getVal.val(baseTrans, "usphone") %></span>
+                <a href="#" title="发音" class="sp dictvoice"></a></span>
+        </div>
+    </h2>
+    <% var trs = getVal.val(baseTrans, "trs"), trsLength = trs.length; if ( trsLength > 0 ) { %>
+    <div class="trans-container">
+        <ul>
+            <% for ( var i = 0; i < trsLength; i++ ) { %>
+            <% var senObj = trs[i].l; %>
+            <% for (var key1 in senObj ) %>
+            <li><span class="def"><%= senObj[key1] %></span></li>
+            <%}%>
+            <% } %>
+        </ul>
+    </div>
+    <% } %>
+</div>
