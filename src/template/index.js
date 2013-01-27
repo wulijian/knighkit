@@ -50,9 +50,14 @@ templatePlugin.add({
     compile: function (filePath, dataProgress) {
         var templateCode = fs.readFileSync(filePath, 'utf-8').toString();
         templateCode = templateCode.replace(/"/g, '\\"');
+        var template = hogan.compile(templateCode, {
+            asString: true
+        });
+
         var hoganTP = 'function ThoganT (_data){\n' +
             dataProgress +
-            'return hogan.compile("' + templateCode + '").render(_data);\n' +
+            'var template = new hogan.Template(' + template + ');\n' +
+            'return template.render(_data);\n' +
             '}\n';
         return  uglify.parse(hoganTP);
     }
