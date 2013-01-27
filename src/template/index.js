@@ -4,8 +4,6 @@
  * @author: wulj
  * @version: 1.0
  */
-var tp = require('./KTemplate/kTemplate');
-var velocity = require('velocity.js');
 var fs = require('fs');
 var path = require('path');
 var uglify = require('uglify-js');
@@ -17,8 +15,9 @@ const TEMPLATENAME = 'm';  //主模版名称
 //添加支持html后缀的解析
 templatePlugin.add({
     suffix: 'html',
-    tp: tp,
+    tp: require('./KTemplate/kTemplate'),
     compile: function (filePath, dataProgress) {
+        var tp = require('./KTemplate/kTemplate');
         var template = tp.compile(filePath);
         var templateFunc = uglify.parse(template.toString());
         if (dataProgress !== '') {
@@ -31,9 +30,10 @@ templatePlugin.add({
 //添加支持vm后缀的解析
 templatePlugin.add({
     suffix: 'vm',
-    tp: velocity,
+    tp: require('velocity.js'),
     compile: function (filePath, dataProgress) {
-        var template = velocity.Parser.parse(fs.readFileSync(filePath, 'utf-8').toString());
+        var tp = require('velocity.js');
+        var template = tp.Parser.parse(fs.readFileSync(filePath, 'utf-8').toString());
         var ast = JSON.stringify(template);
         var vmTP = 'function TvmT (_data){\n' +
             dataProgress +
@@ -46,11 +46,12 @@ templatePlugin.add({
 //添加支持vm后缀的解析
 templatePlugin.add({
     suffix: 'hogan',
-    tp: null,
+    tp: require('hogan.js'),
     compile: function (filePath, dataProgress) {
+        var tp = require('hogan.js');
         var templateCode = fs.readFileSync(filePath, 'utf-8').toString();
         templateCode = templateCode.replace(/"/g, '\\"');
-        var template = hogan.compile(templateCode, {
+        var template = tp.compile(templateCode, {
             asString: true
         });
 
