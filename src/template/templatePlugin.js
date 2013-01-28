@@ -8,6 +8,7 @@
 var TemplatePlugin = function (config) {
     this.tp = config.tp;
     this.compile = config.compile;
+    this.update = config.update;
     TemplatePlugin.plugins[config.suffix] = this;
 };
 

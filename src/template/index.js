@@ -1,6 +1,7 @@
 /**
  * @date 13-1-16
- * @describe:
+ * @describe: 管理所有模版的模块
+ * 可通过add方法添加模版支持，其中compile部分为预编译阶段，update为更新模版的渲染模块到项目的lib中
  * @author: wulj
  * @version: 1.0
  */
@@ -8,9 +9,9 @@ var fs = require('fs');
 var path = require('path');
 var uglify = require('uglify-js');
 var templatePlugin = require('./templatePlugin');
-var templatePluginUpdate = require('./updatePlugin');
 var currentTemplate = null;
 const TEMPLATENAME = 'm';  //主模版名称
+var info = require('../info');
 
 //添加支持html后缀的解析
 templatePlugin.add({
@@ -61,6 +62,18 @@ templatePlugin.add({
             'return template.render(_data);\n' +
             '}\n';
         return  uglify.parse(hoganTP);
+    },
+    update: function (to) {
+        var projectPath = path.resolve(__dirname, '../../')
+            , nodeModulePath = path.resolve(__dirname, '../../node_modules');
+        var hogan = ['hogan.js/lib/template.js'];
+        var code = 'define(function(require, exports, module){\n';
+        for (var i = 0; i < hogan.length; i++) {
+            code += fs.readFileSync(nodeModulePath + '/' + hogan[i], 'utf-8').toString();
+        }
+        code += '});\n';
+        fs.writeFileSync((to || projectPath) + '/lib/hogan.js', code);
+        info.logt('Update hogan.js success.');
     }
 });
 
@@ -163,5 +176,15 @@ exports.generateSourceMap = function () {
 exports.addPlugin = function (pluginConfig) {
     templatePlugin.add(pluginConfig);
 };
-
-exports.updatePlugins = templatePluginUpdate.updatePlugins;
+/**
+ * update all plugins that will be used in the project lib for template render.
+ * @param to  the file update to {to} dir
+ */
+exports.updatePlugins = function (to) {
+    var allPlugins = templatePlugin.all();
+    for (var type in allPlugins) {
+        if (allPlugins.hasOwnProperty(type)) {
+            allPlugins[type].update(to);
+        }
+    }
+};
