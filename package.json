@@ -1,15 +1,15 @@
 {
-    "name": "Knighkit",
-    "title": "Knighkit",
+    "name": "knighkit",
+    "title": "knighkit",
     "description": "",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "homepage": "",
     "author": {
         "name": "KnightWu"
     },
     "repository": {
         "type": "git",
-        "url": "git地址"
+        "url": "https://github.com/wulijian/knighkit.git"
     },
     "bugs": {
         "url": "XXX"
@@ -26,5 +26,5 @@
         "weinre": "latest",
         "amdefine": "latest"
     },
-    "keywords": []
+    "keywords": ["module","package","nodejs","模块化开发","自动打包"]
 }
