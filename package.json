@@ -23,6 +23,7 @@
         "express": "latest",
         "shelljs": "latest",
         "seajs": "latest",
+        "weinre": "latest",
         "amdefine": "latest"
     },
     "keywords": []
