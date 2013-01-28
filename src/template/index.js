@@ -2,6 +2,7 @@
  * @date 13-1-16
  * @describe: 管理所有模版的模块
  * 可通过add方法添加模版支持，其中compile部分为预编译阶段，update为更新模版的渲染模块到项目的lib中
+ * todo:将Ktemplate独立成单独的项目
  * @author: wulj
  * @version: 1.0
  */
@@ -18,13 +19,15 @@ templatePlugin.add({
     suffix: 'html',
     tp: require('./KTemplate/kTemplate'),
     compile: function (filePath, dataProgress) {
-        var tp = require('./KTemplate/kTemplate');
-        var template = tp.compile(filePath);
+        var template = this.tp.compile(filePath);
         var templateFunc = uglify.parse(template.toString());
         if (dataProgress !== '') {
             templateFunc.body[0].body.unshift(uglify.parse(dataProgress));
         }
         return templateFunc;
+    },
+    sourceMap: function () {
+
     }
 });
 
@@ -33,8 +36,7 @@ templatePlugin.add({
     suffix: 'vm',
     tp: require('velocity.js'),
     compile: function (filePath, dataProgress) {
-        var tp = require('velocity.js');
-        var template = tp.Parser.parse(fs.readFileSync(filePath, 'utf-8').toString());
+        var template = this.tp.Parser.parse(fs.readFileSync(filePath, 'utf-8').toString());
         var ast = JSON.stringify(template);
         var vmTP = 'function TvmT (_data){\n' +
             dataProgress +
@@ -49,10 +51,9 @@ templatePlugin.add({
     suffix: 'hogan',
     tp: require('hogan.js'),
     compile: function (filePath, dataProgress) {
-        var tp = require('hogan.js');
         var templateCode = fs.readFileSync(filePath, 'utf-8').toString();
         templateCode = templateCode.replace(/"/g, '\\"');
-        var template = tp.compile(templateCode, {
+        var template = this.tp.compile(templateCode, {
             asString: true
         });
 
@@ -164,8 +165,12 @@ exports.compileModule = function (templateDir) {
  * todo:异步执行时可能会有问题
  */
 exports.generateSourceMap = function () {
-    if (currentTemplate !== null && currentTemplate.generateSourceMap !== undefined) {
-        currentTemplate.generateSourceMap.apply(undefined, arguments);
+    var allPlugins = templatePlugin.all();
+    for (var type in allPlugins) {
+        if (allPlugins.hasOwnProperty(type) &&
+            typeof allPlugins[type].sourceMap !== 'undefined') {
+            allPlugins[type].sourceMap.apply(undefined, arguments);
+        }
     }
 };
 
@@ -183,7 +188,8 @@ exports.addPlugin = function (pluginConfig) {
 exports.updatePlugins = function (to) {
     var allPlugins = templatePlugin.all();
     for (var type in allPlugins) {
-        if (allPlugins.hasOwnProperty(type)) {
+        if (allPlugins.hasOwnProperty(type) &&
+            typeof allPlugins[type].update !== 'undefined') {
             allPlugins[type].update(to);
         }
     }
