@@ -1,6 +1,6 @@
 /**
  * plugin template
- * @author: Knight
+ * @author: KnightWu
  */
 var TemplatePlugin = function (config) {
     this.tp = config.tp;

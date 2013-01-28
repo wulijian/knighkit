@@ -3,7 +3,7 @@
  * @describe: 管理所有模版的模块
  * 可通过add方法添加模版支持，其中compile部分为预编译阶段，update为更新模版的渲染模块到项目的lib中
  * todo:将Ktemplate独立成单独的项目
- * @author: wulj
+ * @author: KnightWu
  * @version: 1.0
  */
 var fs = require('fs');

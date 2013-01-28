@@ -1,7 +1,7 @@
 /**
  * @date 12-12-10
  * @describe:
- * @author: wulj
+ * @author: KnightWu
  * @version: 1.0
  */
 

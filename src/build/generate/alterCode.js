@@ -1,7 +1,7 @@
 /**
  * @date 12-12-13
  * @describe:
- * @author: wulj
+ * @author: KnightWu
  * @version: 1.0
  */
 var fs = require('fs');

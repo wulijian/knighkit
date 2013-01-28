@@ -1,6 +1,6 @@
 /**
  * 自动初始化项目目录和基础库
- * @author wulj
+ * @author KnightWu
  */
 var fs = require('fs');
 var path = require('path');

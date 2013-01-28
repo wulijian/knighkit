@@ -1,7 +1,7 @@
 /**
  * @date 12-12-26
  * @describe: 简单的js模版 ,支持sourceMap的生成
- * @author: wulj
+ * @author: KnightWu
  * @version: 1.0
  */
 var replaces = ["htmlCode='';", "htmlCode+=", ";", "htmlCode"];

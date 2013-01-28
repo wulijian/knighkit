@@ -1,7 +1,7 @@
 /**
  * @date 12-12-10
  * @describe: 生成所有模块
- * @author: wulj
+ * @author: KnightWu
  * @version: 1.0
  */
 var fs = require('fs');

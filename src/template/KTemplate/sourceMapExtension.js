@@ -1,7 +1,7 @@
 /**
  * @date 13-1-14
  * @describe:
- * @author: wulj
+ * @author: KnightWu
  * @version: 1.0
  */
 var sourceMap = require('source-map');
