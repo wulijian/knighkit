@@ -3,11 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title><%=_data.title%></title>
-    <link rel="stylesheet" href="../../src/styles/base.css">
     <link rel="stylesheet" href="../../src/styles/reset.css">
-    <link rel="stylesheet" href="../../src/styles/dict-old.css">
-    <link rel="stylesheet" href="../../src/styles/dict.css">
-    <link rel="stylesheet" href="../../src/htmlTemplate/<%= _data.moduleId %>/m.css">
+    <link rel="stylesheet" href="../../src/styles/base.css">
+    <link rel="stylesheet" href="../../src/styles/business.css">
 </head>
 <body>
 <div id="result"></div>
@@ -18,5 +16,6 @@
         module.init();
     });
 </script>
+<script type="text/javascript" src="http://<%= _data.hostPath %>:10089/target/target-script-min.js#anonymous"></script>
 </body>
 </html>
