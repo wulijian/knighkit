@@ -14,7 +14,7 @@
     "bugs": {
         "url": "XXX"
     },
-    "devDependencies": {
+    "dependencies": {
         "uglify-js": "latest",
         "mocha": "latest",
         "source-map": "latest",
@@ -26,5 +26,5 @@
         "weinre": "latest",
         "amdefine": "latest"
     },
-    "keywords": ["module","package","nodejs","模块化开发","自动打包"]
+    "keywords": ["module", "package", "nodejs", "模块化开发", "自动打包"]
 }
