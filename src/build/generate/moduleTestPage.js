@@ -9,14 +9,26 @@ var tp = require('../../template');
 var path = require('path');
 var info = require('../../info');
 var config = require('./package.json');
-var os =  require('os');
+var os = require('os');
 
 var output = path.resolve(__dirname, config.output),
     templatePage = path.resolve(__dirname, config.templatePage),
     suffix = config.templateSuffix;
 
-var hostPath = os.networkInterfaces()['以太网'][1].address;//本机ip
-
+/**
+ * 获取host地址
+ * @return {*|Function|Function|Function|Function}
+ */
+var getHostUrl = function () {
+    var hostIps = os.networkInterfaces();
+    for (var host in hostIps) {
+        if (hostIps.hasOwnProperty(host)) {
+            if (host !== 'Loopback Pseudo-Interface 1' && host !== 'Teredo Tunneling Pseudo-Interface') {
+                return hostIps[host][1].address;//本机ip
+            }
+        }
+    }
+};
 /**
  * 使用模版中的css html模版，数据，初始化函数，生成测试文件
  * @param filedir 文件夹路径
@@ -36,7 +48,7 @@ exports.generate = function (filedir, value) {
                         title: value + '/' + key,
                         data: JSON.stringify(data[key]),
                         moduleId: value,
-                        hostPath: hostPath
+                        hostPath: getHostUrl()
                     })
                 );
             }
