@@ -1,15 +1,12 @@
 /**
- * Created with IntelliJ IDEA.
- * User: Knight
- * Date: 13-1-21
- * Time: 下午12:56
- * To change this template use File | Settings | File Templates.
+ * plugin template
+ * @author: Knight
  */
 var TemplatePlugin = function (config) {
     this.tp = config.tp;
     this.compile = config.compile;
-    this.update = config.update;
-    this.sourceMap = config.sourceMap;
+    this.update = config.update || null;
+    this.sourceMap = config.sourceMap || null;
     TemplatePlugin.plugins[config.suffix] = this;
 };
 

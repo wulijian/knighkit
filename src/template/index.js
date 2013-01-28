@@ -10,9 +10,9 @@ var fs = require('fs');
 var path = require('path');
 var uglify = require('uglify-js');
 var templatePlugin = require('./templatePlugin');
-var currentTemplate = null;
 const TEMPLATENAME = 'm';  //主模版名称
 var info = require('../info');
+var currentTemplatePlugin = null;
 
 //添加支持html后缀的解析
 templatePlugin.add({
@@ -26,8 +26,8 @@ templatePlugin.add({
         }
         return templateFunc;
     },
-    sourceMap: function () {
-
+    sourceMap: function (generatedFilePath, runRoot, handleMap) {
+        this.tp.generateSourceMap(generatedFilePath, runRoot, handleMap);
     }
 });
 
@@ -125,9 +125,8 @@ var compile = function (filePath, tp) {
         throw new Error('The template [' + filePath + '] is empty');
     }
     var dataProgress = extendDataProgressToData(filePath);
-    var render = tp.compile(filePath, dataProgress);
-    currentTemplate = tp.tp;
-    return render;
+    currentTemplatePlugin = tp;
+    return tp.compile(filePath, dataProgress);
 };
 
 /**
@@ -165,12 +164,8 @@ exports.compileModule = function (templateDir) {
  * todo:异步执行时可能会有问题
  */
 exports.generateSourceMap = function () {
-    var allPlugins = templatePlugin.all();
-    for (var type in allPlugins) {
-        if (allPlugins.hasOwnProperty(type) &&
-            typeof allPlugins[type].sourceMap !== 'undefined') {
-            allPlugins[type].sourceMap.apply(undefined, arguments);
-        }
+    if (currentTemplatePlugin.sourceMap !== null) {
+        currentTemplatePlugin.sourceMap.apply(currentTemplatePlugin, arguments);
     }
 };
 
@@ -188,8 +183,7 @@ exports.addPlugin = function (pluginConfig) {
 exports.updatePlugins = function (to) {
     var allPlugins = templatePlugin.all();
     for (var type in allPlugins) {
-        if (allPlugins.hasOwnProperty(type) &&
-            typeof allPlugins[type].update !== 'undefined') {
+        if (allPlugins.hasOwnProperty(type) && allPlugins[type].update !== null) {
             allPlugins[type].update(to);
         }
     }
