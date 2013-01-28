@@ -7,10 +7,12 @@
 
 var fs = require('fs');
 var path = require('path');
-var tp = require('../.');
+var tp = require('../../template');
 var alterCode = require('./alterCode');
 var info = require('../../info');
 var config = require('./package.json');
+const templateTool = path.resolve(__dirname, config.templateTool),
+    moduleTemplatePath = templateTool + '/moduleTemplate.js';
 
 var output = path.resolve(__dirname, config.output);
 var allFilePath = output + '/__all';
@@ -27,6 +29,19 @@ exports.reset = function () {
         ''
     );
 };
+/**
+ * 获取sourceMap偏移量
+ */
+var getSourceMapOffset = function () {
+    var moduleTemplate = fs.readFileSync(moduleTemplatePath, 'utf-8');
+    var preCode = moduleTemplate.split('module.exports')[0];
+    var allLines = preCode.split('\r\n');
+    var line = allLines.length;
+    var pos = allLines[line - 1].length;
+    return {
+        line: line
+    };
+};
 
 /**
  * 生成模版的js对象
@@ -39,7 +54,7 @@ exports.generate = function (filedir, value) {
         var templateDir = path.resolve(filedir, value);
         var jsFile = fs.readFileSync(templateDir + '/m.js');
         var render = tp.compileModule(templateDir);
-        info.logt('Module [' + value + '] begin to generate：');
+        info.logt('module [' + value + '] begin to generate：');
         info.log('----------------------------------------------------------->');
         var properties = {
             "id": value,
@@ -55,9 +70,9 @@ exports.generate = function (filedir, value) {
             alterCode.moduleCode(properties)
         );
         tp.generateSourceMap(modulePath + '.js', output + '/' + value, function (sourcemap) {
-            return sourcemap.offset(alterCode.getOffset()); //处理（代码合并到 moduleTemplate中时）产生的行位移
+            return sourcemap.offset(getSourceMapOffset()); //处理（代码合并到 moduleTemplate中时）产生的行位移
         });
-        info.logt('Generate module [' + modulePath + '] success.');
+        info.logt('generate module [' + modulePath + '] success.');
         return true;
     } catch (err) {
         info.error('fail to generate the module javascript code for module:' + value +
@@ -74,5 +89,5 @@ exports.generateFullModule = function () {
         allFilePath + '/modules.js',
         alterCode.getAllModule()
     );
-    info.logt('Generate [full module] success.\n');
+    info.logt('generate [full module] success.\n');
 };

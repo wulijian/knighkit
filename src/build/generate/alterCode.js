@@ -72,7 +72,6 @@ var createOneModuleObject = function (properties/*,allinone*/) {
 var singleModule = function (_module) {
     return mtAST.transform(new uglify.TreeTransformer(null, function (node, descend) {
         if (node instanceof uglify.AST_Assign && node.left.print_to_string() === 'module.exports') {
-            templateToCodeOffset.line = node.start.line + 1; // +1 对应到 tp： 的行
             node.right = _module;
             return node;
         }
@@ -111,11 +110,4 @@ exports.moduleCode = function (properties) {
     var _module = createOneModuleObject(properties);
     appendToAllModule(properties.id, _module);
     return singleModule(_module).print_to_string(generateOptions);
-};
-/**
- * 获取代码合并到模版中的位置偏移量
- * @return {{line: number, column: number}}
- */
-exports.getOffset = function () {
-    return templateToCodeOffset;
 };
