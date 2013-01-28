@@ -9,15 +9,6 @@ var path = require('path');
 var uglify = require('uglify-js');
 var config = require('./package.json');
 
-/**
- * 偏移位置对象
- * @type {{line: number, column: number}}
- */
-var templateToCodeOffset = {
-    line: 0,
-    column: 0
-};
-
 const templateTool = path.resolve(__dirname, config.templateTool),
     moduleTemplatePath = templateTool + '/moduleTemplate.js',
     moduleObject = templateTool + '/moduleObject.js';
