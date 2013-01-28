@@ -1,11 +1,11 @@
 {
     "main": "./main.js",
-    "template": "../../../src/htmlTemplate",
+    "template": "../../../../src/htmlTemplate",
     "templateTool": "../moduleTemplate",
-    "output": "../../../output",
+    "output": "../../../../output",
     "templatePage": "../moduleTemplate/testPageTemplate.html",
     "templateSuffix": ".html",
-    "css": "../../../src/styles/dict.css",
+    "css": "../../../../src/styles/dict.css",
     "debug": true,
     "except": ""
 }

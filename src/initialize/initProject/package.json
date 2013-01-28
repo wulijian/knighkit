@@ -1,5 +1,5 @@
 {
     "main": "./templateGenerator.js",
-    "template": "../../../src/htmlTemplate",
+    "template": "../../../../src/htmlTemplate",
     "suffix": [".html", ".css", ".js", ".json"]
 }
