@@ -10,8 +10,8 @@ var info = require('../../info');
 var config = require('./package.json');
 var shell = require('shelljs');
 
-const template = path.resolve(__dirname, config.template);
-var output = path.resolve(__dirname, config.output);
+const template = path.resolve(__dirname, config.template),
+    output = path.resolve(__dirname, config.output);
 
 //读取所有模块中的模版，解析后合成模块
 var walkAllModules = function (filedir, pre, visitor, callback) {
@@ -27,7 +27,6 @@ var walkAllModules = function (filedir, pre, visitor, callback) {
 
 //读取所有模块中的模版，解析后合成模块
 exports.initialize = function (callback) {
-    shell.rm(output + '/*'); //remove all old files.
     walkAllModules(
         template,
         function () {
@@ -37,9 +36,8 @@ exports.initialize = function (callback) {
         function (filesDir, moduleDir) {
             try {
                 if (fs.statSync(template + '/' + moduleDir).isDirectory()) {
-                    if (config.debug && config.except.indexOf(moduleDir + ',') >= 0) {
-                        return;
-                    } else {
+                    if (!config.debug || config.except.indexOf(moduleDir + ',') < 0) {
+                        shell.rm(output + '/' + moduleDir + '/*');
                         var ys = require('./modules').generate(filesDir, moduleDir);
                         if (ys) {
                             require('./moduleTestPage').generate(filesDir, moduleDir);
