@@ -18,7 +18,7 @@ info.logt('UpdatePlugin success.');
 shell.cp('-Rf', seajsPluginPath, projectTemplatePath + '/lib/');
 info.logt('Generate seajs plugin success.');
 
-//shell.cp('-Rf', projectTemplatePath + '/*', projectPath);
+shell.cp('-Rf', projectTemplatePath + '/*', projectPath);
 info.logt('Generate project from projectTemplate success.');
 
 
