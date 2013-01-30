@@ -19,6 +19,7 @@
         "mocha": "latest",
         "source-map": "latest",
         "velocity.js": "latest",
+        "ktemplate": "latest",
         "hogan.js": "latest",
         "express": "latest",
         "shelljs": "latest",
