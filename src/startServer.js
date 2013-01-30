@@ -1,11 +1,14 @@
 var path = require('path');
 var fs = require('fs');
+var info = require('./info');
 var express = require('express');
 var app = express();
 
 //run local web server
 app.use(express.static(path.resolve(__dirname, '../')));
 app.listen(9527);
+info.logt('start http server at http://localhost:9527');
+
 
 //run weinre at httpPort 10089
 var rootPath = path.resolve(__dirname, '../node_modules/weinre');
