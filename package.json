@@ -17,7 +17,6 @@
     "dependencies": {
         "uglify-js": "latest",
         "mocha": "latest",
-        "source-map": "latest",
         "velocity.js": "latest",
         "ktemplate": "latest",
         "hogan.js": "latest",
