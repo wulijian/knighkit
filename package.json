@@ -25,6 +25,7 @@
         "shelljs": "latest",
         "seajs": "latest",
         "weinre": "latest",
+        "clean-css": "latest",
         "amdefine": "latest"
     },
     "keywords": ["module", "package", "nodejs", "模块化开发", "自动打包"]
