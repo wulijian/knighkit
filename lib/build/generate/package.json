@@ -6,6 +6,6 @@
     "templatePage": "../moduleTemplate/testPageTemplate.html",
     "templateSuffix": ".html",
     "css": "../../../../src/styles/dict.css",
-    "debug": true,
+    "debug": false,
     "except": ""
 }
