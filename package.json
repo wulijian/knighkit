@@ -26,6 +26,7 @@
         "weinre": "latest",
         "clean-css": "latest",
         "nopt": "latest",
+        "optimist": "latest",
         "amdefine": "latest"
     },
     "keywords": ["module", "package", "nodejs", "模块化开发", "自动打包"]
