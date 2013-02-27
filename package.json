@@ -24,6 +24,7 @@
         "clean-css": "latest",
         "jstm": "latest",
         "optimist": "latest",
+        "consoleplusplus": "latest",
         "amdefine": "latest"
     },
     "keywords": ["module", "package", "nodejs", "模块化开发", "自动打包"]
