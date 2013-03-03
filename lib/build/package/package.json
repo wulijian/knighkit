@@ -1,7 +1,0 @@
-{
-    "main": "./main.js",
-    "entry": "../moduleTemplate/moduleToPack",
-    "scriptBasePath": "../../../../",
-    "diskPath": "../../../../dist",
-    "baseModuleFile": "../../../../lib/Module1.1.1"
-}

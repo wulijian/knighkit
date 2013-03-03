@@ -23,6 +23,7 @@
         "weinre": "latest",
         "clean-css": "latest",
         "jstm": "latest",
+        "jspacker": "latest",
         "optimist": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
