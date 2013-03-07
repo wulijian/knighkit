@@ -2,7 +2,7 @@
     "name": "knighkit",
     "title": "knighkit",
     "description": "",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "homepage": "",
     "author": {
         "name": "KnightWu"
@@ -17,13 +17,14 @@
     "dependencies": {
         "uglify-js": "latest",
         "mocha": "latest",
+        "watch": "latest",
         "express": "latest",
         "shelljs": "latest",
+        "jspacker": "latest",
         "seajs": "latest",
         "weinre": "latest",
         "clean-css": "latest",
         "jstm": "latest",
-        "jspacker": "latest",
         "optimist": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
