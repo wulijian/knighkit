@@ -4,72 +4,109 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Knighkit by wulijian</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
-    <div class="wrapper">
+
       <header>
         <h1>Knighkit</h1>
         <p>javascript项目集成化开发框架</p>
-
-        <p class="view"><a href="https://github.com/wulijian/knighkit">View the Project on GitHub <small>wulijian/knighkit</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/wulijian/knighkit/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/wulijian/knighkit/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/wulijian/knighkit">View On <strong>GitHub</strong></a></li>
-        </ul>
       </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/wulijian/knighkit" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/wulijian/knighkit/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/wulijian/knighkit/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
       <section>
-        <h3>欢迎使用 knighkit.</h3>
+        <h2>欢迎使用 knighkit.</h2>
 
 <p>knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。目的是减少前端开发过程中的重复工作，使你只关注程序本身，而不是创建文件，合并压缩。</p>
 
-<h3>Feature</h3>
+<h2>功能</h2>
 
-<h5>自动化生成项目结构</h5>
+<h4>自动化生成项目结构</h4>
 
-<h5>集成常用的 jquery underscore 库等</h5>
+<p>一条命令，完成项目的结构</p>
 
-<h5>集成开发阶段使用的模块化开发库 seajs</h5>
+<h4>集成常用的 jquery underscore 库等</h4>
 
-<h5>新型的模版组成方式，模版即模块。</h5>
+<p>jquery 主要用于功能的开发，underscore 用于数据的处理等</p>
 
-<h5>集成 jstm 模版管理工具，可以使用任意支持预编译的模版框架，强有力的模版构建能力</h5>
+<h4>集成开发阶段使用的模块化开发库 seajs</h4>
 
-<h6>支持四种模版： jade，ktemplate，mustache（hogan.js），velecity</h6>
+<p>seajs 用来完成开发阶段的模块加载和调试</p>
 
-<h6>支持模版数据处理模块</h6>
+<h4>新型的模版组成方式，模版即模块。</h4>
 
-<h6>支持将其他模版作为插件添加</h6>
+<p>每个模块都是一个文件夹，每个模块由以下文件构成:</p>
 
-<h5>自动生成单独模版的测试页面，自动打包数据，方便的测试每个小模块</h5>
+<ul>
+<li>m.html/hogan/vm/jade 模版文件，支持4种，自动识别编译</li>
+<li>m.js 本模块的初始化</li>
+<li>m.css 样式</li>
+<li>m.json 本模块的测试数据</li>
+<li>data.js 模版的数据处理逻辑部分</li>
+</ul><h4>集成 jstm 模版管理工具</h4>
 
-<h5>可定制 html 模版的生成模块</h5>
+<p>可以使用任意支持预编译的模版框架，强有力的模版构建管理能力</p>
 
-<h5>自动化监测模版文件变化，自动重新编译已修改的模版文件</h5>
+<ul>
+<li>支持四种模版： jade，ktemplate，mustache（hogan.js），velecity</li>
+<li>支持模版数据处理模块</li>
+<li>支持将其他模版作为插件添加</li>
+</ul><h4>单独模版的测试页面</h4>
 
-<h5>内建预览服务器——不需要启动自己的 HTTP 服务器，内置的服务器用一条命令就可以启动</h5>
+<p>自动生成单独模版的测试页面，自动打包数据，方便测试每个小模块</p>
 
-<h5>内建webnire远程调试服务器——一条命令就可以启动，简单那方便的调试你的移动端</h5>
+<h4>可定制 html 模版的生成模块</h4>
 
-<h5>支持 css 的合并压缩</h5>
+<p>可方便的自行添加模版中需要的js工具库等</p>
 
-<h5>内置打包工具，打包后不依赖 seajs</h5>
+<h4>自动重新编译</h4>
 
-<h3>How to start?</h3>
+<p>自动化监测模版文件变化，自动重新编译已修改的模版文件</p>
+
+<h4>内建预览服务器</h4>
+
+<p>不需要启动自己的 HTTP 服务器，内置的服务器用一条命令就可以启动</p>
+
+<h4>内建 webnire 远程调试服务器</h4>
+
+<p>一条命令就可以启动 webnire，简单方便的调试移动端</p>
+
+<h4>支持 css 的合并压缩</h4>
+
+<h4>内置打包工具</h4>
+
+<p>自动打包，打包后不依赖 seajs</p>
+
+<h2>How to start?</h2>
 
 <pre><code>$ npm install knighkit
 </code></pre>
 
-<h3>构建你第一个 knighkit 项目</h3>
+<h2>构建你第一个 knighkit 项目</h2>
 
 <h4>初始化</h4>
 
@@ -79,20 +116,20 @@
 
 <h4>合并压缩</h4>
 
-<h3>Authors and Contributors</h3>
+<h2>Authors and Contributors</h2>
 
 <p>KnightWu (<a href="https://github.com/wulijian" class="user-mention">@wulijian</a>)</p>
 
-<h3>Support or Contact</h3>
+<h2>Support or Contact</h2>
 
 <p><a href="mailto:wulijian722@gmail.com">wulijian722@gmail.com</a></p>
       </section>
       <footer>
-        <p>This project is maintained by <a href="https://github.com/wulijian">wulijian</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <p>Project maintained by <a href="https://github.com/wulijian">wulijian</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
