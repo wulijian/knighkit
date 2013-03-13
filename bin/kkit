@@ -159,7 +159,10 @@ Dispatcher.handlers = {
     },
     'package': function (name) {
         var config = require(cmd + "/kConfig/configs");
-        config.base = cmd;
+        var httpReg = /(http:\/\/.+:[\d]+)|(https:\/\/.+:[\d]+)/;
+        if (httpReg.test(config.base)) {
+            config.base = config.base.replace(httpReg, cmd);
+        }
         require('jspacker').pack(
             cmd + "/src/scripts/index",
             cmd + "/dist",
