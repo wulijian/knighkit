@@ -1,7 +1,5 @@
-/**
- * 命令行调用方式
- * @author KnightWu
- */
+#! /usr/bin/env node
+
 var path = require('path');
 var fs = require('fs');
 var express = require('express');
