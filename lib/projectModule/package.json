@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "homepage": "",
     "author": {
-        "name": "KnightWu"
+        "name": ""
     },
     "repository": {
         "type": "git",
@@ -15,7 +15,6 @@
         "url": "XXX"
     },
     "devDependencies": {
-        "qunit": "latest"
     },
     "keywords": []
 }
