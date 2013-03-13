@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="../../src/styles/reset.css">
     <link rel="stylesheet" href="../../src/styles/base.css">
     <link rel="stylesheet" href="../../src/styles/business.css">
-    <link rel="stylesheet" href="../../src/htmlTemplate/<%=_data.moduleId %>/m.css">
+    <link rel="stylesheet" href="../../src/template/<%=_data.moduleId %>/m.css">
 </head>
 <body>
 <div id="result"></div>
 <script type="text/javascript" src="../../lib/sea-debug.js"></script>
 <script type="text/javascript">
     seajs.use('./<%=_data.moduleId %>', function (module) {
-        document.getElementById("result").innerHTML = module.tp(<%= _data.data %>);
+        document.getElementById("result").innerHTML = module.render(<%= _data.data %>);
         module.init();
     });
 </script>
