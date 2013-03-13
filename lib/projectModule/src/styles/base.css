@@ -1,9 +1,0 @@
-/*global*/
-.clearfix:after {
-    content: '';
-    display: block;
-    visibility: hidden;
-    line-height: 0;
-    font-size: 0;
-    clear: both;
-}
