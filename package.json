@@ -2,7 +2,7 @@
     "name": "knighkit",
     "title": "knighkit",
     "description": "",
-    "version": "0.0.5",
+    "version": "0.1.0",
     "homepage": "",
     "author": {
         "name": "KnightWu"
@@ -13,6 +13,9 @@
     },
     "bugs": {
         "url": "XXX"
+    },
+    "bin": {
+        "kkit": "./bin/kkit"
     },
     "dependencies": {
         "uglify-js": "latest",
