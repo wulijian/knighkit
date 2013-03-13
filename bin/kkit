@@ -122,7 +122,7 @@ Dispatcher.handlers = {
     },
 
     'startServer': function (data) {
-        var portConfig = require(path.resolve(cmd, 'kConfig/server'));
+        var portConfig = require(path.resolve(cmd, 'kConfig/configs'));
         var httpPort = portConfig.http.port;
         var weinrePort = portConfig.weinre.port;
         var start = {
@@ -158,11 +158,8 @@ Dispatcher.handlers = {
         generate.buildAll();
     },
     'package': function (name) {
-        var config = require(cmd + "/kConfig/commonJS");
-        var httpReg = /http:\/\/|https:\/\//;
-        if (httpReg.test(config.base)) {
-            config.base = cmd;
-        }
+        var config = require(cmd + "/kConfig/configs");
+        config.base = cmd;
         require('jspacker').pack(
             cmd + "/src/scripts/index",
             cmd + "/dist",
