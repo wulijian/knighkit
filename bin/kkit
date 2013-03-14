@@ -7,9 +7,17 @@ var app = express();
 var shell = require('shelljs');
 var tp = require('jstm');
 require("consoleplusplus");
-var generate = require(path.resolve(__dirname, '../lib/build'));
 
 var cmd = process.cwd();
+
+var checkConfigFile = function () {
+    if (!fs.existsSync(path.resolve(cmd, './kConfig/configs.js'))) {
+        throw 'Could not find the [kConfig/configs.js] file, please check.';
+    }
+};
+
+var generate = require(path.resolve(__dirname, '../lib/build'));
+
 var setcwdAsTheRootPath = function () {
     var runtimePath = path.resolve(__dirname, '../lib/runtime.json');
     var runtime = require(runtimePath);
@@ -113,15 +121,17 @@ Dispatcher.handlers = {
         console.info('Generate project from projectTemplate success.');
     },
 
-    'init': function (data) {
-        console.log(data);
+    'init': function () {
+        require(path.resolve(__dirname, '../lib/initProject/templateGenerator')).initProject();
     },
 
     'autoRebuild': function () {
+        checkConfigFile();
         generate.autoBuild();
     },
 
     'startServer': function (data) {
+        checkConfigFile();
         var portConfig = require(path.resolve(cmd, 'kConfig/configs'));
         var httpPort = portConfig.http.port;
         var weinrePort = portConfig.weinre.port;
@@ -155,9 +165,11 @@ Dispatcher.handlers = {
         }
     },
     'build': function () {
+        checkConfigFile();
         generate.buildAll();
     },
     'package': function (name) {
+        checkConfigFile();
         var config = require(cmd + "/kConfig/configs");
         var httpReg = /(http:\/\/.+:[\d]+)|(https:\/\/.+:[\d]+)/;
         if (httpReg.test(config.base)) {
