@@ -168,20 +168,22 @@ Dispatcher.handlers = {
         checkConfigFile();
         generate.buildAll();
     },
-    'package': function (name) {
+    'package': function () {
         checkConfigFile();
         var config = require(cmd + "/kConfig/configs");
         var httpReg = /(http:\/\/.+:[\d]+)|(https:\/\/.+:[\d]+)/;
         if (httpReg.test(config.base)) {
             config.base = config.base.replace(httpReg, cmd);
         }
-        require('jspacker').pack(
-            cmd + "/src/scripts/index",
-            cmd + "/dist",
-            (name === true) ? "business" : name,
-            cmd,
-            config
-        );
+        config.packModules.forEach(function (packModule) {
+            require('jspacker').pack(
+                path.resolve(cmd, packModule.path),
+                cmd + "/dist",
+                packModule.name,
+                cmd,
+                config
+            );
+        });
     }
 };
 

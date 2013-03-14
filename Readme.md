@@ -1,5 +1,6 @@
 ## 欢迎使用 knighkit.
-knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。目的是减少前端开发过程中的重复工作，使你只关注程序本身，而不是创建文件，合并压缩。
+knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。
+目的是减少前端开发过程中的重复工作，使你更关注程序本身。
 
 ## 功能
 #### 自动化生成项目结构
@@ -47,14 +48,62 @@ seajs 用来完成开发阶段的模块加载和调试
 
 ## How to start?
 ```
-$ npm install knighkit
+$ npm install -g knighkit
 ```
+安装成功后，可以输入
+```
+$ kkit -?
+$ kkit -h
+$ kkit --help
+```
+查看帮助。
 
 ## 构建你第一个 knighkit 项目
-#### 初始化
+#### 初始化项目
+```
+kkit -g
+kkit --generate
+```
+此命令可在执行命令的目录下，生成一个 knighkit 开发项目。
+
 #### 生成模版
+```
+kkit -i
+kkit --init
+```
+根据以上生成项目的 src/template/good.json 生成模版。
+生成的模版在src/template中。
+
+#### 添加一个模版
+
 #### 编译模版
+```
+kkit -b
+kkit --build
+```
+src/template中的模版会被编译输出到 output文件夹下。
+
 #### 合并压缩 
+```
+kkit -p
+kkit --package
+```
+根据配置文件中的配置打包，见配置文件
+```
+/**                                                  
+ * 打包模块, 可设置多个                                       
+ * path 是要打包文件的入口模块路径                                
+ * name 是输出文件名称                                      
+ * -------- begin -----------*/                      
+"packModules": [                                     
+    {"path": "src/scripts/business", "name": "business"}
+]                                                  
+```
+以上配置会以 src/script/business 为主入口，打包程序后，以 business 为名称，输出到 dist 下两个文件：
+```
+dist/business.js
+dist/business-min.js
+```
 
 ## Authors and Contributors
 KnightWu (@wulijian)
