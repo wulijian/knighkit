@@ -4,44 +4,34 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Knighkit by wulijian</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-
+    <div class="wrapper">
       <header>
         <h1>Knighkit</h1>
         <p>javascript项目集成化开发框架</p>
+
+        <p class="view"><a href="https://github.com/wulijian/knighkit">View the Project on GitHub <small>wulijian/knighkit</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/wulijian/knighkit/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/wulijian/knighkit/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/wulijian/knighkit">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/wulijian/knighkit" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/wulijian/knighkit/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/wulijian/knighkit/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
       <section>
         <h2>欢迎使用 knighkit.</h2>
 
-<p>knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。目的是减少前端开发过程中的重复工作，使你只关注程序本身，而不是创建文件，合并压缩。</p>
+<p>knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。
+目的是减少前端开发过程中的重复工作，使你更关注程序本身。</p>
 
 <h2>功能</h2>
 
@@ -103,18 +93,70 @@
 
 <h2>How to start?</h2>
 
-<pre><code>$ npm install knighkit
+<pre><code>$ npm install -g knighkit
 </code></pre>
+
+<p>安装成功后，可以输入</p>
+
+<pre><code>$ kkit -?
+$ kkit -h
+$ kkit --help
+</code></pre>
+
+<p>查看帮助。</p>
 
 <h2>构建你第一个 knighkit 项目</h2>
 
-<h4>初始化</h4>
+<h4>初始化项目</h4>
+
+<pre><code>kkit -g
+kkit --generate
+</code></pre>
+
+<p>此命令可在执行命令的目录下，生成一个 knighkit 开发项目。</p>
 
 <h4>生成模版</h4>
 
+<pre><code>kkit -i
+kkit --init
+</code></pre>
+
+<p>根据以上生成项目的 src/template/good.json 生成模版。
+生成的模版在src/template中。</p>
+
+<h4>添加一个模版</h4>
+
 <h4>编译模版</h4>
 
+<pre><code>kkit -b
+kkit --build
+</code></pre>
+
+<p>src/template中的模版会被编译输出到 output文件夹下。</p>
+
 <h4>合并压缩</h4>
+
+<pre><code>kkit -p
+kkit --package
+</code></pre>
+
+<p>根据配置文件中的配置打包，见配置文件</p>
+
+<pre><code>/**                                                  
+ * 打包模块, 可设置多个                                       
+ * path 是要打包文件的入口模块路径                                
+ * name 是输出文件名称                                      
+ * -------- begin -----------*/                      
+"packModules": [                                     
+    {"path": "src/scripts/business", "name": "business"}
+]                                                  
+</code></pre>
+
+<p>以上配置会以 src/script/business 为主入口，打包程序后，以 business 为名称，输出到 dist 下两个文件：</p>
+
+<pre><code>dist/business.js
+dist/business-min.js
+</code></pre>
 
 <h2>Authors and Contributors</h2>
 
@@ -125,11 +167,11 @@
 <p><a href="mailto:wulijian722@gmail.com">wulijian722@gmail.com</a></p>
       </section>
       <footer>
-        <p>Project maintained by <a href="https://github.com/wulijian">wulijian</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+        <p>This project is maintained by <a href="https://github.com/wulijian">wulijian</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
