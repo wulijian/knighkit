@@ -164,9 +164,13 @@ Dispatcher.handlers = {
             console.error('Don\'t support server: ' + data);
         }
     },
-    'build': function () {
+    'build': function (templateId) {
+        if (templateId === true) {
+            templateId = function () {
+            };
+        }
         checkConfigFile();
-        generate.buildAll();
+        generate.build(templateId);
     },
     'package': function () {
         checkConfigFile();
