@@ -12,6 +12,11 @@
 <div id="result"></div>
 <script type="text/javascript" src="../../lib/sea-debug.js"></script>
 <script type="text/javascript">
+    seajs.use('../../kConfig/configs', function (conf) {
+        seajs.config(conf);
+    });
+</script>
+<script type="text/javascript">
     seajs.use('./<%=_data.moduleId %>', function (module) {
         document.getElementById("result").innerHTML = module.render(<%= _data.data %>);
         module.init();
