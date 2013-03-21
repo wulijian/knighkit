@@ -132,6 +132,20 @@ kkit --init
 kkit --build
 </code></pre>
 
+<p>此命令会预编译所有template目录下文件夹中的文件：</p>
+
+<ul>
+<li>生成可供调用的模块，模块包含render方法和init方法</li>
+<li>生成该模块单独的测试页面</li>
+<li>合并此模块中的 m.css 到指定文件名的样式文件中</li>
+</ul><p>如需编译单独模块，可指定moduleID：</p>
+
+<pre><code>kkit -b moduleID
+kkit --build moduleID
+</code></pre>
+
+<p>注意，此模式下，不会重新合并css。</p>
+
 <p>src/template中的模版会被编译输出到 output文件夹下。</p>
 
 <h4>合并压缩</h4>
