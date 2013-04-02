@@ -58,6 +58,10 @@ var optimist = require('optimist').
         alias: 'package',
         describe: 'package all src to [name]||"business". \n' +
             '                     Make sure you\'ve already run build command.'
+    }).
+    options('o', {
+        alias: 'output',
+        describe: 'output packaged project to [path]||"projectOutput". \n'
     });
 
 /**
@@ -188,6 +192,23 @@ Dispatcher.handlers = {
                 config
             );
         });
+    },
+    'output': function (_path) {
+        if (_path === true) {
+            _path = path.resolve(cmd, './projectOutput');
+        } else if (typeof _path === 'string') {
+            _path = path.resolve(cmd, _path);
+        }
+        if (!fs.existsSync(_path)) {
+            fs.mkdir(_path);
+            fs.mkdir(_path + '/src');
+        }
+        Dispatcher.handlers.build();
+        Dispatcher.handlers.package();
+        shell.cp('-Rf', cmd + '/dist', _path);  //打包后的script代码
+        shell.cp('-Rf', cmd + '/src/styles', _path + '/src/');  //styles
+        shell.cp('-Rf', cmd + '/src/images', _path + '/src/');  //图片
+        shell.cp('-Rf', cmd + '/index.html', _path);  //主页
     }
 };
 
