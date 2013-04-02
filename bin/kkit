@@ -180,8 +180,12 @@ Dispatcher.handlers = {
         checkConfigFile();
         var config = require(cmd + "/kConfig/configs");
         var httpReg = /(http:\/\/.+:[\d]+)|(https:\/\/.+:[\d]+)/;
+        var fileReg = /file:[/]+/;
         if (httpReg.test(config.base)) {
-            config.base = config.base.replace(httpReg, cmd);
+            config.base = config.base.replace(httpReg, cmd)
+        }
+        if (fileReg.test(config.base)) {
+            config.base = config.base.replace(fileReg, '');
         }
         config.packModules.forEach(function (packModule) {
             require('jspacker').pack(
