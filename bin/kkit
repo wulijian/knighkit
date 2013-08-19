@@ -24,6 +24,7 @@ var setcwdAsTheRootPath = function () {
     runtime.rootPath = cmd;
     fs.writeFileSync(runtimePath, JSON.stringify(runtime));
 };
+
 setcwdAsTheRootPath();
 
 var optimist = require('optimist').
