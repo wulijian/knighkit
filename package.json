@@ -31,6 +31,7 @@
         "weinre": "latest",
         "jstm": "latest",
         "optimist": "latest",
+        "should": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
     },
