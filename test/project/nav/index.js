@@ -1,14 +1,10 @@
 define(function (require, exports, module) {
-    var $ = require('jquery');
-    var _ = require('underscore');  // 工具类
-    var _$ = require('jsonselect');  // 工具类
-    var utils = require('utils/utils');
-    var tpHelper = require('tpHelper'); // 用于模版模块生成的工具类
     module.exports = {
         init: function () {
 
         },
-        render: function () {
+        render: function (_data) {
+            return '';
         }
     };
 });
