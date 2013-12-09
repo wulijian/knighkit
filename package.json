@@ -34,7 +34,9 @@
         "weinre": "latest",
         "jstm": "latest",
         "optimist": "latest",
-        "should": "latest",
+        "chai": "latest",
+        "sinon-chai": "latest",
+        "sinon": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
     },

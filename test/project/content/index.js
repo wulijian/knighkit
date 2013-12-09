@@ -1,11 +1,16 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module)
+}
 
 define(function (require, exports, module) {
+    var dc = require('../../../lib/runtime/dataCache');
     module.exports = {
         "init": function () {
             return "It's great!!";
         },
+        id: module.id,
         "render": function (data) {
+            dc.add(module.id, data);
             return ___template___(data);
         }
     };
