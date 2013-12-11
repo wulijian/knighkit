@@ -42,19 +42,25 @@ describe('File tree walker', function () {
                 {
                     module: './content',
                     priority: 2,
-                    sync: true
+                    async: true,
+                    puz: '<puzzle data-module="./content" data-priority=2 data-async=true></puzzle>'
                 },
                 {
                     module: './foot',
-                    sync: true,
+                    async: true,
                     priority: 1,
-                    new: false
+                    new: false,
+                    puz: '<puzzle data-module="./foot" data-priority=1 data-new=false data-async=true></puzzle>'
                 },
                 {
                     module: './nav',
-                    new: true
+                    new: true,
+                    puz: '<puzzle data-module="./nav" data-new=true></puzzle>'
                 }
             ]);
+        });
+        it('when walk through the code has no puzzle ,return a []:', function () {
+            filewalker.getSubModules('<body>when walk through the code has no puzzle ,return a </body>').should.eql([]);
         });
     });
 });

@@ -4,6 +4,8 @@ if (typeof define !== 'function') {
 
 define(function (require, exports, module) {
     var dc = require('../../../lib/runtime/dataCache');
+    var subfill = require("../../../lib/runtime/subModuleFill");
+
     module.exports = {
         "init": function () {
             return "It's great!!";

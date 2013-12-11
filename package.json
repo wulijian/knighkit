@@ -20,25 +20,29 @@
     },
     "dependencies": {
         "uglify-js": "latest",
-        "mocha": "latest",
         "watch": "latest",
         "css-parse":"latest",
         "JSONSelect":"latest",
         "shelljs": "latest",
         "connect": "latest",
-        "q": "latest",
-        "q-io": "latest",
         "async": "latest",
         "jspacker": "latest",
         "seajs": "latest",
         "weinre": "latest",
         "jstm": "latest",
         "optimist": "latest",
-        "chai": "latest",
-        "sinon-chai": "latest",
-        "sinon": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
+    },
+    "devDependencies":{
+        "mocha": "latest",
+        "q": "latest",
+        "q-io": "latest",
+        "chai": "latest",
+        "chai-as-promised": "latest",
+        "sinon-chai": "latest",
+        "sinon": "latest",
+        "jquery": "latest"
     },
     "keywords": ["module", "package", "nodejs", "模块化开发", "自动打包"]
 }

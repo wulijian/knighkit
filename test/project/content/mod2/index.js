@@ -1,14 +1,16 @@
+if (typeof define !== "function") {
+    var define = require("amdefine")(module);
+}
+
 define(function (require, exports, module) {
-    var $ = require('jquery');
-    var _ = require('underscore');  // 工具类
-    var _$ = require('jsonselect');  // 工具类
-    var utils = require('utils/utils');
-    var tpHelper = require('tpHelper'); // 用于模版模块生成的工具类
+    var subfill = require("../../../../lib/runtime/subModuleFill");
+
     module.exports = {
         init: function () {
-
+            return "It's mod2!!";
         },
-        render: function () {
+        render: function (data) {
+            return ___template___(data);
         }
     };
 });
