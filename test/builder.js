@@ -50,6 +50,7 @@ describe('module builder', function () {
                         builder.build('project/content/mod1', __dirname),
                         builder.build('project/content/mod2', __dirname),
                         builder.build('project/content/mod2/mod21', __dirname),
+                        builder.build('project/content/mod2/mod22', __dirname),
                         builder.build('project/content/mod3', __dirname)
                     ])
                     .then(function () {
@@ -64,15 +65,15 @@ describe('module builder', function () {
                         '<div id="do"></div>\r\n' +
                         'mod21....\r\n' +// mod21 end
                         '</div>\r\n' +
-                        '\r\n' +
+                        '<puzzle data-module="./mod22" data-async=true></puzzle>\r\n' +// mod22 should not be replaced
                         '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\n' +  // mod3 start
                         'mod3...\r\nmod2....\r\n' +                           // mod3 end mod2 end
                         '    <link rel=\"stylesheet\" href=\"mod1.css\"/>\r\n' + // mod1 start
                         'mod1...\r\n' +
                         '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\n' +// mod3 start
                         'mod3...\r\n' +// mod3 end
-                        'mod1...\r\n' +// mod1 end
-                        '</div>').notify(done);
+                        'mod1...\r\n' +
+                        '</div>').notify(done);// mod1 end
             });
         });
     });
