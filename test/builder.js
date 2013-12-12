@@ -34,8 +34,11 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/content/mod1').render({a: 1, b: 3})
                     })
-                    .should.eventually.eql('<link rel="stylesheet" href="mod1.css"/>\r\nmod1...\r\n' +
-                        '<link rel="stylesheet" href="mod3.css"/>\r\nmod3...\r\nmod1...').notify(done);
+                    .should.eventually.eql('<link rel="stylesheet" href="mod1.css"/>\r\n' +
+                        'mod1...\r\n' +
+                        '<link rel="stylesheet" href="mod3.css"/>\r\n' +
+                        'mod3...\r\n' +
+                        'mod1...').notify(done);
             });
         });
 
@@ -52,12 +55,24 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/content').render({a: 1, b: 3});
                     })
-                    .should.eventually.eql('<link rel=\"stylesheet\" href=\"content.css\"/>\r\n<div id=\"content\">\r\n    ' +
-                        '<link rel=\"stylesheet\" href=\"mod2.css\"/>\r\nmod2....\r\n<div>\r\n   ' +
-                        ' <link rel=\"stylesheet\" href=\"mod21.css\"/>\r\n<div id="do"></div>\r\nmod21....\r\n</div>\r\n\r\n' +
-                        '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\nmod3...\r\nmod2....\r\n    ' +
-                        '<link rel=\"stylesheet\" href=\"mod1.css\"/>\r\nmod1...\r\n<link rel=\"stylesheet\" href='
-                        + '\"mod3.css\"/>\r\nmod3...\r\nmod1...\r\n</div>').notify(done);
+                    .should.eventually.eql('<link rel=\"stylesheet\" href=\"content.css\"/>\r\n' +
+                        '<div id=\"content\">\r\n    ' +
+                        '<link rel=\"stylesheet\" href=\"mod2.css\"/>\r\n' + // mod2 start
+                        'mod2....\r\n' +
+                        '<div>\r\n' +
+                        '    <link rel=\"stylesheet\" href=\"mod21.css\"/>\r\n' +// mod21 start
+                        '<div id="do"></div>\r\n' +
+                        'mod21....\r\n' +// mod21 end
+                        '</div>\r\n' +
+                        '\r\n' +
+                        '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\n' +  // mod3 start
+                        'mod3...\r\nmod2....\r\n' +                           // mod3 end mod2 end
+                        '    <link rel=\"stylesheet\" href=\"mod1.css\"/>\r\n' + // mod1 start
+                        'mod1...\r\n' +
+                        '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\n' +// mod3 start
+                        'mod3...\r\n' +// mod3 end
+                        'mod1...\r\n' +// mod1 end
+                        '</div>').notify(done);
             });
         });
     });
