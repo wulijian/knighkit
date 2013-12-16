@@ -87,12 +87,12 @@ describe('module builder', function () {
                         return require('./__project/foot').render({a: 1, b: 3})
                     })
                     .should.eventually.eql('<link rel="stylesheet" href="index.css"/>\r\n' +
-                        '    <link rel="stylesheet" href="index.css"/>\r\n'
-                        + 'mod1 in /foot...\r\n'
-                        + '    <link rel="stylesheet" href="index.css"/>\r\n'
-                        + 'mod1 in /foot...\r\n'
-                        + '    <link rel="stylesheet" href="index.css"/>\r\n'
-                        + 'mod1 in /foot...\r\n' +
+                        '    <link rel="stylesheet" href="index.css"/>\r\n' +
+                        'mod1 in /foot...\r\n' +
+                        '    <link rel="stylesheet" href="index.css"/>\r\n' +
+                        'mod1 in /foot...\r\n' +
+                        '    <link rel="stylesheet" href="index.css"/>\r\n' +
+                        'mod1 in /foot...\r\n' +
                         'foot...').notify(done);
             });
         });
