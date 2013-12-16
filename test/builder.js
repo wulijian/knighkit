@@ -76,5 +76,25 @@ describe('module builder', function () {
                         '</div>').notify(done);// mod1 end
             });
         });
+
+        describe.only("submodule in for loop:", function () {
+            it('parse sub module:', function (done) {
+                q.all([
+                        builder.build('project/foot', __dirname),
+                        builder.build('project/foot/mod1', __dirname)
+                    ])
+                    .then(function () {
+                        return require('./__project/foot').render({a: 1, b: 3})
+                    })
+                    .should.eventually.eql('<link rel="stylesheet" href="index.css"/>\r\n' +
+                        '    <link rel="stylesheet" href="index.css"/>\r\n'
+                        + 'mod1 in /foot...\r\n'
+                        + '    <link rel="stylesheet" href="index.css"/>\r\n'
+                        + 'mod1 in /foot...\r\n'
+                        + '    <link rel="stylesheet" href="index.css"/>\r\n'
+                        + 'mod1 in /foot...\r\n' +
+                        'foot...').notify(done);
+            });
+        });
     });
 });
