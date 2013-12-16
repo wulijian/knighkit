@@ -3,10 +3,10 @@ if (typeof define !== 'function') {
 }
 
 define(function (require, exports, module) {
-    var subfill = require("../../../lib/runtime/subModule");
+    var subfill = require("../../../../lib/runtime/subModule");
     module.exports = {
         init: function () {
-
+            return "It's nav/mod1 !!";
         },
         render: function (data) {
             return ___template___(data);

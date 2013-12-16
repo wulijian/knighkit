@@ -77,7 +77,7 @@ describe('module builder', function () {
             });
         });
 
-        describe.only("submodule in for loop:", function () {
+        describe("submodule in for loop:", function () {
             it('parse sub module:', function (done) {
                 q.all([
                         builder.build('project/foot', __dirname),
@@ -94,6 +94,20 @@ describe('module builder', function () {
                         '    <link rel="stylesheet" href="index.css"/>\r\n' +
                         'mod1 in /foot...\r\n' +
                         'foot...').notify(done);
+            });
+        });
+
+        describe.only("puzzle in jade:", function () {
+            it('parse sub module:', function (done) {
+                q.all([
+                        builder.build('project/nav', __dirname),
+                        builder.build('project/nav/mod1', __dirname)
+                    ])
+                    .then(function () {
+                        return require('./__project/nav').render({a: 1, b: 3})
+                    })
+                    .should.eventually.eql('<link rel="stylesheet" href="nav.css"/><link rel="stylesheet" href=\"index.css\"/>\r\n' +
+                        'mod1 in /nav...').notify(done);
             });
         });
     });
