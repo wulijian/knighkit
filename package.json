@@ -30,6 +30,7 @@
         "seajs": "latest",
         "weinre": "latest",
         "jstm": "latest",
+        "cheerio ": "latest",
         "optimist": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"

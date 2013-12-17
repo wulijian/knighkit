@@ -56,7 +56,7 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/content').render({a: 1, b: 3});
                     })
-                    .should.eventually.eql('<link rel=\"stylesheet\" href=\"content.css\"/>\r\n' +
+                    .should.eventually.match(new RegExp('<link rel=\"stylesheet\" href=\"content.css\"/>\r\n' +
                         '<div id=\"content\">\r\n    ' +
                         '<link rel=\"stylesheet\" href=\"mod2.css\"/>\r\n' + // mod2 start
                         'mod2....\r\n' +
@@ -65,7 +65,7 @@ describe('module builder', function () {
                         '<div id="do"></div>\r\n' +
                         'mod21....\r\n' +// mod21 end
                         '</div>\r\n' +
-                        '<puzzle data-module="./mod22" data-async=true></puzzle>\r\n' +// mod22 should not be replaced
+                        '<puzzle data-module="./mod22" data-async=true.*></puzzle>\r\n' +// mod22 should not be replaced
                         '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\n' +  // mod3 start
                         'mod3...\r\nmod2....\r\n' +                           // mod3 end mod2 end
                         '    <link rel=\"stylesheet\" href=\"mod1.css\"/>\r\n' + // mod1 start
@@ -73,7 +73,7 @@ describe('module builder', function () {
                         '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\n' +// mod3 start
                         'mod3...\r\n' +// mod3 end
                         'mod1...\r\n' +
-                        '</div>').notify(done);// mod1 end
+                        '</div>')).notify(done);// mod1 end
             });
         });
 
@@ -97,7 +97,7 @@ describe('module builder', function () {
             });
         });
 
-        describe.only("puzzle in jade:", function () {
+        describe("puzzle in jade:", function () {
             it('parse sub module:', function (done) {
                 q.all([
                         builder.build('project/nav', __dirname),
