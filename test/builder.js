@@ -16,6 +16,7 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/content/mod3').render({a: 1, b: 3});
                     })
+                    .get('html')
                     .should.eventually.eql('<link rel="stylesheet" href="mod3.css"/>\r\nmod3...').notify(done);
             });
             it('after build, the data should be cached by runtime dataCache:', function (done) {
@@ -34,6 +35,7 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/content/mod1').render({a: 1, b: 3})
                     })
+                    .get('html')
                     .should.eventually.eql('<link rel="stylesheet" href="mod1.css"/>\r\n' +
                         'mod1...\r\n' +
                         '<link rel="stylesheet" href="mod3.css"/>\r\n' +
@@ -56,6 +58,7 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/content').render({a: 1, b: 3});
                     })
+                    .get('html')
                     .should.eventually.match(new RegExp('<link rel=\"stylesheet\" href=\"content.css\"/>\r\n' +
                         '<div id=\"content\">\r\n    ' +
                         '<link rel=\"stylesheet\" href=\"mod2.css\"/>\r\n' + // mod2 start
@@ -65,7 +68,7 @@ describe('module builder', function () {
                         '<div id="do"></div>\r\n' +
                         'mod21....\r\n' +// mod21 end
                         '</div>\r\n' +
-                        '<puzzle data-module="./mod22" data-async=true.*></puzzle>\r\n' +// mod22 should not be replaced
+                        '<puzzle data-module="./mod22" data-async="true".*></puzzle>\r\n' +// mod22 should not be replaced
                         '<link rel=\"stylesheet\" href=\"mod3.css\"/>\r\n' +  // mod3 start
                         'mod3...\r\nmod2....\r\n' +                           // mod3 end mod2 end
                         '    <link rel=\"stylesheet\" href=\"mod1.css\"/>\r\n' + // mod1 start
@@ -86,6 +89,7 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/foot').render({a: 1, b: 3})
                     })
+                    .get('html')
                     .should.eventually.eql('<link rel="stylesheet" href="index.css"/>\r\n' +
                         '    <link rel="stylesheet" href="index.css"/>\r\n' +
                         'mod1 in /foot...\r\n' +
@@ -106,8 +110,46 @@ describe('module builder', function () {
                     .then(function () {
                         return require('./__project/nav').render({a: 1, b: 3})
                     })
-                    .should.eventually.eql('<link rel="stylesheet" href="nav.css"/><link rel="stylesheet" href=\"index.css\"/>\r\n' +
-                        'mod1 in /nav...').notify(done);
+                    .get('html')
+                    .should.eventually.match(new RegExp('<link rel="stylesheet" href="nav.css"/>' +
+                        '<puzzle data-module="./mod1" data-async="true".*></puzzle>')).notify(done);
+            });
+        });
+
+        describe("异步模块添加dom到成功后的回调:", function () {
+            it('dom 回调:', function (done) {
+                q.all([
+                        builder.build('project/nav', __dirname),
+                        builder.build('project/nav/mod1/mod11', __dirname),
+                        builder.build('project/nav/mod1/mod12', __dirname),
+                        builder.build('project/nav/mod1', __dirname)
+                    ])
+                    .then(function () {
+                        require('./__project/nav').render({a: 1, b: 3}).then(function (subModule) {
+                            subModule.async.promise.fail(function(err){
+                                done(err);
+                            });
+                            subModule.async.resolve(done);
+                            done();
+                        }).fail(function (err) {
+                                done(err);
+                            });
+                    }).fail(function (err) {
+                        done(err);
+                    });
+            });
+        });
+
+        describe("资源路径转换:", function () {
+            it('路径转换:', function () {
+
+            });
+        });
+
+        describe("数据的处理，data 来源和选择:", function () {
+            it('selector筛选父模板data中的部分数据:', function () {
+            });
+            it('模板自己请求数据，selector无作用:', function () {
             });
         });
     });
