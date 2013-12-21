@@ -104,6 +104,12 @@ kkit --package
 dist/business.js
 dist/business-min.js
 ```
+## Change log
+### 新增 awesome module，版本号 puzzle 的拼图
+### 改进模板使用方式
+### 改进模块组织方式
+### 增强html模板，使任何支持预编译的模板都支持子模板嵌套
+### 增强html模板，使任何支持预编译的模板都可以无缝结合
 
 ## Authors and Contributors
 KnightWu (@wulijian)
