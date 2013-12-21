@@ -32,6 +32,7 @@
         "jstm": "latest",
         "cheerio ": "latest",
         "optimist": "latest",
+        "eventemitter2": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
     },
