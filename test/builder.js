@@ -165,8 +165,28 @@ describe('module builder', function () {
 
         describe.only("编译项目中所有的模块:", function () {
             it('遍历模块树:', function (done) {
-                builder.buildAll();
-            })
+                builder.buildAll(function (allmods) {
+                    allmods.should.be.eql([
+                        '',
+                        'content',
+                        'content\\mod1',
+                        'content\\mod2',
+                        'content\\mod2\\mod21',
+                        'content\\mod2\\mod22',
+                        'content\\mod3',
+                        'content\\mod3\\mod31',
+                        'foot',
+                        'foot\\mod1',
+                        'nav',
+                        'nav\\mod1',
+                        'nav\\mod1\\mod11',
+                        'nav\\mod1\\mod12'
+                    ]);
+                    done();
+                }).fail(function (err) {
+                        done(err);
+                    });
+            });
         });
     });
 });
