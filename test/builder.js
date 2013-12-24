@@ -10,13 +10,41 @@ var dc = require('../lib/runtime/dataCache');
 require("consoleplusplus");
 
 describe('module builder', function () {
+    describe("编译项目中所有的模块:", function () {
+        var consoleinfo = console.info;
+        console.info = function () {
+        };
+        it('遍历模块树:', function (done) {
+            builder.buildAll(function (allmods) {
+                allmods.should.be.eql([
+                    '',
+                    'content',
+                    'content\\mod1',
+                    'content\\mod2',
+                    'content\\mod2\\mod21',
+                    'content\\mod2\\mod22',
+                    'content\\mod3',
+                    'content\\mod3\\mod31',
+                    'foot',
+                    'foot\\mod1',
+                    'nav',
+                    'nav\\mod1',
+                    'nav\\mod1\\mod11',
+                    'nav\\mod1\\mod12'
+                ]);
+                done();
+                console.info = consoleinfo;
+            }).fail(function (err) {
+                    done(err);
+                    console.info = consoleinfo;
+                });
+        });
+    });
+
     describe('give the module name, generate a module:', function () {
         describe("the module without sub module:", function () {
             it('build simple module without sub:', function (done) {
-                builder.build(path.resolve(__dirname, 'project/content/mod3'))
-                    .then(function () {
-                        return require('./__project/content/mod3').render({a: 1, b: 3});
-                    })
+                require('./__project/content/mod3').render({a: 1, b: 3})
                     .get('html')
                     .should.eventually.eql('<link rel="stylesheet" href="mod3.css"/>\r\nmod3...').notify(done);
             });
@@ -29,13 +57,7 @@ describe('module builder', function () {
 
         describe("the module with two layer sub module:", function () {
             it('parse sub module:', function (done) {
-                q.all([
-                        builder.build(path.resolve(__dirname, 'project/content/mod1')),
-                        builder.build(path.resolve(__dirname, 'project/content/mod3'))
-                    ])
-                    .then(function () {
-                        return require('./__project/content/mod1').render({a: 1, b: 3})
-                    })
+                require('./__project/content/mod1').render({a: 1, b: 3})
                     .get('html')
                     .should.eventually.eql('<link rel="stylesheet" href="mod1.css"/>\r\n' +
                         'mod1...\r\n' +
@@ -46,19 +68,8 @@ describe('module builder', function () {
         });
 
         describe("the module with three layer sub module:", function () {
-            this.timeout(3000);
             it('parse sub module:', function (done) {
-                q.all([
-                        builder.build(path.resolve(__dirname, 'project/content')),
-                        builder.build(path.resolve(__dirname, 'project/content/mod1')),
-                        builder.build(path.resolve(__dirname, 'project/content/mod2')),
-                        builder.build(path.resolve(__dirname, 'project/content/mod2/mod21')),
-                        builder.build(path.resolve(__dirname, 'project/content/mod2/mod22')),
-                        builder.build(path.resolve(__dirname, 'project/content/mod3'))
-                    ])
-                    .then(function () {
-                        return require('./__project/content').render({a: 1, b: 3});
-                    })
+                require('./__project/content').render({a: 1, b: 3})
                     .get('html')
                     .should.eventually.match(new RegExp('<link rel=\"stylesheet\" href=\"content.css\"/>\r\n' +
                         '<div id=\"content\">\r\n    ' +
@@ -83,13 +94,7 @@ describe('module builder', function () {
 
         describe("submodule in for loop:", function () {
             it('parse sub module:', function (done) {
-                q.all([
-                        builder.build(path.resolve(__dirname, 'project/foot')),
-                        builder.build(path.resolve(__dirname, 'project/foot/mod1'))
-                    ])
-                    .then(function () {
-                        return require('./__project/foot').render({a: 1, b: 3})
-                    })
+                require('./__project/foot').render({a: 1, b: 3})
                     .get('html')
                     .should.eventually.eql('<link rel="stylesheet" href="index.css"/>\r\n' +
                         '    <link rel="stylesheet" href="index.css"/>\r\n' +
@@ -104,13 +109,7 @@ describe('module builder', function () {
 
         describe("puzzle in jade:", function () {
             it('parse sub module:', function (done) {
-                q.all([
-                        builder.build(path.resolve(__dirname, 'project/nav')),
-                        builder.build(path.resolve(__dirname, 'project/nav/mod1'))
-                    ])
-                    .then(function () {
-                        return require('./__project/nav').render({a: 1, b: 3})
-                    })
+                require('./__project/nav').render({a: 1, b: 3})
                     .get('html')
                     .should.eventually.match(new RegExp('<link rel="stylesheet" href="nav.css"/>' +
                         '<puzzle data-module="./mod1" data-async="true".*></puzzle>')).notify(done);
@@ -120,23 +119,13 @@ describe('module builder', function () {
 //todo:怎样测试调用顺序
         describe("异步模块添加dom到成功后按优先级回调:", function () {
             it('dom 回调:', function (done) {
-                q.all([
-                        builder.build(path.resolve(__dirname, 'project/nav')),
-                        builder.build(path.resolve(__dirname, 'project/nav/mod1/mod11')),
-                        builder.build(path.resolve(__dirname, 'project/nav/mod1/mod12')),
-                        builder.build(path.resolve(__dirname, 'project/nav/mod1'))
-                    ])
-                    .then(function () {
-                        require('./__project/nav').render({a: 1, b: 3}).then(function (subModule) {
-                            subModule.async.promise.fail(function (err) {
-                                done(err);
-                            });
-                            subModule.async.resolve(done);
-                            done();
-                        }).fail(function (err) {
-                                done(err);
-                            });
-                    }).fail(function (err) {
+                require('./__project/nav').render({a: 1, b: 3}).then(function (subModule) {
+                    subModule.async.promise.fail(function (err) {
+                        done(err);
+                    });
+                    subModule.async.resolve(done);
+                    done();
+                }).fail(function (err) {
                         done(err);
                     });
             });
@@ -152,40 +141,6 @@ describe('module builder', function () {
             it('selector筛选父模板data中的部分数据:', function () {
             });
             it('模板自己请求数据，selector无作用:', function () {
-            });
-        });
-
-        describe("遍历模块树:", function () {
-            it('遍历模块树:', function (done) {
-                require('../lib/builder/walkFile').walk(path.resolve(__dirname, './project'), false, function (value) {
-                    console.log(value);
-                });
-            })
-        });
-
-        describe.only("编译项目中所有的模块:", function () {
-            it('遍历模块树:', function (done) {
-                builder.buildAll(function (allmods) {
-                    allmods.should.be.eql([
-                        '',
-                        'content',
-                        'content\\mod1',
-                        'content\\mod2',
-                        'content\\mod2\\mod21',
-                        'content\\mod2\\mod22',
-                        'content\\mod3',
-                        'content\\mod3\\mod31',
-                        'foot',
-                        'foot\\mod1',
-                        'nav',
-                        'nav\\mod1',
-                        'nav\\mod1\\mod11',
-                        'nav\\mod1\\mod12'
-                    ]);
-                    done();
-                }).fail(function (err) {
-                        done(err);
-                    });
             });
         });
     });
