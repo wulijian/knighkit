@@ -14,24 +14,25 @@ describe('module builder', function () {
         var consoleinfo = console.info;
         console.info = function () {
         };
-        it('遍历模块树:', function (done) {
+        it('遍历模块树，合并模板到模块:', function (done) {
             builder.buildAll(function (allmods) {
                 allmods.should.be.eql([
                     '',
                     'content',
-                    'content\\mod1',
-                    'content\\mod2',
-                    'content\\mod2\\mod21',
-                    'content\\mod2\\mod22',
-                    'content\\mod3',
-                    'content\\mod3\\mod31',
+                    'content/mod1',
+                    'content/mod2',
+                    'content/mod2/mod21',
+                    'content/mod2/mod22',
+                    'content/mod3',
+                    'content/mod3/mod31',
                     'foot',
-                    'foot\\mod1',
+                    'foot/mod1',
                     'nav',
-                    'nav\\mod1',
-                    'nav\\mod1\\mod11',
-                    'nav\\mod1\\mod12'
+                    'nav/mod1',
+                    'nav/mod1/mod11',
+                    'nav/mod1/mod12'
                 ]);
+                fs.existsSync(path.resolve(__dirname, './__project/amods.js')).should.be.true;
                 done();
                 console.info = consoleinfo;
             }).fail(function (err) {
