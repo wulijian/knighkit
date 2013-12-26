@@ -1,0 +1,22 @@
+.left {
+    padding:20px;
+    line-height: 1.5;
+    width: 200px;
+    border: 1px solid red;
+    float: left;
+    margin-right: 50px;
+}
+
+.right {
+    padding:30px;
+    line-height: 1.5;
+    overflow: hidden;
+    border: 1px solid blue;
+}
+
+.foot{
+    line-height: 1.5;
+    text-align: center;
+    clear:both;
+    background-color: lavender;
+}
