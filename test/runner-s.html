@@ -5,20 +5,14 @@
 </head>
 <body>
 <div id="test"></div>
-<script>
-    var require = {
-        baseUrl:"./"
-    };
-</script>
-<script type="text/javascript" src="lib/require.js"></script>
+<script type="text/javascript" src="lib/sea-debug2.js"></script>
 <script type="text/javascript">
-    var pro = '/__project';
-    require(['.'+pro+'/nav/index'], function (nav) {
-        nav.render({}).then(function(ad){
-            console.log('aa');
+    seajs.use('./__project/amods', function (amods) {
+        amods['nav'].render({}).then(function (ad) {
             $('#test').html(ad.html);
             ad.async.resolve(true);
         });
     });
-</script></body>
+</script>
+</body>
 </html>
