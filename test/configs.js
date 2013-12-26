@@ -10,7 +10,9 @@
          * -------- begin -----------*/
         "alias": {
             "subfill": "lib/runtime/subModule/index",
-            "dc": "lib/runtime/subModule/index"
+            "jquery": "lib/jquery",
+            "q": "lib/runtime/q",
+            "path": "lib/runtime/path"
         },
         "paths": {
 //            "render": "src/scripts/render",
