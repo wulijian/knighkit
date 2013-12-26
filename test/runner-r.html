@@ -7,7 +7,7 @@
 <div id="test"></div>
 <script>
     var require = {
-        baseUrl:"./",
+        baseUrl: "./",
         paths: {
             "jquery": "../lib/jquery",
             "q": "../lib/runtime/q",
@@ -18,11 +18,18 @@
 </script>
 <script type="text/javascript" src="lib/require.js"></script>
 <script type="text/javascript">
-    require(['./__project/amods'], function (amods) {
-        amods[window.location.hash.replace('#', '')].render({}).then(function(ad){
+    var loadmod = function (amods) {
+        amods[window.location.hash.replace('#', '')].render({}).then(function (ad) {
             $('#test').html(ad.html);
             ad.async.resolve(true);
         });
+    };
+    require(['./__project/amods'], function (amods) {
+        loadmod(amods);
+        window.onhashchange = function () {
+            loadmod(amods);
+        };
     });
-</script></body>
+</script>
+</body>
 </html>

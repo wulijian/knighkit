@@ -7,16 +7,21 @@
 <div id="test"></div>
 <script type="text/javascript" src="lib/sea-debug2.js"></script>
 <script type="text/javascript">
+    var loadmod = function (amods) {
+        amods[window.location.hash.replace('#', '')].render({}).then(function (ad) {
+            $('#test').html(ad.html);
+            ad.async.resolve(true);
+        });
+    };
     seajs.use('./configs', function (conf) {
         seajs.config(conf);
         seajs.use('./__project/amods', function (amods) {
-            amods[window.location.hash.replace('#', '')].render({}).then(function (ad) {
-                $('#test').html(ad.html);
-                ad.async.resolve(true);
-            });
+            loadmod(amods);
+            window.onhashchange = function () {
+                loadmod(amods);
+            };
         });
     });
-
 </script>
 </body>
 </html>
