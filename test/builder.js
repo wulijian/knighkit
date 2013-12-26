@@ -48,11 +48,6 @@ describe('module builder', function () {
                 .get('html')
                 .should.eventually.eql('<link rel="stylesheet" href="mod3.css"/>\r\nmod3...').notify(done);
         });
-        it('after build, the data should be cached by runtime dataCache:', function (done) {
-            require('./__project/content/mod3').render({a: 6, b: "4"});
-            dc.get(require('./__project/content/mod3').id).should.eql({a: 6, b: "4"});
-            done();
-        });
 
         it('parse sub module with two layer sub module:', function (done) {
             require('./__project/content/mod1').render({a: 1, b: 3})

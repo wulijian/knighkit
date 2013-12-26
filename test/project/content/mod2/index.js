@@ -3,7 +3,7 @@ if (typeof define !== "function") {
 }
 
 define(function (require, exports, module) {
-    var subfill = require("../../../../lib/runtime/subModule");
+    var subfill = require("../../../../lib/runtime/subModule/index");
 
     module.exports = {
         init: function () {
