@@ -6,8 +6,8 @@ define(function (require, exports, module) {
     var subfill = require("../../../lib/runtime/subModule/index");
 
     module.exports = {
-        init: function () {
-            return "foot ";
+        init: function (user) {
+            console.log(user,'is loaded foot....');
         },
         render: function (data) {
             return ___template___(data);

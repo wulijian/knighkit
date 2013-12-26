@@ -5,8 +5,8 @@ if (typeof define !== 'function') {
 define(function (require, exports, module) {
     var subfill = require("../../../lib/runtime/subModule/index");
     module.exports = {
-        init: function () {
-
+        init: function (user) {
+            console.log(user,'is loaded nav....');
         },
         render: function (data) {
             return ___template___(data);
