@@ -19,7 +19,7 @@
 <script type="text/javascript" src="lib/require.js"></script>
 <script type="text/javascript">
     require(['./__project/amods'], function (amods) {
-        amods['nav'].render({}).then(function(ad){
+        amods[window.location.hash.replace('#', '')].render({}).then(function(ad){
             $('#test').html(ad.html);
             ad.async.resolve(true);
         });
