@@ -19,16 +19,23 @@
 </script>
 <script type="text/javascript" src="lib/require.js"></script>
 <script type="text/javascript">
-    var loadmod = function (amods) {
-        amods[window.location.hash.replace('#', '')].render({}).then(function (ad) {
+    var loadmod = function () {
+        var hash = window.location.hash.replace('#', '');
+        var moduleId;
+        if(hash.trim()===''){
+            moduleId = './__project/index'
+        }else{
+            moduleId = './__project/'+hash+'/index';
+        }
+        require(moduleId).render({}).then(function (ad) {
             $('#test').html(ad.html);
             ad.async.resolve(true);
         });
     };
     require(['./__project/amods'], function (amods) {
-        loadmod(amods);
+        loadmod();
         window.onhashchange = function () {
-            loadmod(amods);
+            loadmod();
         };
     });
 </script>
