@@ -12,6 +12,7 @@
             "subfill": "lib/runtime/subModule/index",
             "jquery": "lib/jquery",
             "q": "lib/runtime/q",
+            "setimmediate": "lib/setImmediate",
             "path": "lib/runtime/path"
         },
         "paths": {
