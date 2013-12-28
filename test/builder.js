@@ -24,6 +24,7 @@ describe('module builder', function () {
                     'content/mod2/mod21',
                     'content/mod2/mod22',
                     'content/mod3',
+                    "content/mod3/loextend",
                     'content/mod3/mod31',
                     'foot',
                     'foot/mod1',
@@ -40,6 +41,25 @@ describe('module builder', function () {
                     console.info = consoleinfo;
                 });
         });
+    });
+
+    describe("模板 extend:", function () {
+        var consolewarn = console.info;
+        console.warn = function () {
+        };
+        it('for layout extend:', function (done) {
+            require('./__project/content/mod3/mod31').render({a: 1, b: 3})
+                .get('html')
+                .should.eventually.match(new RegExp('<link rel="stylesheet" href=".*mod2.css"/>\r\n' +
+                    'mod2....\r\n' +
+                    '<div>\r\n' +
+                    '    <puzzle data-module="./mod21" data-name="content".*></puzzle>\r\n' +
+                    '</div>\r\n' +
+                    '<puzzle data-module="./mod22" data-async="true".*></puzzle>\r\n' +
+                    '<puzzle data-module="../loextend" data-name="bottom" data-async="true".*></puzzle>\r\n' +
+                    'mod2....')).notify(done);
+        });
+        console.warn = consolewarn;
     });
 
     describe('give the module name, generate a module:', function () {
@@ -95,7 +115,7 @@ describe('module builder', function () {
                     'foot...')).notify(done);
         });
 
-        it('parse sub module that puzzle in jade:', function (done) {
+        it.skip('parse sub module that puzzle in jade:', function (done) {
             require('./__project/nav').render({a: 1, b: 3})
                 .get('html')
                 .should.eventually.match(new RegExp('<link rel="stylesheet" href=".*nav.css"/>' +
@@ -104,7 +124,7 @@ describe('module builder', function () {
 
 //todo:怎样测试调用顺序
         it('异步模块添加dom到成功后按优先级回调:', function (done) {
-            require('./__project/nav').render({a: 1, b: 3}).then(function (subModule) {
+            require('./__project/content').render({a: 1, b: 3}).then(function (subModule) {
                 subModule.async.promise.fail(function (err) {
                     done(err);
                 });
