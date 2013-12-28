@@ -42,15 +42,21 @@ describe('File tree walker', function () {
                 {
                     module: './content',
                     priority: "2",
-                    async: "true",
-                    puz: '<puzzle data-module="./content" data-priority="2" data-async="true"></puzzle>'
+                    puz: '<puzzle data-module="./content" data-priority="2"></puzzle>'
                 },
                 {
                     module: './foot',
-                    async: "true",
                     priority: "1",
                     new: "false",
+                    async: "true",
                     puz: '<puzzle data-module="./foot" data-priority="1" data-new="false" data-async="true"></puzzle>'
+                },
+                {
+                    "module": "./bottom",
+                    "priority": "1",
+                    "new": "false",
+                    "async": "true",
+                    "puz": "<puzzle data-module=\"./bottom\" data-priority=\"1\" data-new=\"false\" data-async=\"true\"></puzzle>"
                 },
                 {
                     module: './nav',
