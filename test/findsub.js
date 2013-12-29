@@ -33,6 +33,31 @@ describe('File tree walker', function () {
                 c: "true"
             });
         });
+        it('属性字符串是单引号：<puzzle data-a=\'1\'></puzzle>:', function () {
+            findSubModule.getDataFrom('<puzzle data-a=\'1\'></puzzle>').should.eql({
+                a: "1"
+            });
+        });
+        it('属性中含有单引号：<puzzle data-a="\'1\'23"></puzzle>:', function () {
+            findSubModule.getDataFrom('<puzzle data-a="\'1\'23"></puzzle>').should.eql({
+                a: "\'1\'23"
+            });
+        });
+        it('含有转义字符的字符串：<puzzle data-a="\"1\"23"></puzzle>:', function () {
+            findSubModule.getDataFrom('<puzzle data-a="\"1\"23"></puzzle>').should.eql({
+                a: "\"1\"23"
+            });
+        });
+        it('属性值是数字：<puzzle data-a=34></puzzle>:', function () {
+            findSubModule.getDataFrom('<puzzle data-a=34></puzzle>').should.eql({
+                a: "34"
+            });
+        });
+        it('属性值是布尔型：<puzzle data-a=true></puzzle>:', function () {
+            findSubModule.getDataFrom('<puzzle data-a=true></puzzle>').should.eql({
+                a: "true"
+            });
+        });
     });
 
     describe('walk the file tree', function () {
