@@ -10,22 +10,20 @@ require("consoleplusplus");
 
 var cmd = process.cwd();
 
-var checkConfigFile = function () {
-    if (!fs.existsSync(path.resolve(cmd, './kConfig/configs.js'))) {
-        throw 'Could not find the [kConfig/configs.js] file, please check.';
-    }
-};
+//var checkConfigFile = function () {
+//    if (!fs.existsSync(path.resolve(cmd, './kConfig/configs.js'))) {
+//        throw 'Could not find the [kConfig/configs.js] file, please check.';
+//    }
+//};
 
-var generate = require(path.resolve(__dirname, '../lib/build'));
+//var setcwdAsTheRootPath = function () {
+//    var runtimePath = path.resolve(__dirname, '../lib/runtime.json');
+//    var runtime = require(runtimePath);
+//    runtime.rootPath = cmd;
+//    fs.writeFileSync(runtimePath, JSON.stringify(runtime));
+//};
 
-var setcwdAsTheRootPath = function () {
-    var runtimePath = path.resolve(__dirname, '../lib/runtime.json');
-    var runtime = require(runtimePath);
-    runtime.rootPath = cmd;
-    fs.writeFileSync(runtimePath, JSON.stringify(runtime));
-};
-
-setcwdAsTheRootPath();
+//setcwdAsTheRootPath();
 
 var optimist = require('optimist').
     options('h', {
@@ -35,34 +33,17 @@ var optimist = require('optimist').
         alias: 'help',
         describe: 'Show all the options!'
     }).
-    options('g', {
-        alias: 'generate',
-        describe: 'Generate the project at {projectPath}.'
-    }).
-    options('i', {
-        alias: 'init',
-        describe: 'Init template from testing data.'
-    }).
-    options('r', {
-        alias: 'autoRebuild',
-        describe: 'Auto rebuild modified template.'
-    }).
-    options('s', {
-        alias: 'startServer',
-        describe: 'start server of [http] or [weinre] or [all].'
-    }).
     options('b', {
         alias: 'build',
         describe: 'build all template to output dir.'
     }).
-    options('p', {
-        alias: 'package',
-        describe: 'package all src to [name]||"business". \n' +
-            '                     Make sure you\'ve already run build command.'
+    options('s', {
+        alias: 'startServer',
+        describe: 'start server of [http].'
     }).
-    options('o', {
-        alias: 'output',
-        describe: 'output packaged project to [path]||"projectOutput". \n'
+    options('u', {
+        alias: 'update',
+        describe: 'update template runtime helper".'
     });
 
 /**
@@ -108,113 +89,15 @@ Dispatcher.handlers = {
             console.log(this.optimist.help());
         }
     },
-    /**
-     * 调用生成   todo:路径不对
-     */
-    'generate': function () {
-        var currentPath = process.cwd();
-        var projectTemplatePath = path.resolve(__dirname, '../lib/projectModule');
-        var seajsPluginPath = path.resolve(__dirname, '../node_modules/seajs/dist/sea-debug.js');
-
-        tp.updateHelper(projectTemplatePath + '/lib/tpHelper');
+    'build': function (templatePath) {
+        var path = require('path');
+        var builder = require(path.resolve(__dirname, '../lib/builder')).root(path.resolve(cmd, './' + templatePath));
+        builder.buildAll();
+    },
+    'update': function () {
+        var projectTemplatePath = path.resolve(__dirname, '../lib/tpHelper');
+        tp.updateHelper(projectTemplatePath);
         console.info('UpdatePlugin success.');
-
-        shell.cp('-Rf', seajsPluginPath, projectTemplatePath + '/lib/');
-        console.info('Generate seajs plugin success.');
-
-        shell.cp('-Rf', projectTemplatePath + '/*', currentPath);
-        console.info('Generate project from projectTemplate success.');
-    },
-
-    'init': function () {
-        require(path.resolve(__dirname, '../lib/initialize/initProject/templateGenerator')).initProject();
-    },
-
-    'autoRebuild': function () {
-        checkConfigFile();
-        generate.autoBuild();
-    },
-
-    'startServer': function (data) {
-        checkConfigFile();
-        var portConfig = require(path.resolve(cmd, 'kConfig/configs'));
-        var httpPort = portConfig.http.port;
-        var weinrePort = portConfig.weinre.port;
-        var start = {
-            'http': function () {
-                //run local web server
-                var app =connect()
-                    .use(connect.static(cmd));
-                http.createServer(app).listen(httpPort);
-                console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
-            },
-            'weinre': function () {
-                //run weinre at httpPort setted
-                var weinre = path.resolve(__dirname, '../node_modules/weinre');
-                var lib = path.join(weinre, 'lib');
-                ('--httpPort ' + weinrePort + ' --boundHost -all-').split(' ').forEach(function (val) {
-                    process.argv.push(val);
-                });
-                var node_modules = path.join(weinre, 'node_modules');
-                require(path.join(node_modules, 'coffee-script'));
-                require(path.join(lib, '/cli')).run();
-            },
-            'all': function () {
-                this['http']();
-                this['weinre']();
-            }
-        };
-        if (start[data] !== undefined) {
-            start[data]();
-        } else {
-            console.error('Don\'t support server: ' + data);
-        }
-    },
-    'build': function (templateId) {
-        if (templateId === true) {
-            templateId = function () {
-            };
-        }
-        checkConfigFile();
-        generate.build(templateId);
-    },
-    'package': function () {
-        checkConfigFile();
-        var config = require(cmd + "/kConfig/configs");
-        var httpReg = /(http:\/\/.+:[\d]+)|(https:\/\/.+:[\d]+)/;
-        var fileReg = /file:[/]+/;
-        if (httpReg.test(config.base)) {
-            config.base = config.base.replace(httpReg, cmd)
-        }
-        if (fileReg.test(config.base)) {
-            config.base = config.base.replace(fileReg, '');
-        }
-        config.packModules.forEach(function (packModule) {
-            require('jspacker').pack(
-                path.resolve(cmd, packModule.path),
-                cmd + "/dist",
-                packModule.name,
-                cmd,
-                config
-            );
-        });
-    },
-    'output': function (_path) {
-        if (_path === true) {
-            _path = path.resolve(cmd, './projectOutput');
-        } else if (typeof _path === 'string') {
-            _path = path.resolve(cmd, _path);
-        }
-        if (!fs.existsSync(_path)) {
-            fs.mkdir(_path);
-            fs.mkdir(_path + '/src');
-        }
-        Dispatcher.handlers.build();
-        Dispatcher.handlers.package();
-        shell.cp('-Rf', cmd + '/dist', _path);  //打包后的script代码
-        shell.cp('-Rf', cmd + '/src/styles', _path + '/src/');  //styles
-        shell.cp('-Rf', cmd + '/src/images', _path + '/src/');  //图片
-        shell.cp('-Rf', cmd + '/index.html', _path);  //主页
     }
 };
 
