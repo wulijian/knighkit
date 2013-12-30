@@ -9,10 +9,11 @@
          *  lib/jquery
          * -------- begin -----------*/
         "alias": {
-            "subfill": "lib/runtime/subModule/index",
+            "subModule": "lib/runtime/subModule/index",
             "jquery": "lib/jquery",
             "q": "lib/runtime/q",
             "setimmediate": "lib/setImmediate",
+            "subModule": "lib/runtime/subModule/index",
             "path": "lib/runtime/path"
         },
         "paths": {
