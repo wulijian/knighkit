@@ -16,7 +16,7 @@
             moduleId = './__project/' + hash + '/index';
         }
         seajs.use(moduleId, function (mod) {
-            mod.render({}).then(function (ad) {
+            mod.render({a:3,b:4,c:5}).then(function (ad) {
                 $('#test').html(ad.html);
                 ad.async.resolve(true);
             });
