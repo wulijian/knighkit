@@ -32,7 +32,7 @@
             ad.async.resolve(true);
         });
     };
-    require(['./__project/amods'], function (amods) {
+    require(['./__project/amods', '../lib/runtime/subModule/index'], function (amods) {
         loadmod();
         window.onhashchange = function () {
             loadmod();

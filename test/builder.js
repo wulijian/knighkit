@@ -8,6 +8,7 @@ var builder = require('../lib/builder').root(path.resolve(__dirname, './project'
 var q = require('q');
 var dc = require('../lib/runtime/dataCache');
 require("consoleplusplus");
+require("../lib/runtime/subModule/");
 
 describe('module builder', function () {
     describe("编译项目中所有的模块:", function () {

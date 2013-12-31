@@ -3,8 +3,7 @@ if (typeof define !== 'function') {
 }
 
 define(function (require, exports, module) {
-    var subModule = require("../../../../lib/runtime/subModule/index");
-    module.exports = {
+        module.exports = {
         init: function (user) {
             console.log(user,'is loaded mod1....');
         },
