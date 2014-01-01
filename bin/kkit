@@ -98,6 +98,26 @@ Dispatcher.handlers = {
         var projectTemplatePath = path.resolve(__dirname, '../lib/tpHelper');
         tp.updateHelper(projectTemplatePath);
         console.info('UpdatePlugin success.');
+    },
+    'startServer': function (data) {
+        var httpPort = 9527;
+        var start = {
+            'http': function () {
+                //run local web server
+                var app =connect()
+                    .use(connect.static(cmd));
+                http.createServer(app).listen(httpPort);
+                console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
+            },
+            'all': function () {
+                this['http']();
+            }
+        };
+        if (start[data] !== undefined) {
+            start[data]();
+        } else {
+            console.error('Don\'t support server: ' + data);
+        }
     }
 };
 
