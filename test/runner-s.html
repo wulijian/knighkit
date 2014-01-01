@@ -6,28 +6,42 @@
 <body>
 <div id="test"></div>
 <script type="text/javascript" src="lib/sea-debug2.js"></script>
+<script src="lib/seajs-text.js"></script>
 <script type="text/javascript">
-    var loadmod = function (amods) {
+    var renderthe = function (mod, data) {
+        mod.render(data).then(function (ad) {
+            $('#test').html(ad.html);
+            ad.async.resolve(true);
+        });
+    };
+    var loadmod = function (conf) {
         var hash = window.location.hash.replace('#', '');
-        var moduleId;
-        if (hash.trim() === '') {
-            moduleId = './__project/index'
+        var runset = hash.split('.');
+        var moduledir = runset[0];
+        var jsondir = runset[1];
+        if (moduledir.trim() === '') {
+            moduledir = './__project'
+            jsondir = './project';
         } else {
-            moduleId = './__project/' + hash + '/index';
+            moduledir = './__project/' + hash;
+            jsondir = './project/' + hash;
         }
-        seajs.use(moduleId, function (mod) {
-            mod.render({a:3,b:4,c:5}).then(function (ad) {
-                $('#test').html(ad.html);
-                ad.async.resolve(true);
-            });
+        seajs.use([moduledir + '/index'], function (mod) {
+            if (runset[1] === undefined) {
+                renderthe(mod, {});
+            } else {
+                seajs.use([ jsondir + '/' + runset[1] + '.json'], function (data) {
+                    renderthe(mod, data);
+                });
+            }
         });
     };
     seajs.use('./configs', function (conf) {
         seajs.config(conf);
-        seajs.use(['./__project/amods','../lib/runtime/subModule/index'], function (amods) {
-            loadmod(amods);
+        seajs.use(['./__project/amods', '../lib/runtime/subModule/index'], function (amods) {
+            loadmod(conf);
             window.onhashchange = function () {
-                loadmod(amods);
+                loadmod(conf);
             };
         });
     });
