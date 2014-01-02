@@ -5,9 +5,6 @@ chai.should();
 var path = require('path');
 var fs = require('fs');
 var builder = require('../lib/builder').root(path.resolve(__dirname, './project'));
-var q = require('q');
-var db = require('../lib/runtime/dataCache');
-var $s = require('../lib/runtime/jsonselect');
 require("consoleplusplus");
 require("../lib/runtime/subModule/");
 
