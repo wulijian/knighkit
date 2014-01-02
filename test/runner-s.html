@@ -17,14 +17,15 @@
     var loadmod = function (conf) {
         var hash = window.location.hash.replace('#', '');
         var runset = hash.split('.');
-        var moduledir = runset[0];
+        var moduledir;
+        var modulename = runset[0];
         var jsondir = runset[1];
-        if (moduledir.trim() === '') {
+        if (modulename.trim() === '') {
             moduledir = './__project'
             jsondir = './project';
         } else {
-            moduledir = './__project/' + hash;
-            jsondir = './project/' + hash;
+            moduledir = './__project/' + modulename;
+            jsondir = './project/' + modulename;
         }
         seajs.use([moduledir + '/index'], function (mod) {
             if (runset[1] === undefined) {
