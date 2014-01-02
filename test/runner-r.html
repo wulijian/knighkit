@@ -9,6 +9,7 @@
     var require = {
         baseUrl: "./",
         paths: {
+            "text" : "./lib/require-text",
             "jquery": "../lib/jquery",
             "q": "../lib/runtime/q",
             "setimmediate": "../lib/setImmediate",
@@ -19,19 +20,35 @@
 </script>
 <script type="text/javascript" src="lib/require.js"></script>
 <script type="text/javascript">
-    var loadmod = function () {
-        var hash = window.location.hash.replace('#', '');
-        var moduleId;
-        if(hash.trim()===''){
-            moduleId = './__project/index'
-        }else{
-            moduleId = './__project/'+hash+'/index';
-        }
-        require(moduleId).render({}).then(function (ad) {
+    var renderthe = function (mod, data) {
+        mod.render(data).then(function (ad) {
             $('#test').html(ad.html);
             ad.async.resolve(true);
         });
     };
+    var loadmod = function (conf) {
+        var hash = window.location.hash.replace('#', '');
+        var runset = hash.split('.');
+        var moduledir = runset[0];
+        var jsondir = runset[1];
+        if (moduledir.trim() === '') {
+            moduledir = './__project'
+            jsondir = './project';
+        } else {
+            moduledir = './__project/' + hash;
+            jsondir = './project/' + hash;
+        }
+        require([moduledir + '/index'], function (mod) {
+            if (runset[1] === undefined) {
+                renderthe(mod, {});
+            } else {
+                require(['text!'+jsondir + '/' + runset[1] + '.json'], function (data) {
+                    renderthe(mod, data);
+                });
+            }
+        });
+    };
+
     require(['./__project/amods', '../lib/runtime/subModule/index'], function (amods) {
         loadmod();
         window.onhashchange = function () {
