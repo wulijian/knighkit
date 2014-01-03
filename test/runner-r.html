@@ -20,6 +20,7 @@
 </script>
 <script type="text/javascript" src="lib/require.js"></script>
 <script type="text/javascript">
+    var rootname = 'project';
     var renderthe = function (mod, data) {
         mod.render(data).then(function (ad) {
             $('#test').html(ad.html);
@@ -33,11 +34,11 @@
         var modulename = runset[0];
         var jsondir = runset[1];
         if (modulename.trim() === '') {
-            moduledir = './__project'
-            jsondir = './project';
+            moduledir = './__' + rootname;
+            jsondir = './' + rootname;
         } else {
-            moduledir = './__project/' + modulename;
-            jsondir = './project/' + modulename;
+            moduledir = './__' + rootname + '/' + modulename;
+            jsondir = './' + rootname + '/' + modulename;
         }
         require([moduledir + '/index'], function (mod) {
             if (runset[1] === undefined) {
@@ -50,7 +51,7 @@
         });
     };
 
-    require(['./__project/amods', '../lib/runtime/subModule/index'], function (amods) {
+    require(['./__' + rootname + '/amods', '../lib/runtime/subModule/index'], function (amods) {
         loadmod();
         window.onhashchange = function () {
             loadmod();

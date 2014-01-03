@@ -8,6 +8,7 @@
 <script type="text/javascript" src="lib/sea-debug2.js"></script>
 <script src="lib/seajs-text.js"></script>
 <script type="text/javascript">
+    var rootname = 'project';
     var renderthe = function (mod, data) {
         mod.render(data).then(function (ad) {
             $('#test').html(ad.html);
@@ -21,11 +22,11 @@
         var modulename = runset[0];
         var jsondir = runset[1];
         if (modulename.trim() === '') {
-            moduledir = './__project'
-            jsondir = './project';
+            moduledir = './__' + rootname;
+            jsondir = './' + rootname;
         } else {
-            moduledir = './__project/' + modulename;
-            jsondir = './project/' + modulename;
+            moduledir = './__' + rootname + '/' + modulename;
+            jsondir = './' + rootname + '/' + modulename;
         }
         seajs.use([moduledir + '/index'], function (mod) {
             if (runset[1] === undefined) {
@@ -39,7 +40,7 @@
     };
     seajs.use('./configs', function (conf) {
         seajs.config(conf);
-        seajs.use(['./__project/amods', '../lib/runtime/subModule/index'], function (amods) {
+        seajs.use(['./__' + rootname + '/amods', '../lib/runtime/subModule/index'], function (amods) {
             loadmod(conf);
             window.onhashchange = function () {
                 loadmod(conf);
