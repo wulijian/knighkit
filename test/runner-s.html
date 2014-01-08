@@ -12,7 +12,7 @@
     var renderthe = function (mod, data) {
         mod.render(data).then(function (ad) {
             $('#test').html(ad.html);
-            ad.async.resolve(true);
+            ad.done();
         });
     };
     var loadmod = function (conf) {

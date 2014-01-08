@@ -124,10 +124,10 @@ describe('模块编译和运行', function () {
 //todo:怎样测试调用顺序
         it('异步模块添加dom到成功后按优先级回调', function (done) {
             require('./__project/content').render({a: 1, b: 3}).then(function (subModule) {
-                subModule.async.promise.fail(function (err) {
+                subModule.error(function (err) {
                     done(err);
                 });
-                subModule.async.resolve(done);
+                subModule.done();
                 done();
             }).fail(function (err) {
                     done(err);
@@ -139,7 +139,7 @@ describe('模块编译和运行', function () {
             console.log = function () {
             };
             require('./__project').render({a: 1, b: 3}).then(function (subModule) {
-                subModule.async.resolve();
+                subModule.done();
             }).fail(function (err) {
                     done(err);
                 });
