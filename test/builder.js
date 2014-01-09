@@ -44,6 +44,9 @@ describe('模块编译和运行', function () {
 
     describe("模板继承", function () {
         var consolewarn = console.info;
+        var consoleerror = console.error;
+        console.error = function () {
+        };
         console.warn = function () {
         };
         it('模板继承', function (done) {
@@ -57,8 +60,10 @@ describe('模块编译和运行', function () {
                     '<puzzle data-module="./mod22" data-async="true".*></puzzle>\r\n' +
                     '<puzzle data-module="../loextend" data-name="bottom" data-async="true".*></puzzle>\r\n' +
                     'mod2....')).notify(done);
+            console.error = consoleerror;
         });
         console.warn = consolewarn;
+
     });
 
     describe('根据模块名称，渲染模块的htmlcode', function () {
@@ -136,7 +141,8 @@ describe('模块编译和运行', function () {
 
         it('数据过滤和缓存', function (done) {
             var consolelog = console.log;
-            console.log = function () {
+            var consoleerror = console.error;
+            console.log = console.error = function () {
             };
             require('./__project').render({a: 1, b: 3}).then(function (subModule) {
                 subModule.done();
@@ -157,6 +163,7 @@ describe('模块编译和运行', function () {
                         }
                     }
                 }
+                console.error = consoleerror;
                 console.log = consolelog;
                 done();
             }, 100);
