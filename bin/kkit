@@ -9,21 +9,7 @@ var tp = require('jstm');
 require("consoleplusplus");
 
 var cmd = process.cwd();
-
-//var checkConfigFile = function () {
-//    if (!fs.existsSync(path.resolve(cmd, './kConfig/configs.js'))) {
-//        throw 'Could not find the [kConfig/configs.js] file, please check.';
-//    }
-//};
-
-//var setcwdAsTheRootPath = function () {
-//    var runtimePath = path.resolve(__dirname, '../lib/runtime.json');
-//    var runtime = require(runtimePath);
-//    runtime.rootPath = cmd;
-//    fs.writeFileSync(runtimePath, JSON.stringify(runtime));
-//};
-
-//setcwdAsTheRootPath();
+var builder  = require(path.resolve(__dirname, '../lib/builder'));
 
 var optimist = require('optimist').
     options('h', {
@@ -36,6 +22,10 @@ var optimist = require('optimist').
     options('b', {
         alias: 'build',
         describe: 'build all template to output dir.'
+    }).
+    options('r', {
+        alias: 'root',
+        describe: 'set project root directory.'
     }).
     options('s', {
         alias: 'startServer',
@@ -89,10 +79,11 @@ Dispatcher.handlers = {
             console.log(this.optimist.help());
         }
     },
+    'root': function (_rootPath) {
+        builder.root(path.resolve(cmd, './' + _rootPath));
+    },
     'build': function (templatePath) {
-        var path = require('path');
-        var builder = require(path.resolve(__dirname, '../lib/builder')).root(path.resolve(cmd, './' + templatePath));
-        builder.buildAll();
+        builder.build(path.resolve(cmd, './' + templatePath));
     },
     'update': function () {
         var projectTemplatePath = path.resolve(__dirname, '../lib/tpHelper');
@@ -104,7 +95,7 @@ Dispatcher.handlers = {
         var start = {
             'http': function () {
                 //run local web server
-                var app =connect()
+                var app = connect()
                     .use(connect.static(cmd));
                 http.createServer(app).listen(httpPort);
                 console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
