@@ -31,6 +31,10 @@ var optimist = require('optimist').
         alias: 'startServer',
         describe: 'start server of [http].'
     }).
+    options('a', {
+        alias: 'autoBuild',
+        describe: 'Auto build module when template file changed.'
+    }).
     options('u', {
         alias: 'update',
         describe: 'update template runtime helper".'
@@ -89,6 +93,9 @@ Dispatcher.handlers = {
         var projectTemplatePath = path.resolve(__dirname, '../lib/tpHelper');
         tp.updateHelper(projectTemplatePath);
         console.info('UpdatePlugin success.');
+    },
+    'autoBuild':function(){
+        builder.autoBuild();
     },
     'startServer': function (data) {
         var httpPort = 9527;

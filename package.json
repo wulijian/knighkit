@@ -23,6 +23,7 @@
         "css-parse":"latest",
         "JSONSelect":"latest",
         "shelljs": "latest",
+        "watch": "latest",
         "connect": "latest",
         "jspacker": "latest",
         "setimmediate": "latest",
