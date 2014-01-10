@@ -3,7 +3,9 @@ if (typeof define !== 'function') {
 }
 
 define(function (require, exports, module) {
-        module.exports = {
+    var a = require('../a');
+    var content = require('./content');
+    module.exports = {
         "init": function () {
             return "It's great!!";
         },
