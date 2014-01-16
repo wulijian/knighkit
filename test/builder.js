@@ -52,13 +52,13 @@ describe('模块编译和运行', function () {
         it('模板继承', function (done) {
             require('./__project/content/mod3/mod31').render({a: 1, b: 3})
                 .get('html')
-                .should.eventually.match(new RegExp('<link rel="stylesheet" href=".*mod2.css"/>\r\n' +
+                .should.eventually.match(new RegExp('<link rel="stylesheet" href="project/content/mod3/mod31/mod2.css"/>\r\n' +
                     'mod2....\r\n' +
                     '<div>\r\n' +
-                    '    <puzzle data-module="./mod21" data-name="content".*></puzzle>\r\n' +
+                    '    <ac id=".*"></ac>\r\n' +
                     '</div>\r\n' +
-                    '<puzzle data-module="./mod22" data-async="true".*></puzzle>\r\n' +
-                    '<puzzle data-module="../loextend" data-name="bottom" data-async="true".*></puzzle>\r\n' +
+                    '<ac id=".*"></ac>\r\n' +
+                    '<ac id=".*"></ac>\r\n' +
                     'mod2....')).notify(done);
             console.error = consoleerror;
         });
@@ -76,46 +76,47 @@ describe('模块编译和运行', function () {
         it('两层子模块', function (done) {
             require('./__project/content/mod1').render({a: 1, b: 3})
                 .get('html')
-                .should.eventually.match(new RegExp('<link rel="stylesheet" href=".*mod1.css"/>\r\n' +
+                .should.eventually.match(new RegExp('<link rel="stylesheet" href="project/content/mod1/mod1.css"/>\r\n' +
                     'mod1...\r\n' +
-                    '<link rel="stylesheet" href=".*mod3.css"/>\r\n' +
-                    'mod3...\r\n' +
+                    '<ac mid=".*"><link rel="stylesheet" href="project/content/mod3/mod3.css"/>\r\n' +
+                    'mod3...</ac>\r\n' +
                     'mod1...')).notify(done);
         });
 
         it('3层子模块', function (done) {
             require('./__project/content').render({a: 1, b: 3})
                 .get('html')
-                .should.eventually.match(new RegExp('<link rel=\"stylesheet\" href=\".*content.css\"/>\r\n' +
-                    '<div id=\"content\">\r\n    ' +
-                    '<link rel=\"stylesheet\" href=\".*mod2.css\"/>\r\n' + // mod2 start
+                .should.eventually.match(new RegExp('<link rel="stylesheet" href="project/content/content.css"/>\r\n' +
+                    '<div id="content">\r\n' +
+                    '    <ac mid=".*"><link rel="stylesheet" href="project/content/mod2/mod2.css"/>\r\n' +
                     'mod2....\r\n' +
                     '<div>\r\n' +
-                    '    <link rel=\"stylesheet\" href=\".*mod21.css\"/>\r\n' +// mod21 start
+                    '    <ac mid=".*"><link rel="stylesheet" href="project/content/mod2/mod21/mod21.css"/>\r\n' +
                     '<div id="do"></div>\r\n' +
-                    'mod21....\r\n' +// mod21 end
+                    'mod21....</ac>\r\n' +
                     '</div>\r\n' +
-                    '<puzzle data-module=".*mod22" data-async="true".*></puzzle>\r\n' +// mod22 should not be replaced
-                    '<link rel=\"stylesheet\" href=\".*mod3.css\"/>\r\n' +  // mod3 start
-                    'mod3...\r\nmod2....\r\n' +                           // mod3 end mod2 end
-                    '    <link rel=\"stylesheet\" href=\".*mod1.css\"/>\r\n' + // mod1 start
+                    '<ac id=".*"></ac>\r\n' +
+                    '<ac mid=".*"><link rel="stylesheet" href="project/content/mod3/mod3.css"/>\r\n' +
+                    'mod3...</ac>\r\n' +
+                    'mod2....</ac>\r\n' +
+                    '    <ac mid=".*"><link rel="stylesheet" href="project/content/mod1/mod1.css"/>\r\n' +
                     'mod1...\r\n' +
-                    '<link rel=\"stylesheet\" href=\".*mod3.css\"/>\r\n' +// mod3 start
-                    'mod3...\r\n' +// mod3 end
-                    'mod1...\r\n' +
+                    '<ac mid=".*"><link rel="stylesheet" href="project/content/mod3/mod3.css"/>\r\n' +
+                    'mod3...</ac>\r\n' +
+                    'mod1...</ac>\r\n' +
                     '</div>')).notify(done);// mod1 end
         });
 
         it('子模块声明是动态生成的', function (done) {
             require('./__project/foot').render({a: 1, b: 3})
                 .get('html')
-                .should.eventually.match(new RegExp('<link rel="stylesheet" href=".*index.css"/>\r\n' +
-                    '    <link rel="stylesheet" href=".*index.css"/>\r\n' +
-                    'mod1 in /foot...\r\n' +
-                    '    <link rel="stylesheet" href=".*index.css"/>\r\n' +
-                    'mod1 in /foot...\r\n' +
-                    '    <link rel="stylesheet" href=".*index.css"/>\r\n' +
-                    'mod1 in /foot...\r\n' +
+                .should.eventually.match(new RegExp('<link rel="stylesheet" href="project/foot/index.css"/>\r\n' +
+                    '<ac mid=".*"><link rel="stylesheet" href="project/foot/mod1/index.css"/>\r\n' +
+                    'mod1 in /foot...</ac>\r\n' +
+                    '<ac mid=".*"><link rel="stylesheet" href="project/foot/mod1/index.css"/>\r\n' +
+                    'mod1 in /foot...</ac>\r\n' +
+                    '<ac mid=".*"><link rel="stylesheet" href="project/foot/mod1/index.css"/>\r\n' +
+                    'mod1 in /foot...</ac>\r\n' +
                     'foot...')).notify(done);
         });
 
@@ -123,7 +124,7 @@ describe('模块编译和运行', function () {
             require('./__project/nav').render({a: 1, b: 3})
                 .get('html')
                 .should.eventually.match(new RegExp('<link rel="stylesheet" href=".*nav.css"/>' +
-                    '<puzzle data-module="./mod1" data-async="true".*></puzzle>')).notify(done);
+                    '<ac id=".*"></ac>')).notify(done);
         });
 
 //todo:怎样测试调用顺序
