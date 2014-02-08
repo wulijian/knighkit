@@ -30,7 +30,9 @@ describe('模块编译和运行', function () {
                     'nav',
                     'nav/mod1',
                     'nav/mod1/mod11',
-                    'nav/mod1/mod12'
+                    'nav/mod1/mod12',
+                    'pureHtml',
+                    'pureJade'
                 ]);
                 fs.existsSync(path.resolve(__dirname, './__project/amods.js')).should.be.true;
                 done();
