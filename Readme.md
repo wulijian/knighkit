@@ -104,6 +104,44 @@ kkit --package
 dist/business.js
 dist/business-min.js
 ```
+
+## awesome module
+本次改版的主要内容就是对模板实现模块式的管理。
+### 在模版中组合
+使用puzzle标签，根据规则可以引入其他模块：
+
+/index.html
+```
+<!doctype html>
+<html>
+<body>
+<puzzle data-module="./title"></puzzle>
+<puzzle data-module="./content"></puzzle>
+</body>
+</html>
+```
+/title/index.html
+```
+hello
+```
+
+/content/index.html
+```
+here is the content
+```
+
+访问/index.html，你将在浏览器中看到的代码：
+```
+<!doctype html>
+<html>
+<body>
+<ac id="XXXXid">hello</ac>
+<ac data-module="./content">here is the content</ac>
+</body>
+</html>
+```
+
+
 ## Change log
 ### 新增 awesome module，版本号 puzzle 的拼图
 ### 改进模板使用方式
