@@ -7,7 +7,6 @@
     "inline_script": false,
     "width": 80,
     "max_line_len": 32000,
-    "ie_proof": true,
     "beautify": true,
     "source_map": null,
     "bracketize": false,
