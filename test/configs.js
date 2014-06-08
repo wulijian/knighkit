@@ -10,7 +10,7 @@
          * -------- begin -----------*/
         "alias": {
             "subModule": "lib/runtime/subModule/index",
-            "jquery": "lib/jquery",
+            "jquery":"lib/jquery",
             "q": "lib/runtime/q",
             "setimmediate": "lib/setImmediate",
             "path": "lib/runtime/path"
@@ -22,7 +22,7 @@
 //            "utils": "src/scripts/utils"
         },
         "debug": true,
-        "base": "http://localhost:63342/knighkit/" //请保证修改好此端口后，修改 http.port
+        "base": "http://localhost:63342/knighkit/test" //请保证修改好此端口后，修改 http.port
         /* --------end-----------*/
 
         /**

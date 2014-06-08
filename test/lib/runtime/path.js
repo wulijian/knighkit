@@ -128,12 +128,12 @@ define(function (require, exports, module) {
 
                 if (path.indexOf('file:///') !== -1) {
                     pre = 'file:///';
-                    path=path.replace('file:///', '')
+                    path = path.replace('file:///', '')
                 }
 
                 if (path.indexOf('http://') !== -1) {
                     pre = 'http://';
-                    path=path.replace('http://', '')
+                    path = path.replace('http://', '')
                 }
 
                 var result = splitDeviceRe.exec(path),
@@ -340,12 +340,15 @@ define(function (require, exports, module) {
             // At this point the path should be resolved to a full absolute path, but
             // handle relative paths to be safe (might happen when process.cwd() fails)
 
+            var protol = resolvedPath.split('://');
+            var host = protol[0] + '://';
+            resolvedPath = protol[1];
             // Normalize the path
             resolvedPath = normalizeArray(resolvedPath.split('/').filter(function (p) {
                 return !!p;
             }), !resolvedAbsolute).join('/');
 
-            return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+            return host + ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
         };
 
         // path.normalize(path)

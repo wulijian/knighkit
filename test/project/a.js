@@ -3,6 +3,9 @@ if (typeof define !== 'function') {
 }
 
 define(function (require, exports, module) {
+    require("./index").init();
     module.exports = {
+        testindex:function(){
+        }
     };
 });

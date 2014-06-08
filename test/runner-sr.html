@@ -10,10 +10,10 @@
         baseUrl: "./",
         paths: {
             "text": "./lib/require-text",
-            "jquery": "./lib/jquery",
-            "q": "./lib/runtime/q",
-            "setimmediate": "./lib/setImmediate",
-            "path": "./lib/runtime/path"
+            "jquery": "../lib/jquery",
+            "q": "../lib/runtime/q",
+            "setimmediate": "../lib/setImmediate",
+            "path": "../lib/runtime/path"
         },
         waitSeconds: 15
     };
@@ -30,28 +30,19 @@
     var loadmod = function (conf) {
         var hash = window.location.hash.replace('#', '');
         var runset = hash.split('.');
-        var moduledir;
-        var modulename = runset[0];
-        var jsondir = runset[1];
-        if (modulename.trim() === '') {
-            moduledir = './__' + rootname;
-            jsondir = './' + rootname;
-        } else {
-            moduledir = './__' + rootname + '/' + modulename;
-            jsondir = './' + rootname + '/' + modulename;
-        }
+        var moduledir = rootname + '/' + runset[0];
         require([moduledir + '/index'], function (mod) {
             if (runset[1] === undefined) {
                 renderthe(mod, {});
             } else {
-                require(['text!' + jsondir + '/' + runset[1] + '.json'], function (data) {
+                require(['text!' + moduledir + '/' + runset[1] + '.json'], function (data) {
                     renderthe(mod, data);
                 });
             }
         });
     };
 
-    require(['./__' + rootname + '/amods', './lib/runtime/subModule/index'], function (amods) {
+    require(['lib/runtime/subModule/index'], function () {
         loadmod();
         window.onhashchange = function () {
             loadmod();

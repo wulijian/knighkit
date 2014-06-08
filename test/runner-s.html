@@ -40,7 +40,7 @@
     };
     seajs.use('./configs', function (conf) {
         seajs.config(conf);
-        seajs.use(['./__' + rootname + '/amods', '../lib/runtime/subModule/index'], function (amods) {
+        seajs.use(['./__' + rootname + '/amods', './lib/runtime/subModule/index'], function (amods) {
             loadmod(conf);
             window.onhashchange = function () {
                 loadmod(conf);

@@ -9,7 +9,8 @@ var tp = require('jstm');
 require("consoleplusplus");
 
 var cmd = process.cwd();
-var builder  = require(path.resolve(__dirname, '../lib/builder'));
+var builder = require(path.resolve(__dirname, '../lib/builder'));
+var rootpath = '';
 
 var optimist = require('optimist').
     options('h', {
@@ -30,6 +31,10 @@ var optimist = require('optimist').
     options('s', {
         alias: 'startServer',
         describe: 'start server of [http].'
+    }).
+    options('d', {
+        alias: 'serverDebug',
+        describe: 'start server of 9528.'
     }).
     options('a', {
         alias: 'autoBuild',
@@ -84,7 +89,8 @@ Dispatcher.handlers = {
         }
     },
     'root': function (_rootPath) {
-        builder.root(path.resolve(cmd, './' + _rootPath));
+        rootpath = path.resolve(cmd, './' + _rootPath);
+        builder.root(rootpath);
     },
     'build': function (templatePath) {
         builder.build(path.resolve(cmd, './' + templatePath));
@@ -94,8 +100,43 @@ Dispatcher.handlers = {
         tp.updateHelper(projectTemplatePath);
         console.info('UpdatePlugin success.');
     },
-    'autoBuild':function(){
+    'autoBuild': function () {
         builder.autoBuild();
+    },
+    'serverDebug': function (data) {
+        var httpPort = 9528;
+        var start = {
+            'http': function () {
+                //run local web server
+                connect()
+                    .use(function (req, res, next) {
+                        if (req.url.indexOf('project') !== -1 && /index\.js$/.test(req.url)) {
+                            var modsource = (process.cwd() + '/' + req.url).replace('/index.js', '');
+                            if (path.extname(modsource) === '') {
+                                res.setHeader('Content-Type', 'application/javascript');
+                                builder.builds(modsource).then(function (code) {
+                                    res.end(code);
+                                });
+                            } else {
+                                return next();
+                            }
+                        } else {
+                            return next();
+                        }
+                    })
+                    .use(connect.static(process.cwd()))
+                    .listen(httpPort);
+                console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
+            },
+            'all': function () {
+                this['http']();
+            }
+        };
+        if (start[data] !== undefined) {
+            start[data]();
+        } else {
+            console.error('Don\'t support server: ' + data);
+        }
     },
     'startServer': function (data) {
         var httpPort = 9527;
@@ -123,5 +164,3 @@ Dispatcher.handlers = {
  * 执行分发命令
  */
 new Dispatcher(optimist).run();
-
-
