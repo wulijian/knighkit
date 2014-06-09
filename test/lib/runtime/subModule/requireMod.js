@@ -10,6 +10,7 @@ define(function (require, exports, module) {
     } else {
         isWindows = (window.navigator.platform === 'Win32');
     }
+    var isInBowser = typeof window !== 'undefined' && typeof navigator !== 'undefined' && window.document;
     /**
      * 获取 amods 中的模块名称
      * @param curModuleId 当前运行模块
@@ -25,12 +26,23 @@ define(function (require, exports, module) {
                 return path.normalize(path.dirname(curModuleId) + '/' + subModuleDir).replace(/\\/g, '/') + '/' + main;
             }
         } else {
-            var subPath = path.resolve(path.dirname(curModuleId), subModuleDir) + '/' + main;
-            if (window !== undefined) { //seajs中，需要截掉config中的base， 来自 curModuleId 奇怪的玩意儿
-                var baseurl = require('configs').base;
-                return subPath.replace(baseurl, '').replace(/^\//, '');
+            return path.resolve(path.dirname(curModuleId), subModuleDir) + '/' + main;
+        }
+    };
+    /**
+     * 检查并应用此模块
+     * @param mod  模块对象
+     * @param id  模块的id
+     * @param cb callback
+     */
+    var checkAndUse = function (mod, id, cb) {
+        if (mod !== undefined && mod !== null) {
+            cb(mod, id);
+        } else {
+            if (isInBowser && !define.amd) { // seajs
+                throw new Error('not loaded');
             } else {
-                return subPath; //in nodejs
+                console.error("%cModule 【" + id + "】 is not implemented yet!", "color: blue; font-size:14px");
             }
         }
     };
@@ -45,20 +57,11 @@ define(function (require, exports, module) {
     return function (curId, subDir, callback) {
         var subModuleId = getSubModId(curId, subDir, 'index');
         try {
-            var subModule = require(subModuleId);
-            if (subModule !== undefined && subModule !== null) {
-                callback(subModule, subModuleId);
-            } else {
-                console.error("%cModule 【" + subModuleId + "】 is not implemented yet!", "color: blue; font-size:14px");//for seajs
-            }
+            checkAndUse(require(subModuleId), subModuleId, callback);
         } catch (err) {
-            if (!!define.amd) {
-                require([subModuleId], function (_subModule) {
-                    if (_subModule !== undefined && _subModule !== null) {
-                        callback(_subModule, subModuleId);
-                    } else {
-                        console.error("%cModule 【" + subModuleId + "】 is not implemented yet!", "color: blue; font-size:14px");//for seajs
-                    }
+            if (isInBowser) {
+                (!!define.amd ? require : seajs.use)([subModuleId], function (_subModule) {
+                    checkAndUse(_subModule, subModuleId, callback);
                 });
             } else if (err.message.indexOf(subDir.replace(/^./, '')) !== -1 && //找不到的是本模块，如果查找其他模块错误，直接抛出异常
                 ((!!err.requireType && err.requireType === "notloaded") || // for  requirejs

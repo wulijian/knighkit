@@ -110,8 +110,7 @@ Dispatcher.handlers = {
                 //run local web server
                 connect()
                     .use(function (req, res, next) {
-                        //todo: 想办法改掉，找到更靠谱的判断请求的js是子模块的方式
-                        if (req.url.indexOf('project') !== -1 && /index\.js$/.test(req.url)) {
+                        if (req.url.indexOf(path.basename(rootpath)) === 1 && /index\.js$/.test(req.url)) {
                             var modsource = (process.cwd() + '/' + req.url).replace('/index.js', '');
                             if (path.extname(modsource) === '') {
                                 res.setHeader('Content-Type', 'application/javascript');

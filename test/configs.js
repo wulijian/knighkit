@@ -22,7 +22,7 @@
 //            "utils": "src/scripts/utils"
         },
         "debug": true,
-        "base": "http://localhost:63342/knighkit/test" //请保证修改好此端口后，修改 http.port
+        "base": "http://localhost:9528" //请保证修改好此端口后，修改 http.port
         /* --------end-----------*/
 
         /**
