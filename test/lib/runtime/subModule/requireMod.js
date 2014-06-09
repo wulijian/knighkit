@@ -12,6 +12,15 @@ define(function (require, exports, module) {
     }
     var isInBowser = typeof window !== 'undefined' && typeof navigator !== 'undefined' && window.document;
     /**
+     * 如果是server debug 模式，所有模块都使用 require(id, cb)或者seajs.use(id, cb)的形式，不直接require
+     * 如果不是server debug 模式，默认认为所有模块已经加载，直接require获取模块对象
+     * @type {boolean}
+     */
+    var isOnServerDebugMode = false;
+    if (isInBowser) {
+        isOnServerDebugMode = (window.location.port === '9528'); // todo: 9528 从配置中读取
+    }
+    /**
      * 获取 amods 中的模块名称
      * @param curModuleId 当前运行模块
      * @param subModuleDir 子模块
@@ -53,7 +62,7 @@ define(function (require, exports, module) {
     return function (curId, subDir, callback) {
         var subModuleId = getSubModId(curId, subDir, 'index');
         try {
-            if (isInBowser) {
+            if (isInBowser && isOnServerDebugMode) {
                 (!!define.amd ? require : seajs.use)([subModuleId], function (_subModule) {
                     checkAndUse(_subModule, subModuleId, callback);
                 });
