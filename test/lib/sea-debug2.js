@@ -789,7 +789,6 @@ Module.save = function(uri, meta) {
 
 // Get an existed module or create a new one
 Module.get = function(uri, deps) {
-    console.log(uri, deps)
   return cachedMods[uri] || (cachedMods[uri] = new Module(uri, deps))
 }
 
