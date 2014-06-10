@@ -39,7 +39,7 @@ define(function (require, exports, module) {
         }
     };
     /**
-     * 检查并应用此模块
+     * 检查并应用此模块，如果模块不存在，使用null值调用回调
      * @param mod  模块对象
      * @param id  模块的id
      * @param cb callback
@@ -48,6 +48,7 @@ define(function (require, exports, module) {
         if (mod !== undefined && mod !== null) {
             cb(mod, id);
         } else {
+            cb(null, id);
             console.error("%cModule 【" + id + "】 is not implemented yet!", "color: blue; font-size:14px");
         }
     };

@@ -27,6 +27,7 @@ describe('模块编译和运行', function () {
                     'content/mod3/mod31',
                     'foot',
                     'foot/mod1',
+                    'justAhtml',
                     'nav',
                     'nav/mod1',
                     'nav/mod1/mod11',

@@ -64,6 +64,8 @@ define(function (require, exports, module) {
     }
 
     /**
+     * 当 requireMod返回的是null时，直接给 q.all 返回null 值，再从结果中将null过滤出来，保证在没有成功的同步模块时，异步模块能
+     * 接着执行。
      * todo:render函数数据来源问题
      * 解析静态依赖的子模块，将子模块的渲染结果放到htmlcode中的相应位置，然后渲染数据
      * @param syncConfs 模块依赖的子模块配置
@@ -78,14 +80,16 @@ define(function (require, exports, module) {
             var subq = q.defer();
             syncRender.push(subq.promise);
             requireMod(curMod.id, subConf.module, function (mod, subModuleId) {
-                subq.resolve(handle.sync(subConf, curMod, mod, subModuleId));
+                subq.resolve((mod === null) ? null : handle.sync(subConf, curMod, mod, subModuleId));
             });
         });
         return q.all(syncRender)
             .then(function (reducedSubs) {
                 return {
                     result: curMod.result,
-                    reducedSubs: reducedSubs
+                    reducedSubs: reducedSubs.filter(function (sub) {
+                        return sub !== null;
+                    })
                 };
             });
     };
@@ -106,7 +110,9 @@ define(function (require, exports, module) {
                 syncConfs.forEach(function (subConf) {
                     requireMod(curModule, subConf.module, function (mod) {
                         setImmediate(function () {//不阻塞渲染进程
-                            mod.init(curModule);
+                            if (mod !== null) {
+                                mod.init(curModule);
+                            }
                         });
                     });
                     //todo: 事件支持, ke('submodule').fire('async added', name);
@@ -114,18 +120,20 @@ define(function (require, exports, module) {
 
                 asyncConfs.forEach(function (subConf) {
                     requireMod(curModule, subConf.module, function (mod, subModuleId) {
-                        handle.async(subConf, curMod, mod, subModuleId, errhandler);
+                        if (mod !== null) {
+                            handle.async(subConf, curMod, mod, subModuleId, errhandler);
+                        }
                     });
                     //todo: 事件支持, ke('submodule').fire('async added', name);
                 });
             });
         }).then(function () {
-                setImmediate(function () {
-                    reducedSubs.forEach(function (syncsub) {
-                        syncsub.done();
-                    })
-                });
+            setImmediate(function () {
+                reducedSubs.forEach(function (syncsub) {
+                    syncsub.done();
+                })
             });
+        });
         return asyncReplaceBegin;
     };
 
@@ -194,7 +202,7 @@ define(function (require, exports, module) {
                     reducedSubs: synRe.reducedSubs
                 };
                 return parseAsync(syncConfs, asyncConfs, defer, curMod); //异步模块，直接展示现在的模块，然后按照优先级渲染模块
-            })
+            });
     };
 
     /**
