@@ -45,8 +45,10 @@
 
     var socket = io('http://localhost:9529');
     socket.on('updateTemplate', function (data) {
-        if (/\.css$|\.jpg$|\.png$|\.jpeg$/.test(data.fn)) {
-//            $('link[href=' + data.fn + ']').attr('src', data.fn);
+        if (/\.css$/.test(data.fn)) { //css更新
+            var styles = $('link[href="' + data.fn + '"]');
+            $('link[href="' + data.fn + '"]').replaceWith(styles);
+        } else if (/\.jpg$|\.png$|\.jpeg$/.test(data.fn)) {
         } else if (/\.html$|\.vm$|\.hogan$|\.jade$/.test(data.fn)) {
 
         }
