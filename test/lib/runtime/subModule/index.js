@@ -11,10 +11,12 @@ define(function (require, exports, module) {
     require('setimmediate');
     var find = require('./find'),
         reduce = require('./reduce'),
+        requireMod = require('./requireMod'),
         asyncSubCount = 0,
         $ = require('jquery'),
         $s = require('../jsonselect'),
         ke = require('../kEvent'),
+        utils = require('../../utils'),
         db = require('../dataCache');
 
     /**
@@ -146,17 +148,24 @@ define(function (require, exports, module) {
     exports.update = function (node, data) {
         var puzNode = $(node);
         var curModuleId = $(node).attr('mid');
-        return require(curModuleId).render(data || {})
-            .then(function (curMod) {
-                puzNode.html(curMod.html);
-                setImmediate(function () {//不阻塞渲染进程
-                    if ($.isFunction(curMod.init)) {
-                        curMod.init(curModuleId);
-                    }
+        if (utils.isBrowser()) {
+            if (!!define.amd) {
+                requirejs.undef(curModuleId);
+            }
+        }
+        requireMod(curModuleId, function (mod, subModuleId) {
+            mod.render(data || {})
+                .then(function (curMod) {
+                    puzNode.html(curMod.html);
+                    setImmediate(function () {//不阻塞渲染进程
+                        if ($.isFunction(curMod.init)) {
+                            curMod.init(curModuleId);
+                        }
+                    });
+                    curMod.done();
+                    return  curMod;
                 });
-                curMod.done();
-                return  curMod;
-            });
+        });
     };
 
     /**

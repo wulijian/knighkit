@@ -35,4 +35,24 @@ define(function (require, exports, module) {
     exports.isBrowser = function () {
         return (typeof window !== 'undefined' && typeof navigator !== 'undefined' && window.document);
     };
+
+    exports.isWindows = function () {
+        if (typeof process !== 'undefined') {
+            return process.platform === 'win32';
+        } else {
+            return (window.navigator.platform === 'Win32');
+        }
+    };
+    /**
+     * 如果是server debug 模式，所有模块都使用 require(id, cb)或者seajs.use(id, cb)的形式，不直接require
+     * 如果不是server debug 模式，默认认为所有模块已经加载，直接require获取模块对象
+     * @type {boolean}
+     */
+    exports.isDebugMode = function () {
+        var isOnServerDebugMode = false;
+        if (exports.isBrowser) {
+            isOnServerDebugMode = (window.location.port === '9528'); // todo: 9528 从配置中读取
+        }
+        return isOnServerDebugMode;
+    };
 });

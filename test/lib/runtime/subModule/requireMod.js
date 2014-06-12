@@ -4,22 +4,7 @@ if (typeof define !== "function") {
 
 define(function (require, exports, module) {
     var path = require('../path');
-    var isWindows = true;
-    if (typeof process !== 'undefined') {
-        isWindows = process.platform === 'win32';
-    } else {
-        isWindows = (window.navigator.platform === 'Win32');
-    }
-    var isInBowser = typeof window !== 'undefined' && typeof navigator !== 'undefined' && window.document;
-    /**
-     * 如果是server debug 模式，所有模块都使用 require(id, cb)或者seajs.use(id, cb)的形式，不直接require
-     * 如果不是server debug 模式，默认认为所有模块已经加载，直接require获取模块对象
-     * @type {boolean}
-     */
-    var isOnServerDebugMode = false;
-    if (isInBowser) {
-        isOnServerDebugMode = (window.location.port === '9528'); // todo: 9528 从配置中读取
-    }
+    var utils = require('../../utils');
     /**
      * 获取 amods 中的模块名称
      * @param curModuleId 当前运行模块
@@ -29,7 +14,7 @@ define(function (require, exports, module) {
      */
     var getSubModId = function (curModuleId, subModuleDir, main) {
         if (!!define.amd) { //requirejs的module
-            if (isWindows) {
+            if (utils.isWindows()) {
                 return path.normalize(path.dirname(curModuleId) + '\\' + subModuleDir).replace(/\\/g, '/') + '/' + main;
             } else {
                 return path.normalize(path.dirname(curModuleId) + '/' + subModuleDir).replace(/\\/g, '/') + '/' + main;
@@ -61,9 +46,15 @@ define(function (require, exports, module) {
      * @param callback 获取后的操作
      */
     return function (curId, subDir, callback) {
-        var subModuleId = getSubModId(curId, subDir, 'index');
+        var subModuleId = '';
+        if ($.isFunction(subDir)) {
+            callback = subDir;
+            subModuleId = curId;
+        } else {
+            subModuleId = getSubModId(curId, subDir, 'index');
+        }
         try {
-            if (isInBowser && isOnServerDebugMode) {
+            if (utils.isBrowser() && utils.isDebugMode()) {
                 (!!define.amd ? require : seajs.use)([subModuleId], function (_subModule) {
                     checkAndUse(_subModule, subModuleId, callback);
                 });

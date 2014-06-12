@@ -128,6 +128,9 @@ Dispatcher.handlers = {
                     .listen(httpPort);
 
                 var io = require('socket.io').listen(9529);
+                var isTemplate = /\.html$|\.vm$|\.hogan$|\.jade$/;
+                var isCSS = /\.css$/;
+                var isJS = /\.js/;
 
                 io.sockets.on('connection', function (socket) {
                     require('watch').createMonitor(rootpath, { interval: 150 }, function (monitor) {
@@ -135,8 +138,23 @@ Dispatcher.handlers = {
                             // Handle file changes
                         });
                         monitor.on("changed", function (file, curr, prev) {
+                            var type = '';
                             var fileName = path.resolve(__dirname, file);
-                            socket.emit('updateTemplate', {fn: path.basename(rootpath) + '/' + path.relative(rootpath, fileName)});
+                            fileName = path.basename(rootpath) + '/' + path.relative(rootpath, fileName);
+                            if (isTemplate.test(fileName)) {
+                                fileName = fileName.replace(isTemplate, '');
+                                type = "template";
+                            }
+                            if (isCSS.test(fileName)) {
+                                type = 'css';
+                            }
+                            if (isJS.test(fileName)) {
+                                type = 'js';
+                            }
+                            socket.emit('updateTemplate', {
+                                fn: fileName,
+                                type: type
+                            });
                         });
                         monitor.on("removed", function (f, stat) {
                             // Handle removed files
