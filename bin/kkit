@@ -126,7 +126,25 @@ Dispatcher.handlers = {
                     })
                     .use(connect.static(process.cwd()))
                     .listen(httpPort);
+
+                var io = require('socket.io').listen(9529);
+
+                io.sockets.on('connection', function (socket) {
+                    require('watch').createMonitor(rootpath, function (monitor) {
+                        monitor.on("created", function (f, stat) {
+                            // Handle file changes
+                        });
+                        monitor.on("changed", function (file, curr, prev) {
+                            var fileName = path.resolve(__dirname, file);
+                            socket.emit('updateTemplate', {fn: path.basename(rootpath) + '/' + path.relative(rootpath, fileName)});
+                        });
+                        monitor.on("removed", function (f, stat) {
+                            // Handle removed files
+                        });
+                    });
+                });
                 console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
+                console.info('start socket server at #yellow{http://localhost:' + 9529 + '}');
             },
             'all': function () {
                 this['http']();
