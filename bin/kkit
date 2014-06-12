@@ -130,7 +130,7 @@ Dispatcher.handlers = {
                 var io = require('socket.io').listen(9529);
 
                 io.sockets.on('connection', function (socket) {
-                    require('watch').createMonitor(rootpath, function (monitor) {
+                    require('watch').createMonitor(rootpath, { interval: 150 }, function (monitor) {
                         monitor.on("created", function (f, stat) {
                             // Handle file changes
                         });
