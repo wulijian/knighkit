@@ -65,7 +65,7 @@ kkit --init
 根据以上生成项目的 src/template/good.json 生成模版。
 生成的模版在src/template中。
 
-### 在模版中组合
+#### 在模版中组合
 使用puzzle标签，根据规则可以引入其他模块：
 
 /index.html
