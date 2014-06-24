@@ -1,50 +1,41 @@
-## 欢迎使用 knighkit.
-knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。
-目的是减少前端开发过程中的重复工作，使你更关注程序本身。
+## 欢迎使用 knighkit
+knighkit 是一个前端开发工作流，以组件化为中心，以消除前端开发过程中的重复工作为目的，使你更加关注程序本身。
 
-## 功能
-#### 自动化生成项目结构
-一条命令，完成项目的结构
+让你的开发时间从 1 变成 0.99。
 
-#### 集成常用的 jquery underscore 库等
-jquery 主要用于功能的开发，underscore 用于数据的处理等
+一切只是为了那 0.01？
 
-#### 集成开发阶段使用的模块化开发库 seajs
-seajs 用来完成开发阶段的模块加载和调试
+```
+Math.pow(0.99,1000);
+```
+## Features
+#### 脚手架
+使用命令，生成符合 knighkit 的项目结构，包括配置文件，总体结构，以及开发实例。
 
-#### 新型的模版组成方式，模版即模块。
-每个模块都是一个文件夹，每个模块由以下文件构成:
-* m.html/hogan/vm/jade 模版文件，支持4种，自动识别编译
-* m.js 本模块的初始化
-* m.css 样式
-* m.json 本模块的测试数据
-* data.js 模版的数据处理逻辑部分
+#### 组件化
+所有模块以组件构成，你可以使用 puzzle 自由组合你的模块。组件是布局，组件提供内容。
 
-#### 集成 jstm 模版管理工具
-可以使用任意支持预编译的模版框架，强有力的模版构建管理能力
-* 支持四种模版： jade，ktemplate，mustache（hogan.js），velecity
-* 支持模版数据处理模块
-* 支持将其他模版作为插件添加
+#### promise HTML
+组件的引入采用promise的方式，支持静态和动态两种引入方式，可方便的控制任何一个模块的现实顺序。
 
-#### 单独模版的测试页面
-自动生成单独模版的测试页面，自动打包数据，方便测试每个小模块
+#### 强化的模板
+##### 内置vm、ktemplate（类似ejs）、Mustache、jade模板的支持
+##### 插件式的模板扩展方式
+##### 扩展模版数据处理模块
 
-#### 可定制 html 模版的生成模块
-可方便的自行添加模版中需要的js工具库等
+#### 强大的debug
+##### 可自动生成单独模版的测试页面
+##### 支持动态无刷新页面更新（类似livereload，不需要插件）
+##### 任何一个模块都可以单独测试
 
-#### 自动重新编译
-自动化监测模版文件变化，自动重新编译已修改的模版文件
+#### 静态服务器
+不需要启动自己的 HTTP 服务器，内置的静态服务器用一条命令就可以启动
 
-#### 内建预览服务器
-不需要启动自己的 HTTP 服务器，内置的服务器用一条命令就可以启动
-
-#### 内建 weinre 远程调试服务器
+#### 远程调试
 一条命令就可以启动 weinre，简单方便的调试移动端
 
-#### 支持 css 的合并压缩
-
-#### 内置打包工具
-自动打包，打包后不依赖 seajs
+#### 工程打包
+根据入口页面打包工程，解析页面依赖的静态文件（图片等），css、js打包压缩。
 
 ## How to start?
 ```
@@ -74,39 +65,6 @@ kkit --init
 根据以上生成项目的 src/template/good.json 生成模版。
 生成的模版在src/template中。
 
-#### 添加一个模版
-
-#### 编译模版
-```
-kkit -b
-kkit --build
-```
-src/template中的模版会被编译输出到 output文件夹下。
-
-#### 合并压缩 
-```
-kkit -p
-kkit --package
-```
-根据配置文件中的配置打包，见配置文件
-```
-/**                                                  
- * 打包模块, 可设置多个                                       
- * path 是要打包文件的入口模块路径                                
- * name 是输出文件名称                                      
- * -------- begin -----------*/                      
-"packModules": [                                     
-    {"path": "src/scripts/business", "name": "business"}
-]                                                  
-```
-以上配置会以 src/script/business 为主入口，打包程序后，以 business 为名称，输出到 dist 下两个文件：
-```
-dist/business.js
-dist/business-min.js
-```
-
-## awesome module
-本次改版的主要内容就是对模板实现模块式的管理。
 ### 在模版中组合
 使用puzzle标签，根据规则可以引入其他模块：
 
@@ -141,13 +99,34 @@ here is the content
 </html>
 ```
 
+#### 编译模版
+```
+kkit -b
+kkit --build
+```
+src/template中的模版会被编译输出到 output文件夹下。
 
-## Change log
-### 新增 awesome module，版本号 puzzle 的拼图
-### 改进模板使用方式
-### 改进模块组织方式
-### 增强html模板，使任何支持预编译的模板都支持子模板嵌套
-### 增强html模板，使任何支持预编译的模板都可以无缝结合
+#### 合并压缩 
+```
+kkit -p
+kkit --package
+```
+根据配置文件中的配置打包，见配置文件
+```
+/**                                                  
+ * 打包模块, 可设置多个                                       
+ * path 是要打包文件的入口模块路径                                
+ * name 是输出文件名称                                      
+ * -------- begin -----------*/                      
+"packModules": [                                     
+    {"path": "src/scripts/business", "name": "business"}
+]                                                  
+```
+以上配置会以 src/script/business 为主入口，打包程序后，以 business 为名称，输出到 dist 下两个文件：
+```
+dist/business.js
+dist/business-min.js
+```
 
 ## Authors and Contributors
 KnightWu (@wulijian)
