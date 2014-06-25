@@ -128,6 +128,135 @@ dist/business.js
 dist/business-min.js
 ```
 
+## 使用Puzzle实现组件化
+
+### 组件（文件夹）的结构
+#### 模板
+每个组件可以是一个文件夹，此文件夹下需要有一个 index.html 或者其他模板的入口文件，此组件在被引用时，入口文件的模板会合并数据后添加到被引用的位置。
+#### css 
+css可以在 index.html 中引入，或者在index.html引用的其他组件中引入。
+#### js
+每个组件包含一个index.js 文件，此文件中可以声明此组件的init方法，其中还包括模板解析的 render 方法。业务逻辑的写法和普通项目没有区别，同时支持 seajs 和 requirejs加载js模块的方式。
+#### 其他静态资源
+如 flash 图片等文件
+
+### 简化后的组件
+每个组件在项目里可以对应一个文件夹，但有时候我们不需要写js逻辑，或者仅仅是简单的子模板，那么你就可以使用以下简化后的组件。
+#### 可以不提供index.js
+如果不提供 index.js ，那么会使用默认的生成index.js，仅仅包含一个render方法。
+#### 单独的模板文件。
+|index.html
+|nav.html
+
+```
+<!doctype html>
+<html>
+<body>
+<puzzle data-module="./nav"></puzzle>
+</body>
+</html>
+```
+
+
+### puzzle标签
+
+
+puzzle使用 data- 的形式配置你所需要的组件。
+
+#### data-module 
+指定需要引用的组件的路径，可以是相对路径，比如：
+
+```
+<!doctype html>
+<html>
+<body>
+<puzzle data-module="./title"></puzzle>
+</body>
+</html>
+```
+以上代码中的 ./title 是指引用此模板文件同目录下的 title 文件夹对应的组件。
+
+#### data-async
+为 true 时，此模块会延迟加载。等data-async没有设置或未false的模块加载到页面上以后，此类模块才会被加载展示。
+
+#### data-priority
+如果一个模块的 data-async 为 true，那么可以使用该属性控制这些模块的加载优先级。任务调度的逻辑如下：
+
+1. 先找出所有的同步模块，按优先级处理这些同步模块，
+2. 当所有的同步模块归纳成html字符串后，
+3. 如果用户调用了async的resolve()，开始加载异步模块。
+4. 首先加载和本次渲染同级的异步模块，然后是优先级较高的同步模块中的异步模块，依次类推
+
+ 具体事例：
+ 
+                                        A
+                     A1(p=0)           A2(p=1)         A3（a）
+     A11(a)      A12      A13        A21(a)   A22       A31
+    A111    A121(a) A122                      A221
+
+ A代表根模块，分别引用了 A1 A2 A3, A1的优先级是0，A2的优先级是1，A3是异步模块。
+ 
+ 那么，模块加载顺序如下，用括号括起来的表明一次渲染所需调用的模块：
+ 
+
+    A(A2 A1 A22 A221 A12 A13 A122)  A会找到所有同步模块，归纳出同步的html代码，展示，resolve后
+      ↓
+    A3（A31）                        A3 是 A 的异步子模块，A的同步模块完成后，A3开始加载，同时,A3含有同步模块A31，被同时加载
+      ↓
+     A21                             A21 是 A2 的异步子模块，A2比A1的优先级高，所以比A11先执行
+      ↓
+    A11（A111）                      A11 是 A1 的异步子模块，含有同步的 A111，同时被解析
+     ↓
+    A121                            A121 同样算A1的异步子模块，因为没有设置优先级（p），出现在A11后，所以，优先级比A11低，最后被加载
+
+####data-filter
+数据过滤规则，采用[jsonselect](http://jsonselect.org/#overview) 的规则，过滤父页面传过来的数据，比如：
+
+```
+<link rel="stylesheet" href="content.css"/>
+<div id="content">
+    <puzzle data-module="./mod2" data-filter=".a" data-async="false"></puzzle>
+    <puzzle data-module="./mod1"></puzzle>
+</div>
+```
+在引用 mod2 时，指定了data-filter，会从传入引用mod2的组件的数据中选出 a 属性对应的数据。
+比如，原数据是：
+
+```
+{
+	a:{
+		b:3
+	},
+	c:5
+}
+```
+
+那么在调用mod2的render函数时，传入的数据会是：
+
+```
+{
+	b:3
+}
+```
+
+## Examples
+请参照 test 目录下的例子。实例项目在 test/project 目录下。
+
+#### 如何使用实例
+
+1. 启动debug服务器。执行 debug-server.dat 或者 debug-server.sh
+2. 在浏览器中打开 [http://localhost:9528/runner-sr.html#](http://localhost:9528/runner-sr.html#)
+3. 上述地址中 # 号后可跟一个字符串，代表你想访问的模块的路径。# 号后是空，表明访问的是根路径 project/index.html。 如果访问 [http://localhost:9528/runner-sr.html#content/mod1](http://localhost:9528/runner-sr.html#content/mod1) 表明你访问的是 project/content/mod1/index.html
+
+#### 项目的结构
+1. project/index.html 是项目主入口文件，这个主文件可以是各种支持预编译的模板，现在支持的有vm，hogan，jade，ktemplate
+2. 单个模块（组件）的写法和正常的项目木有区别，唯一的区别在于，可以使用puzzle来引用其他的组件
+
+#### debug模式
+1. 开启debug服务后，已经开启了超强的debug模式。
+2. 修改任何一个css或者模板文件，在浏览器中打开的页面会无刷新更新，js修改后，浏览器会自动刷新。
+
+
 ## Authors and Contributors
 KnightWu (@wulijian)
 
