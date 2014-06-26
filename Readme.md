@@ -238,7 +238,48 @@ puzzle使用 data- 的形式配置你所需要的组件。
 	b:3
 }
 ```
+#### data-name
+用于模板继承，声明puzzle的data-name可以在使用 amod.extend时，替换name相同的部分。详见，模板继承。
 
+### 模板继承
+使用 amod.extend 可以使任何支持预编译的模板引擎支持模板继承。
+
+```
+amod.extend 模块名称（路径）
+<puzzle data-module="想要使用的模块" data-name="替换到的位置"></puzzle>
+```
+
+实例如下：
+
+meta/index.html
+
+```
+<link rel="stylesheet" href="mod2.css"/>
+<div>
+    <puzzle data-module="./mod21" data-name="content"></puzzle>
+</div>
+<puzzle data-module="./mod22" data-async="true"></puzzle>
+<puzzle data-module="../mod3" data-name="bottom"></puzzle>
+```
+假如我们有一个模板跟上述模板类似，不同的仅仅是其中某些引用：
+extended/index.html
+
+```
+amod.extend ./meta
+<puzzle data-module="./noexistmod" data-name="content" data-async="true"></puzzle>
+<puzzle data-module="../loextend" data-name="bottom" data-async="true"></puzzle>
+```
+
+相当于 extended/index.html：
+```
+<link rel="stylesheet" href="mod2.css"/>
+<div>
+    <puzzle data-module="./noexistmod" data-name="content"></puzzle>
+</div>
+<puzzle data-module="./mod22" data-async="true"></puzzle>
+<puzzle data-module="../loextend" data-name="bottom"></puzzle>
+```
+适用于两个模块类似，但略微不同的情况。
 
 ## Examples
 请参照 test 目录下的例子。实例项目在 test/project 目录下。
