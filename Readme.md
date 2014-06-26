@@ -1,12 +1,12 @@
 ## 欢迎使用 knighkit
 knighkit 是一个前端开发工作流，以组件化为中心，以消除前端开发过程中的重复工作为目的，使你更加关注程序本身。
 
-让你节省的不只是千分之一的时间。
+让你的开发时间从 1 变成 0.99。
 
-一切只是为了那 0.001？
+一切只是为了那 0.01？
 
 ```
-Math.pow((1-0.001),1000);
+Math.pow(0.99,1000);
 ```
 ## Features
 #### 脚手架
@@ -188,16 +188,17 @@ puzzle使用 data- 的形式配置你所需要的组件。
 4. 首先加载和本次渲染同级的异步模块，然后是优先级较高的同步模块中的异步模块，依次类推
 
  具体事例：
- ```
+ 
                                         A
                      A1(p=0)           A2(p=1)         A3（a）
      A11(a)      A12      A13        A21(a)   A22       A31
     A111    A121(a) A122                      A221
- ```
+
  A代表根模块，分别引用了 A1 A2 A3, A1的优先级是0，A2的优先级是1，A3是异步模块。
  
  那么，模块加载顺序如下，用括号括起来的表明一次渲染所需调用的模块：
-```
+ 
+
     A(A2 A1 A22 A221 A12 A13 A122)  A会找到所有同步模块，归纳出同步的html代码，展示，resolve后
       ↓
     A3（A31）                        A3 是 A 的异步子模块，A的同步模块完成后，A3开始加载，同时,A3含有同步模块A31，被同时加载
@@ -207,7 +208,6 @@ puzzle使用 data- 的形式配置你所需要的组件。
     A11（A111）                      A11 是 A1 的异步子模块，含有同步的 A111，同时被解析
      ↓
     A121                            A121 同样算A1的异步子模块，因为没有设置优先级（p），出现在A11后，所以，优先级比A11低，最后被加载
-```
 
 ####data-filter
 数据过滤规则，采用[jsonselect](http://jsonselect.org/#overview) 的规则，过滤父页面传过来的数据，比如：
@@ -239,14 +239,20 @@ puzzle使用 data- 的形式配置你所需要的组件。
 }
 ```
 
+
 ## Examples
 请参照 test 目录下的例子。实例项目在 test/project 目录下。
 
 #### 如何使用实例
 
-1. 启动debug服务器。执行 debug-server.dat 或者 debug-server.sh
-2. 在浏览器中打开 [http://localhost:9528/runner-sr.html#](http://localhost:9528/runner-sr.html#)
-3. 上述地址中 # 号后可跟一个字符串，代表你想访问的模块的路径。# 号后是空，表明访问的是根路径 project/index.html。 如果访问 [http://localhost:9528/runner-sr.html#content/mod1](http://localhost:9528/runner-sr.html#content/mod1) 表明你访问的是 project/content/mod1/index.html
+
+1. 下载源代码。
+    ```
+    git clone -b puzzle https://github.com/wulijian/knighkit.git
+    ```
+2. 打开 /test 目录,执行 debug-server.dat 或者 debug-server.sh，开启debug服务器。
+3. 在浏览器中打开 [http://localhost:9528/runner-sr.html#](http://localhost:9528/runner-sr.html#)
+4. 上述地址中 # 号后可跟一个字符串，代表你想访问的模块的路径。# 号后是空，表明访问的是根路径 project/index.html。 如果访问 [http://localhost:9528/runner-sr.html#content/mod1](http://localhost:9528/runner-sr.html#content/mod1) 表明你访问的是 project/content/mod1/index.html
 
 #### 项目的结构
 1. project/index.html 是项目主入口文件，这个主文件可以是各种支持预编译的模板，现在支持的有vm，hogan，jade，ktemplate
@@ -255,6 +261,7 @@ puzzle使用 data- 的形式配置你所需要的组件。
 #### debug模式
 1. 开启debug服务后，已经开启了超强的debug模式。
 2. 修改任何一个css或者模板文件，在浏览器中打开的页面会无刷新更新，js修改后，浏览器会自动刷新。
+
 
 
 ## Authors and Contributors
