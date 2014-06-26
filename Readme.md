@@ -274,10 +274,10 @@ amod.extend ./meta
 ```
 <link rel="stylesheet" href="mod2.css"/>
 <div>
-    <puzzle data-module="./noexistmod" data-name="content"></puzzle>
+    <puzzle data-module="./noexistmod" data-name="content" data-async="true"></puzzle>
 </div>
 <puzzle data-module="./mod22" data-async="true"></puzzle>
-<puzzle data-module="../loextend" data-name="bottom"></puzzle>
+<puzzle data-module="../loextend" data-name="bottom" data-async="true"></puzzle>
 ```
 适用于两个模块类似，但略微不同的情况。
 
