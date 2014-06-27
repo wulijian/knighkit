@@ -23,6 +23,7 @@
         "css-parse":"latest",
         "JSONSelect":"latest",
         "socket.io":"latest",
+        "cheerio":"latest",
         "shelljs": "latest",
         "watch": "latest",
         "connect": "latest",

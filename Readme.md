@@ -288,6 +288,8 @@ amod.extend ./meta
 1. 下载源代码。
     ```
     git clone -b puzzle https://github.com/wulijian/knighkit.git
+    cd knighkit
+    npm install
     ```
 2. 打开 /test 目录,执行 debug-server.dat 或者 debug-server.sh，开启debug服务器。
 3. 在浏览器中打开 [http://localhost:9528/runner-sr.html#](http://localhost:9528/runner-sr.html#)
