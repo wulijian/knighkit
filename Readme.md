@@ -285,7 +285,7 @@ amod.extend ./meta
 #### 如何使用实例
 
 
-1. 下载源代码。
+1. 下载源代码，安装依赖的包。
 
     ```
     git clone -b puzzle https://github.com/wulijian/knighkit.git
