@@ -289,9 +289,7 @@ amod.extend ./meta
 
     ```
     git clone -b puzzle https://github.com/wulijian/knighkit.git
-    
-    cd knighkit
-    
+    cd knighkit 
     npm install
     ```
 2. 打开 /test 目录,执行 debug-server.dat 或者 debug-server.sh，开启debug服务器。
