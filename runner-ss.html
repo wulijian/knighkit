@@ -5,23 +5,12 @@
 </head>
 <body>
 <div id="test"></div>
-<script>
-    var require = {
-        baseUrl: "./",
-        paths: {
-            "text": "./lib/require-text",
-            "jquery": "../lib/jquery",
-            "q": "../lib/runtime/q",
-            "setimmediate": "../lib/setImmediate",
-            "path": "../lib/runtime/path"
-        },
-        waitSeconds: 15
-    };
-</script>
 <script src="http://localhost:9529/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="lib/require.js"></script>
+<script type="text/javascript" src="lib/sea-debug2.js"></script>
+<script src="lib/seajs-text.js"></script>
 <script type="text/javascript">
-    var rootname = 'project';
+    var rootname = 'test/project';
+    var configs = {};
     var renderthe = function (mod, data) {
         mod.render(data).then(function (ad) {
             $('#test').html(ad.html);
@@ -32,23 +21,27 @@
         var hash = window.location.hash.replace('#', '');
         var runset = hash.split('.');
         var moduledir = rootname + '/' + runset[0];
-        require([moduledir + '/index'], function (mod) {
+        seajs.use([moduledir + '/index'], function (mod) {
             if (runset[1] === undefined) {
                 renderthe(mod, {});
             } else {
-                require(['text!' + moduledir + '/' + runset[1] + '.json'], function (data) {
+                seajs.use([ moduledir + '/' + runset[1] + '.json'], function (data) {
                     renderthe(mod, data);
                 });
             }
         });
     };
 
-    require(['lib/runtime/subModule/index','lib/runner/client'], function (smod, client) {
-        loadmod();
-        client.startWatch();
-        window.onhashchange = function () {
+    seajs.use('./configs', function (conf) {
+        seajs.config(conf);
+        configs = conf;
+        seajs.use(['lib/runtime/subModule/index', 'lib/runner/client'], function (subm, client) {
             loadmod();
-        };
+            client.startWatch(configs.base);
+            window.onhashchange = function () {
+                loadmod();
+            };
+        });
     });
 </script>
 </body>
