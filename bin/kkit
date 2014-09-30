@@ -2,7 +2,7 @@
 
 var path = require('path');
 var fs = require('fs');
-var connect = require('connect');
+var runner = require(path.resolve(__dirname, '../lib/runner'));
 var http = require('http');
 var shell = require('shelljs');
 var tp = require('jstm');
@@ -104,65 +104,10 @@ Dispatcher.handlers = {
         builder.autoBuild();
     },
     'serverDebug': function (data) {
-        var httpPort = 9528;
         var start = {
             'http': function () {
-                //run local web server
-                connect()
-                    .use(function (req, res, next) {
-                        if (req.url.indexOf(path.basename(rootpath)) === 1 && /index\.js$/.test(req.url)) {
-                            var modsource = (process.cwd() + '/' + req.url).replace('/index.js', '');
-                            if (path.extname(modsource) === '') {
-                                res.setHeader('Content-Type', 'application/javascript');
-                                builder.builds(modsource).then(function (code) {
-                                    res.end(code);
-                                });
-                            } else {
-                                return next();
-                            }
-                        } else {
-                            return next();
-                        }
-                    })
-                    .use(connect.static(process.cwd()))
-                    .listen(httpPort);
-
-                var io = require('socket.io').listen(9529);
-                var isTemplate = /\.html$|\.vm$|\.hogan$|\.jade$/;
-                var isCSS = /\.css$/;
-                var isJS = /\.js/;
-
-                io.sockets.on('connection', function (socket) {
-                    require('watch').createMonitor(rootpath, { interval: 150 }, function (monitor) {
-                        monitor.on("created", function (f, stat) {
-                            // Handle file changes
-                        });
-                        monitor.on("changed", function (file, curr, prev) {
-                            var type = '';
-                            var fileName = path.resolve(__dirname, file);
-                            fileName = path.basename(rootpath) + '/' + path.relative(rootpath, fileName);
-                            if (isTemplate.test(fileName)) {
-                                fileName = fileName.replace(isTemplate, '');
-                                type = "template";
-                            }
-                            if (isCSS.test(fileName)) {
-                                type = 'css';
-                            }
-                            if (isJS.test(fileName)) {
-                                type = 'js';
-                            }
-                            socket.emit('updateTemplate', {
-                                fn: fileName,
-                                type: type
-                            });
-                        });
-                        monitor.on("removed", function (f, stat) {
-                            // Handle removed files
-                        });
-                    });
-                });
-                console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
-                console.info('start socket server at #yellow{http://localhost:' + 9529 + '}');
+                runner.startHttpServer(rootpath, 9528);
+                runner.startSocketIOServer(rootpath);
             },
             'all': function () {
                 this['http']();
