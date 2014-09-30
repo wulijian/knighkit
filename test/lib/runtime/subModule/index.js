@@ -138,7 +138,26 @@ define(function (require, exports, module) {
                 });
         }
     });
-
+    /**
+     * 更新一个节点（模块）
+     * @param mod 更新后的 js 模块对象
+     * @param data 渲染模块的数据
+     * @param node 模块的id
+     * @param curModuleId 当前模块的模块id
+     */
+    var updateOneNode = function (mod, data, node, curModuleId) {
+        mod.render(data || {})
+            .then(function (curMod) {
+                $(node).html(curMod.html);
+                setImmediate(function () {//不阻塞渲染进程
+                    if ($.isFunction(curMod.init)) {
+                        curMod.init(curModuleId);
+                    }
+                });
+                curMod.done();
+                return curMod;
+            });
+    };
     /**
      * 更新指定 puzzle 节点处的模块
      * @param node
@@ -146,26 +165,20 @@ define(function (require, exports, module) {
      * @param Promise  resolve with 当前模块
      */
     exports.update = function (node, data) {
-        var puzNode = $(node);
         var curModuleId = $(node).attr('mid');
         if (utils.isBrowser()) {
             if (!!define.amd) {
                 requirejs.undef(curModuleId);
+                requireMod(curModuleId, function (mod, subModuleId) {
+                    updateOneNode(mod, data, node, curModuleId);
+                });
+            }
+            if (typeof seajs !== "undefined" && !!seajs.cache) {  //seajs
+                require.async(curModuleId + '.js?t=' + (+new Date()), function (mod) {
+                    updateOneNode(mod, data, node, curModuleId);
+                });
             }
         }
-        requireMod(curModuleId, function (mod, subModuleId) {
-            mod.render(data || {})
-                .then(function (curMod) {
-                    puzNode.html(curMod.html);
-                    setImmediate(function () {//不阻塞渲染进程
-                        if ($.isFunction(curMod.init)) {
-                            curMod.init(curModuleId);
-                        }
-                    });
-                    curMod.done();
-                    return  curMod;
-                });
-        });
     };
 
     /**

@@ -5,10 +5,12 @@
 </head>
 <body>
 <div id="test"></div>
+<script src="http://localhost:9529/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="lib/sea-debug2.js"></script>
 <script src="lib/seajs-text.js"></script>
 <script type="text/javascript">
     var rootname = 'project';
+    var configs = {};
     var renderthe = function (mod, data) {
         mod.render(data).then(function (ad) {
             $('#test').html(ad.html);
@@ -29,10 +31,13 @@
             }
         });
     };
+
     seajs.use('./configs', function (conf) {
         seajs.config(conf);
-        seajs.use(['./lib/runtime/subModule/index'], function (subm) {
+        configs = conf;
+        seajs.use(['lib/runtime/subModule/index', 'lib/runner/client'], function (subm, client) {
             loadmod();
+            client.startWatch(configs.base);
             window.onhashchange = function () {
                 loadmod();
             };

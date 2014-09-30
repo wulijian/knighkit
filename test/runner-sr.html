@@ -43,28 +43,9 @@
         });
     };
 
-    var socket = io('http://localhost:9529');
-    socket.on('updateTemplate', function (data) {
-        console.log(data);
-        switch (data.type) {
-            case 'template':
-                var mods = $('ac[mid^="' + data.fn + '"]');
-                mods.each(function (idx, elem) {
-                    require('lib/runtime/subModule/index').update(elem, {});
-                });
-                break;
-            case 'css':
-                var styles = $('link[href="' + data.fn + '"]');
-                styles.replaceWith(styles);
-                break;
-            case 'js':
-            default :
-                window.location.reload();
-        }
-    });
-
-    require(['lib/runtime/subModule/index'], function () {
+    require(['lib/runtime/subModule/index','lib/runner/client'], function (smod, client) {
         loadmod();
+        client.startWatch();
         window.onhashchange = function () {
             loadmod();
         };
