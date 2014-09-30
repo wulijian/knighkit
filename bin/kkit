@@ -2,7 +2,7 @@
 
 var path = require('path');
 var fs = require('fs');
-var runner = require(path.resolve(__dirname, '../lib/runner'));
+var runner = require(path.resolve(__dirname, '../lib/runner/server'));
 var http = require('http');
 var shell = require('shelljs');
 var tp = require('jstm');
