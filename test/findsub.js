@@ -58,28 +58,44 @@ describe('遍历树形结构和查找子模块', function () {
         it('检测index.html，子模块信息对象按优先级排列返回', function () {
             findSubModule.in(code).should.eql([
                 {
-                    module: './content',
-                    priority: "2",
-                    puz: '<puzzle module="./content" priority="2"></puzzle>'
+                    "module": "./justAhtml",
+                    "async": "true",
+                    "priority": "4",
+                    "puz": "<puzzle module=\"./justAhtml\" priority=\"4\" async></puzzle>"
                 },
                 {
-                    module: './foot',
-                    priority: "1",
-                    new: "false",
-                    async: "true",
-                    puz: '<puzzle module="./foot" priority="1" async></puzzle>'
+                    "module": "./content",
+                    "priority": "2",
+                    "puz": "<puzzle module=\"./content\" priority=\"2\"></puzzle>"
                 },
                 {
+                    "async": "true",
+                    "module": "./foot",
+                    "priority": "1",
+                    "puz": "<puzzle module=\"./foot\" priority=\"1\" async></puzzle>"
+                },
+                {
+                    "async": "true",
                     "module": "./bottom",
                     "priority": "1",
-                    "new": "false",
-                    "async": "true",
                     "puz": "<puzzle module=\"./bottom\" priority=\"1\" async></puzzle>"
                 },
                 {
-                    module: './nav',
-                    new: "true",
-                    puz: '<puzzle module="./nav" new></puzzle>'
+                    "module": "./pureHtml",
+                    "async": "true",
+                    "priority": "1",
+                    "puz": "<puzzle module=\"./pureHtml\" priority=\"1\" async></puzzle>"
+                },
+                {
+                    "module": "./pureJade",
+                    "async": "true",
+                    "priority": "1",
+                    "puz": "<puzzle module=\"./pureJade\" priority=\"1\" async></puzzle>"
+                },
+                {
+                    "module": "./nav",
+                    "new": "true",
+                    "puz": "<puzzle module=\"./nav\" new></puzzle>"
                 }
             ]);
         });
