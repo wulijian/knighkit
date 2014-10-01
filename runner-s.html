@@ -23,7 +23,7 @@
         var moduledir = rootname + '/' + runset[0];
         seajs.use([moduledir + '/index'], function (mod) {
             if (runset[1] === undefined) {
-                renderthe(mod, {});
+                renderthe(mod, {b:3,a:7});
             } else {
                 seajs.use([ moduledir + '/' + runset[1] + '.json'], function (data) {
                     renderthe(mod, data);

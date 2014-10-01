@@ -34,7 +34,7 @@
         var moduledir = rootname + '/' + runset[0];
         require([moduledir + '/index'], function (mod) {
             if (runset[1] === undefined) {
-                renderthe(mod, {});
+                renderthe(mod, {b:3,a:7});
             } else {
                 require(['text!' + moduledir + '/' + runset[1] + '.json'], function (data) {
                     renderthe(mod, data);
