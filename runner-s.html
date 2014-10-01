@@ -9,38 +9,10 @@
 <script type="text/javascript" src="lib/runner/client/sea-debug2.js"></script>
 <script src="lib/runner/client/seajs-text.js"></script>
 <script type="text/javascript">
-    var rootname = 'test/project';
-    var configs = {};
-    var renderthe = function (mod, data) {
-        mod.render(data).then(function (ad) {
-            $('#test').html(ad.html);
-            ad.done();
-        });
-    };
-    var loadmod = function (conf) {
-        var hash = window.location.hash.replace('#', '');
-        var runset = hash.split('.');
-        var moduledir = rootname + '/' + runset[0];
-        seajs.use([moduledir + '/index'], function (mod) {
-            if (runset[1] === undefined) {
-                renderthe(mod, {b:3,a:7});
-            } else {
-                seajs.use([ moduledir + '/' + runset[1] + '.json'], function (data) {
-                    renderthe(mod, data);
-                });
-            }
-        });
-    };
-
     seajs.use('./configs', function (conf) {
         seajs.config(conf);
-        configs = conf;
-        seajs.use(['lib/runtime/subModule/index', 'lib/runner/client/monitor'], function (subm, client) {
-            loadmod();
-            client.startWatch(configs.base);
-            window.onhashchange = function () {
-                loadmod();
-            };
+        seajs.use(['lib/runner/client/index'], function (client) {
+            client.run('test/project');
         });
     });
 </script>
