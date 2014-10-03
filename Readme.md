@@ -281,6 +281,7 @@ amod.extend ./meta
 
 ## Examples
 请参照 test 目录下的例子。实例项目在 test/project 目录下。
+其中，根目录下的runner-r.html、runner-s.html是项目开发阶段的运行页面。
 
 #### 如何使用实例
 
@@ -292,9 +293,9 @@ amod.extend ./meta
     cd knighkit 
     npm install
     ```
-2. 打开 /test 目录,执行 debug-server.dat 或者 debug-server.sh，开启debug服务器。
-3. 在浏览器中打开 [http://localhost:9528/runner-sr.html#](http://localhost:9528/runner-sr.html#)
-4. 上述地址中 # 号后可跟一个字符串，代表你想访问的模块的路径。# 号后是空，表明访问的是根路径 project/index.html。 如果访问 [http://localhost:9528/runner-sr.html#content/mod1](http://localhost:9528/runner-sr.html#content/mod1) 表明你访问的是 project/content/mod1/index.html
+2. 执行 debug-server.dat 或者 debug-server.sh，开启debug服务器。
+3. 在浏览器中打开 [http://localhost:9528/runner-r.html#](http://localhost:9528/runner-r.html#),如果你喜欢使用seajs，请打开[http://localhost:9528/runner-s.html#](http://localhost:9528/runner-s.html#)
+4. 上述地址中 # 号后可跟一个字符串，代表你想访问的模块的路径。# 号后是空，表明访问的是根路径 project/index.html。 如果访问 [http://localhost:9528/runner-r.html#content/mod1](http://localhost:9528/runner-r.html#content/mod1) 表明你访问的是 project/content/mod1/index.html
 
 #### 项目的结构
 1. project/index.html 是项目主入口文件，这个主文件可以是各种支持预编译的模板，现在支持的有vm，hogan，jade，ktemplate
