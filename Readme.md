@@ -236,7 +236,7 @@ puzzle使用标签属性定制你所需要的组件。
 	b:3
 }
 ```
-#### data-name
+#### name
 用于模板继承，声明puzzle的name可以在使用 amod.extend时，替换name相同的部分。详见，模板继承。
 
 ### 模板继承
