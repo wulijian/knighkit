@@ -73,8 +73,8 @@ kkit --init
 <!doctype html>
 <html>
 <body>
-<puzzle data-module="./title"></puzzle>
-<puzzle data-module="./content"></puzzle>
+<puzzle module="./title"></puzzle>
+<puzzle module="./content"></puzzle>
 </body>
 </html>
 ```
@@ -94,7 +94,7 @@ here is the content
 <html>
 <body>
 <ac id="XXXXid">hello</ac>
-<ac data-module="./content">here is the content</ac>
+<ac module="./content">here is the content</ac>
 </body>
 </html>
 ```
@@ -152,33 +152,33 @@ css可以在 index.html 中引入，或者在index.html引用的其他组件中�
 <!doctype html>
 <html>
 <body>
-<puzzle data-module="./nav"></puzzle>
+<puzzle module="./nav"></puzzle>
 </body>
 </html>
 ```
 
 ### puzzle标签
 
-puzzle使用 data- 的形式配置你所需要的组件。
+puzzle使用标签属性定制你所需要的组件。
 
-#### data-module 
+#### module 
 指定需要引用的组件的路径，可以是相对路径，比如：
 
 ```
 <!doctype html>
 <html>
 <body>
-<puzzle data-module="./title"></puzzle>
+<puzzle module="./title"></puzzle>
 </body>
 </html>
 ```
 以上代码中的 ./title 是指引用此模板文件同目录下的 title 文件夹对应的组件。
 
-#### data-async
-为 true 时，此模块会延迟加载。等data-async没有设置或未false的模块加载到页面上以后，此类模块才会被加载展示。
+#### async
+属性默认值为true，不写表示非异步加载。等async没有设置（false）的模块加载到页面上以后，此类模块才会被加载展示，详见以下的模块优先级。
 
-#### data-priority
-如果一个模块的 data-async 为 true，那么可以使用该属性控制这些模块的加载优先级。任务调度的逻辑如下：
+#### priority
+如果一个模块包含 async属性（不是false），那么可以使用该属性控制这些模块的加载优先级。任务调度的逻辑如下：
 
 1. 先找出所有的同步模块，按优先级处理这些同步模块，
 2. 当所有的同步模块归纳成html字符串后，
@@ -207,17 +207,17 @@ puzzle使用 data- 的形式配置你所需要的组件。
      ↓
     A121                            A121 同样算A1的异步子模块，因为没有设置优先级（p），出现在A11后，所以，优先级比A11低，最后被加载
 ```
-####data-filter
+####filter
 数据过滤规则，采用[jsonselect](http://jsonselect.org/#overview) 的规则，过滤父页面传过来的数据，比如：
 
 ```
 <link rel="stylesheet" href="content.css"/>
 <div id="content">
-    <puzzle data-module="./mod2" data-filter=".a" data-async="false"></puzzle>
-    <puzzle data-module="./mod1"></puzzle>
+    <puzzle module="./mod2" filter=".a"></puzzle>
+    <puzzle module="./mod1"></puzzle>
 </div>
 ```
-在引用 mod2 时，指定了data-filter，会从传入引用mod2的组件的数据中选出 a 属性对应的数据。
+在引用 mod2 时，指定了filter，会从传入引用mod2的组件的数据中选出 a 属性对应的数据。
 比如，原数据是：
 
 ```
@@ -237,14 +237,14 @@ puzzle使用 data- 的形式配置你所需要的组件。
 }
 ```
 #### data-name
-用于模板继承，声明puzzle的data-name可以在使用 amod.extend时，替换name相同的部分。详见，模板继承。
+用于模板继承，声明puzzle的name可以在使用 amod.extend时，替换name相同的部分。详见，模板继承。
 
 ### 模板继承
 使用 amod.extend 可以使任何支持预编译的模板引擎支持模板继承。
 
 ```
 amod.extend 模块名称（路径）
-<puzzle data-module="想要使用的模块" data-name="替换到的位置"></puzzle>
+<puzzle module="想要使用的模块" name="替换到的位置"></puzzle>
 ```
 
 实例如下：
@@ -254,28 +254,28 @@ meta/index.html
 ```
 <link rel="stylesheet" href="mod2.css"/>
 <div>
-    <puzzle data-module="./mod21" data-name="content"></puzzle>
+    <puzzle module="./mod21" name="content"></puzzle>
 </div>
-<puzzle data-module="./mod22" data-async="true"></puzzle>
-<puzzle data-module="../mod3" data-name="bottom"></puzzle>
+<puzzle module="./mod22" async></puzzle>
+<puzzle module="../mod3" name="bottom"></puzzle>
 ```
 假如我们有一个模板跟上述模板类似，不同的仅仅是其中某些引用：
 extended/index.html
 
 ```
 amod.extend ./meta
-<puzzle data-module="./noexistmod" data-name="content" data-async="true"></puzzle>
-<puzzle data-module="../loextend" data-name="bottom" data-async="true"></puzzle>
+<puzzle module="./noexistmod" name="content" async></puzzle>
+<puzzle module="../loextend" name="bottom" async></puzzle>
 ```
 
 相当于 extended/index.html：
 ```
 <link rel="stylesheet" href="mod2.css"/>
 <div>
-    <puzzle data-module="./noexistmod" data-name="content" data-async="true"></puzzle>
+    <puzzle module="./noexistmod" name="content" async></puzzle>
 </div>
-<puzzle data-module="./mod22" data-async="true"></puzzle>
-<puzzle data-module="../loextend" data-name="bottom" data-async="true"></puzzle>
+<puzzle module="./mod22" async></puzzle>
+<puzzle module="../loextend" name="bottom" async"></puzzle>
 ```
 适用于两个模块类似，但略微不同的情况。
 
