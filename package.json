@@ -13,7 +13,7 @@
         "url": "https://github.com/wulijian/knighkit.git"
     },
     "bugs": {
-        "url": "XXX"
+        "url": "https://github.com/wulijian/knighkit/issues"
     },
     "bin": {
         "kkit": "./bin/kkit"
@@ -27,6 +27,7 @@
         "shelljs": "latest",
         "watch": "latest",
         "connect": "latest",
+        "serve-static": "latest",
         "jspacker": "latest",
         "setimmediate": "latest",
         "jstm": ">= 0.1.0",
