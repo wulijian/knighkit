@@ -29,7 +29,7 @@
         "connect": "latest",
         "jspacker": "latest",
         "setimmediate": "latest",
-        "jstm": "latest",
+        "jstm": ">= 0.1.0",
         "optimist": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
