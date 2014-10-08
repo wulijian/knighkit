@@ -29,7 +29,7 @@
         "jspacker": "latest",
         "seajs": "latest",
         "weinre": "latest",
-        "jstm": "latest",
+        "jstm": "< 0.1.0",
         "optimist": "latest",
         "consoleplusplus": "latest",
         "amdefine": "latest"
