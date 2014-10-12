@@ -297,11 +297,18 @@ amod.extend ./meta
 3. 在浏览器中打开 [http://localhost:9528/runner-r.html#](http://localhost:9528/runner-r.html#),如果你喜欢使用seajs，请打开[http://localhost:9528/runner-s.html#](http://localhost:9528/runner-s.html#)
 4. 上述地址中 # 号后可跟一个字符串，代表你想访问的模块的路径。# 号后是空，表明访问的是根路径 project/index.html。 如果访问 [http://localhost:9528/runner-r.html#content/mod1](http://localhost:9528/runner-r.html#content/mod1) 表明你访问的是 project/content/mod1/index.html
 
+
 #### 项目的结构
 1. project/index.html 是项目主入口文件，这个主文件可以是各种支持预编译的模板，现在支持的有vm，hogan，jade，ktemplate
 2. 单个模块（组件）的写法和正常的项目木有区别，唯一的区别在于，可以使用puzzle来引用其他的组件
 
 #### debug模式
+开启debug服务之前，请将项目路径修改成你项目所在的绝对路径。路径的设定在 debug-server.sh 中 -r 的参数:
+```
+#! /bin/bash
+node ./bin/kkit -r /Users/wuwei/github/knighkit/test/project -d all
+```
+
 1. 开启debug服务后，已经开启了超强的debug模式。
 2. 修改任何一个css或者模板文件，在浏览器中打开的页面会无刷新更新，js修改后，浏览器会自动刷新。
 
