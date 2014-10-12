@@ -89,7 +89,7 @@ Dispatcher.handlers = {
         }
     },
     'root': function (_rootPath) {
-        rootpath = path.resolve(cmd, './' + _rootPath);
+        rootpath = path.resolve(cmd, _rootPath);
         builder.root(rootpath);
     },
     'build': function (templatePath) {
