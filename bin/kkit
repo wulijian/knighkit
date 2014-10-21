@@ -7,7 +7,6 @@ var app = express();
 var shell = require('shelljs');
 var tp = require('jstm');
 require("consoleplusplus");
-
 var cmd = process.cwd();
 
 var checkConfigFile = function () {
@@ -15,8 +14,8 @@ var checkConfigFile = function () {
         throw 'Could not find the [kConfig/configs.js] file, please check.';
     }
 };
-
 var generate = require(path.resolve(__dirname, '../lib/build'));
+var exp = require(path.resolve(__dirname, '../lib/publish'));
 
 var setcwdAsTheRootPath = function () {
     var runtimePath = path.resolve(__dirname, '../lib/runtime.json');
@@ -58,11 +57,15 @@ var optimist = require('optimist').
     options('p', {
         alias: 'package',
         describe: 'package all src to [name]||"business". \n' +
-            '                     Make sure you\'ve already run build command.'
+        '                     Make sure you\'ve already run build command.'
     }).
     options('o', {
         alias: 'output',
         describe: 'output packaged project to [path]||"projectOutput". \n'
+    }).
+    options('e', {
+        alias: 'export',
+        describe: 'export the project depend on the [mainpage] to "__publish__" directory. \n'
     });
 
 /**
@@ -215,6 +218,10 @@ Dispatcher.handlers = {
         shell.cp('-Rf', cmd + '/src/styles', _path + '/src/');  //styles
         shell.cp('-Rf', cmd + '/src/images', _path + '/src/');  //图片
         shell.cp('-Rf', cmd + '/index.html', _path);  //主页
+    },
+    'export': function (mainpage) {
+        mainpage = mainpage === true ? './index.html' : mainpage;
+        exp.publish(mainpage);
     }
 };
 
