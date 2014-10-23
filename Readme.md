@@ -72,6 +72,7 @@ kkit -i
 kkit --init
 ```
 根据以上生成项目的 src/template/good.json 生成模版。
+
 生成的模版在src/template中。
 
 #### 添加一个模版
@@ -111,6 +112,7 @@ kkit -e
 kkit --export
 ```
 参数为项目入口的页面文件（如index.html），将文件名（index）作为项目名称，将主页和主页依赖的静态资源都拷贝到该目录下。
+
 具体的步骤为，在项目根目录先会创建__publish__/{项目名}文件夹，经过分析页面，合并压缩所需css，拷贝到 __publish__/{项目名}/styles 文件夹下；合并压缩页面所需的js文件，放到 __publish__/{项目名}/script 下，然后，根据配置文件中的staticResource，将相应的资源拷贝到 __publish__/{项目名}下相应的位置下。
 ```
 "staticResource": [                                     
