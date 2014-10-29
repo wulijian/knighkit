@@ -121,6 +121,8 @@ kkit --export
 ```
 通过以上配置，会将icons文件夹，拷贝到 __publish__/{项目名}/styles 下。
 
+如果不传递任何参数，会默认在 __publish__ 下生成一个 \_\_allpacked 的文件夹，程序会遍历根文件夹下的.html的文件，依次作为入口，打包到 \_\_allpacked 文件夹下。这种方式比较适合含有公共模块较多的页面，在上传静态资源时，可以不必手动处理公共的静态资源。
+
 ## Authors and Contributors
 KnightWu (@wulijian)
 
