@@ -220,7 +220,7 @@ Dispatcher.handlers = {
         shell.cp('-Rf', cmd + '/index.html', _path);  //主页
     },
     'export': function (mainpage) {
-        mainpage = mainpage === true ? './index.html' : mainpage;
+        mainpage = mainpage === true ? undefined : mainpage;
         exp.publish(mainpage);
     }
 };
