@@ -15,7 +15,6 @@ var checkConfigFile = function () {
     }
 };
 var generate = require(path.resolve(__dirname, '../lib/build'));
-var exp = require(path.resolve(__dirname, '../lib/publish'));
 
 var setcwdAsTheRootPath = function () {
     var runtimePath = path.resolve(__dirname, '../lib/runtime.json');
@@ -220,6 +219,8 @@ Dispatcher.handlers = {
         shell.cp('-Rf', cmd + '/index.html', _path);  //主页
     },
     'export': function (mainpage) {
+        checkConfigFile();
+        var exp = require(path.resolve(__dirname, '../lib/publish'));
         mainpage = mainpage === true ? undefined : mainpage;
         exp.publish(mainpage);
     }
