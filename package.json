@@ -22,7 +22,6 @@
         "uglify-js": "latest",
         "mocha": "latest",
         "watch": "latest",
-        "css-parse":"latest",
         "JSONSelect":"latest",
         "express": "latest",
         "shelljs": "latest",
