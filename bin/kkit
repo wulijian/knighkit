@@ -224,7 +224,7 @@ Dispatcher.handlers = {
     },
     'export': function (mainpage) {
         checkConfigFile();
-        var exp = require(path.resolve(__dirname, '../lib/publish'));
+        var exp = require('knighkit-publish');
         mainpage = mainpage === true ? undefined : mainpage;
         exp.publish(mainpage);
         if (mainpage === '_toserver') {
