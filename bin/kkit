@@ -2,11 +2,11 @@
 
 var path = require('path');
 var fs = require('fs');
-var express = require('express');
-var app = express();
 var shell = require('shelljs');
 var tp = require('jstm');
 require("consoleplusplus");
+var connect = require('connect');
+var servestatic = require('serve-static');
 var cmd = process.cwd();
 
 var checkConfigFile = function () {
@@ -148,9 +148,9 @@ Dispatcher.handlers = {
         var weinrePort = portConfig.weinre.port;
         var start = {
             'http': function () {
-                //run local web server
-                app.use(express.static(cmd)); //todo:root地址需要整理
-                app.listen(httpPort);
+                connect()
+                    .use(servestatic(process.cwd()))
+                    .listen(httpPort);
                 console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
             },
             'weinre': function () {

@@ -2,7 +2,7 @@
     "name": "knighkit",
     "title": "knighkit",
     "description": "knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。\r 目的是减少前端开发过程中的重复工作，使你更关注程序本身。",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "homepage": "",
     "engines": { "node" : ">=0.8.0" },
     "author": {
@@ -23,7 +23,8 @@
         "mocha": "latest",
         "watch": "latest",
         "JSONSelect":"latest",
-        "express": "latest",
+        "connect": "latest",
+        "serve-static": "latest",
         "shelljs": "latest",
         "jspacker": "latest",
         "seajs": "latest",
