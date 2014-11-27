@@ -25,7 +25,6 @@
         "JSONSelect":"latest",
         "express": "latest",
         "shelljs": "latest",
-        "clean-css": "latest",
         "jspacker": "latest",
         "seajs": "latest",
         "weinre": "latest",
