@@ -144,14 +144,13 @@ Dispatcher.handlers = {
     'startServer': function (data) {
         checkConfigFile();
         var portConfig = require(path.resolve(cmd, 'kConfig/configs'));
+        var runner = require('../lib/runner');
         var httpPort = portConfig.http.port;
         var weinrePort = portConfig.weinre.port;
+        var templateRoot = portConfig.template;
         var start = {
             'http': function () {
-                connect()
-                    .use(servestatic(process.cwd()))
-                    .listen(httpPort);
-                console.info('start http server at #yellow{http://localhost:' + httpPort + '}');
+                runner.startHttpServer(process.cwd(), httpPort, templateRoot);
             },
             'weinre': function () {
                 //run weinre at httpPort setted
