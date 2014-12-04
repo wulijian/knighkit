@@ -153,6 +153,20 @@ kkit --init
 <h4>
 <a id="添加一个模版" class="anchor" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%A8%A1%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>添加一个模版</h4>
 
+<pre><code>kkit -b list.html
+</code></pre>
+
+<p>运行上面的命令，会在 src/template 文件夹下生成 list 文件夹，并生成空的 m.js m.css m.<strong>html</strong>等。</p>
+
+<p>list的后缀表示使用的模板引擎类型。</p>
+
+<p>如果想使用 jade 模板，命令如下：</p>
+
+<pre><code>kkit -b list.jade
+</code></pre>
+
+<p>src/template 下，生成 list 文件夹，并生成空的 m.js m.css m.<strong>jade</strong>.</p>
+
 <h4>
 <a id="编译模版" class="anchor" href="#%E7%BC%96%E8%AF%91%E6%A8%A1%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>编译模版</h4>
 
@@ -191,7 +205,6 @@ dist/business-min.js
 <a id="启动静态服务器" class="anchor" href="#%E5%90%AF%E5%8A%A8%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>启动静态服务器</h4>
 
 <pre><code>kkit -s http
-kkit --start
 </code></pre>
 
 <p>该命令可以启动一个http静态服务器，服务器的根目录对应项目的根目录。端口号对应配置文件中的端口号：configs.js中的 http.port，默认是 9527。</p>
@@ -216,13 +229,19 @@ kkit --start
 <h5>
 <a id="使用第一种方式的好处" class="anchor" href="#%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%E7%9A%84%E5%A5%BD%E5%A4%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用第一种方式的好处</h5>
 
-<p>如下：</p>
-
 <ul>
 <li>代码可读性好，让开发者一眼就能看出来引用的模板在哪里。</li>
 <li>并将模板编译的细节对开发者做了隐藏，让开发者感觉不到模板的编译中间过程的存在。</li>
 <li>提升开发效率，模板修改后，不再需要使用编译命令编译，直接刷新页面即可查看结果。</li>
 </ul>
+
+<h4>
+<a id="启动weinre服务器" class="anchor" href="#%E5%90%AF%E5%8A%A8weinre%E6%9C%8D%E5%8A%A1%E5%99%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>启动weinre服务器</h4>
+
+<pre><code>kkit -s weinre
+</code></pre>
+
+<p>启动 weinre 服务器。远程调试在手机上测试的页面。注意，手机和调试的 PC 需要在同一个网段内。</p>
 
 <h4>
 <a id="项目打包" class="anchor" href="#%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>项目打包</h4>
@@ -233,16 +252,31 @@ kkit --export
 
 <p>参数为项目入口的页面文件（如index.html），将文件名（index）作为项目名称，将主页和主页依赖的静态资源都拷贝到该目录下。</p>
 
-<p>具体的步骤为，在项目根目录先会创建<strong>publish</strong>/{项目名}文件夹，经过分析页面，合并压缩所需css，拷贝到 <strong>publish</strong>/{项目名}/styles 文件夹下；合并压缩页面所需的js文件，放到 <strong>publish</strong>/{项目名}/script 下，然后，根据配置文件中的staticResource，将相应的资源拷贝到 <strong>publish</strong>/{项目名}下相应的位置下。</p>
+<p>具体的步骤为，在项目根目录先会创建__publish__/{项目名}文件夹，经过分析页面，收集页面依赖的css，根据页面的js入口，合并压缩 js，在 html js css中收集依赖的静态资源（图片，svg，字体文件等）。静态资源拷贝到__publish__/{项目名}/statics下，css 拷贝到 __publish__/{项目名}/styles 文件夹下，压缩后的 js 拷贝到 __publish__/{项目名}/script 下；然后，根据配置文件中的staticResource，将相应的资源拷贝到 __publish__/{项目名}下相应的位置下。除配置在 staticResource 中的文件只是拷贝外，其他文件在拷贝后都会使用文件的 md5 值作为版本号。</p>
 
 <pre><code>"staticResource": [                                     
     {"source": "src/styles/icons", "target": "styles"}
 ]                                                  
 </code></pre>
 
-<p>通过以上配置，会将icons文件夹，拷贝到 <strong>publish</strong>/{项目名}/styles 下。</p>
+<p>通过以上配置，会将icons文件夹，拷贝到 __publish__/{项目名}/styles 下。</p>
 
-<p>如果不传递任何参数，会默认在 <strong>publish</strong> 下生成一个 __allpacked 的文件夹，程序会遍历根文件夹下的.html的文件，依次作为入口，打包到 __allpacked 文件夹下。这种方式比较适合含有公共模块较多的页面，在上传静态资源时，可以不必手动处理公共的静态资源。</p>
+<p>如果不传递任何参数，会默认在 __publish__ 下生成一个 __allpacked 的文件夹，程序会遍历根文件夹下的.html的文件，依次作为入口，打包到 __allpacked 文件夹下。这种方式比较适合含有公共模块较多的页面，在上传静态资源时，可以不必手动处理公共的静态资源。</p>
+
+<h4>
+<a id="cms提交" class="anchor" href="#cms%E6%8F%90%E4%BA%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>CMS提交</h4>
+
+<pre><code>kkit -c
+kkit --cms
+</code></pre>
+
+<p>此处的 cms 提交是比较专有的代码，不适合所有公司的普遍情况。</p>
+
+<p>之所以做一个 cms 提交出来，是想提供一种技术方案，即在没有后台 cms 接口，只有 cms 管理网站的情况下，我们如何做到自动提交文件到 cms。同样适用于 CDN 的提交。</p>
+
+<p>内部实现暂时使用了 phantomjs，需配置环境变量，如果在使用npm安装knighkit过程中，phantomjs的自动下载一直被墙，建议直接去phantomjs官网下载，并配置环境变量。然后再执行一遍 <code>npm install -g knighkit</code> 即可安装通过。 </p>
+
+<p>CMS 后续打算直接使用 <a href="https://github.com/tapir-dream/berserkJS">berserkJS</a>，不再使用phantomjs+capsperJS。</p>
 
 <h2>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h2>
