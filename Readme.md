@@ -20,6 +20,30 @@ seajs 用来完成开发阶段的模块加载和调试
 * m.json 本模块的测试数据
 * data.js 模版的数据处理逻辑部分
 
+##### 模板文件中的静态资源引用
+m.css 中，资源引用可以依照 css 文件使用相对路径，如：
+```
+div{
+    background: url(./a.jpg);
+}
+```
+以上代码引用的是相对于m.css，和其同级的 a.jpg.
+
+m.html 中的img标签引用的图片可以使用相对路径，且此路径不能是变量，必须是标准的html代码标签。如 m.html中：
+```
+<div>
+    <img src='./a.jpg'/>
+</div>
+
+<div>
+    <img src='./<%= fileDir %>/b.jpg'/>
+</div>
+```
+以上代码中第一个img标签中使用的图片是相对于m.html的图片。 第二个含有变量，此时的路径就是针对于使用m.html的 html 文件的相对路径。
+
+m.js 和 data.js 中，完整的img标签引用的资源，如果是相对路径，是相对于 m.html，否则，也是相对于使用该模板的页面。
+
+
 #### 集成 jstm 模版管理工具
 可以使用任意支持预编译的模版框架，强有力的模版构建管理能力
 * 支持四种模版： jade，ktemplate，mustache（hogan.js），velecity
@@ -80,7 +104,7 @@ kkit --init
 ```
 kkit -b list.html
 ```
-运行上面的命令，会在 src/template 文件夹下生成 list 文件夹，并生成空的 m.js m.css m.__html__等。
+运行上面的命令，会在 src/template 文件夹下生成 list 文件夹，并生成空的 m.js m.css m.\_\_html\_\_等。
 
 list的后缀表示使用的模板引擎类型。
 
@@ -89,7 +113,7 @@ list的后缀表示使用的模板引擎类型。
 ```
 kkit -b list.jade
 ```
-src/template 下，生成 list 文件夹，并生成空的 m.js m.css m.__jade__.
+src/template 下，生成 list 文件夹，并生成空的 m.js m.css m.\_\_jade\_\_.
 
 
 #### 编译模版
