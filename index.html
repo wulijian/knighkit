@@ -68,6 +68,33 @@
 <li>data.js 模版的数据处理逻辑部分</li>
 </ul>
 
+<h5>
+<a id="模板文件中的静态资源引用" class="anchor" href="#%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%BC%95%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>模板文件中的静态资源引用</h5>
+
+<p>m.css 中，资源引用可以依照 css 文件使用相对路径，如：</p>
+
+<pre><code>div{
+    background: url(./a.jpg);
+}
+</code></pre>
+
+<p>以上代码引用的是相对于m.css，和其同级的 a.jpg.</p>
+
+<p>m.html 中的img标签引用的图片可以使用相对路径，且此路径不能是变量，必须是标准的html代码标签。如 m.html中：</p>
+
+<pre><code>&lt;div&gt;
+    &lt;img src='./a.jpg'/&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+    &lt;img src='./&lt;%= fileDir %&gt;/b.jpg'/&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>以上代码中第一个img标签中使用的图片是相对于m.html的图片。 第二个含有变量，此时的路径就是针对于使用m.html的 html 文件的相对路径。</p>
+
+<p>m.js 和 data.js 中，完整的img标签引用的资源，如果是相对路径，是相对于 m.html，否则，也是相对于使用该模板的页面。</p>
+
 <h4>
 <a id="集成-jstm-模版管理工具" class="anchor" href="#%E9%9B%86%E6%88%90-jstm-%E6%A8%A1%E7%89%88%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>集成 jstm 模版管理工具</h4>
 
@@ -156,7 +183,7 @@ kkit --init
 <pre><code>kkit -b list.html
 </code></pre>
 
-<p>运行上面的命令，会在 src/template 文件夹下生成 list 文件夹，并生成空的 m.js m.css m.<strong>html</strong>等。</p>
+<p>运行上面的命令，会在 src/template 文件夹下生成 list 文件夹，并生成空的 m.js m.css m.__html__等。</p>
 
 <p>list的后缀表示使用的模板引擎类型。</p>
 
@@ -165,7 +192,7 @@ kkit --init
 <pre><code>kkit -b list.jade
 </code></pre>
 
-<p>src/template 下，生成 list 文件夹，并生成空的 m.js m.css m.<strong>jade</strong>.</p>
+<p>src/template 下，生成 list 文件夹，并生成空的 m.js m.css m.__jade__.</p>
 
 <h4>
 <a id="编译模版" class="anchor" href="#%E7%BC%96%E8%AF%91%E6%A8%A1%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>编译模版</h4>
@@ -262,6 +289,8 @@ kkit --export
 <p>通过以上配置，会将icons文件夹，拷贝到 __publish__/{项目名}/styles 下。</p>
 
 <p>如果不传递任何参数，会默认在 __publish__ 下生成一个 __allpacked 的文件夹，程序会遍历根文件夹下的.html的文件，依次作为入口，打包到 __allpacked 文件夹下。这种方式比较适合含有公共模块较多的页面，在上传静态资源时，可以不必手动处理公共的静态资源。</p>
+
+<p>注意：在执行此命令前，一定要执行 kkit -b 编译模板，否则，可能会报找不到js模板的错误。</p>
 
 <h4>
 <a id="cms提交" class="anchor" href="#cms%E6%8F%90%E4%BA%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>CMS提交</h4>
