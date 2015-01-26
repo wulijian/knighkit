@@ -130,6 +130,7 @@ Dispatcher.handlers = {
         console.info('Generate project from projectTemplate success.');
 
         shell.chmod('-R', '777', currentPath);
+        shell.chmod('-R', '777', path.resolve(__dirname, '../'));
     },
 
     'init': function () {
