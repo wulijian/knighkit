@@ -129,7 +129,7 @@ Dispatcher.handlers = {
         shell.cp('-Rf', projectTemplatePath + '/*', currentPath);
         console.info('Generate project from projectTemplate success.');
 
-        shell.chmod(777, currentPath);
+        shell.chmod('-R', '777', currentPath);
     },
 
     'init': function () {
