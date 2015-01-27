@@ -62,27 +62,39 @@
 
 <ul>
 <li>m.html/hogan/vm/jade 模版文件，支持4种，自动识别编译</li>
-<li>m.js 本模块的初始化</li>
-<li>m.css 样式</li>
-<li>m.json 本模块的测试数据</li>
+<li>index.js 本模块的js业务逻辑文件</li>
+<li>index.json 本模块的测试数据</li>
 <li>data.js 模版的数据处理逻辑部分</li>
 </ul>
 
 <h5>
-<a id="模板文件中的静态资源引用" class="anchor" href="#%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%BC%95%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>模板文件中的静态资源引用</h5>
+<a id="indexjs" class="anchor" href="#indexjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>index.js</h5>
 
-<p>m.css 中，资源引用可以依照 css 文件使用相对路径，如：</p>
+<p>index.js 是标准的 commonjs 模块，自动生成时，以以下代码为模板：</p>
 
-<pre><code>div{
-    background: url(./a.jpg);
-}
+<pre><code>define(function (require, exports, module) {
+    var _$ = require('jsonselect');  // 工具类
+    var _g = require('global');  // 工具类
+    var utils = require('utils/utils');
+    var tpHelper = require('tpHelper'); // 用于模版模块生成的工具类
+    module.exports = {
+        render: function (data) {
+            return ___template___(data);
+        }
+    }
+});
 </code></pre>
 
-<p>以上代码引用的是相对于m.css，和其同级的 a.jpg.</p>
+<p>其中，m.html/hogan/vm/jade 编译完毕后的代码，会替换代码中的 <strong><em>template</em></strong>(param) 部分。</p>
 
-<p>m.html 中的img标签引用的图片可以使用相对路径，且此路径不能是变量，必须是标准的html代码标签。如 m.html中：</p>
+<h5>
+<a id="模板文件中的静态资源引用" class="anchor" href="#%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%BC%95%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>模板文件中的静态资源引用</h5>
 
-<pre><code>&lt;div&gt;
+<p>m.html 中，css文件的引用，以及img标签引用的图片，都可以使用相对路径，如：</p>
+
+<pre><code>&lt;link href="./xxx.css"&gt;
+
+&lt;div&gt;
     &lt;img src='./a.jpg'/&gt;
 &lt;/div&gt;
 
@@ -91,9 +103,18 @@
 &lt;/div&gt;
 </code></pre>
 
-<p>以上代码中第一个img标签中使用的图片是相对于m.html的图片。 第二个含有变量，此时的路径就是针对于使用m.html的 html 文件的相对路径。</p>
+<p>以上代码中第一个img标签中使用的图片是相对于m.html的图片，css 文件时相对于html的css文件。 第二个img标签含有变量，此时的路径就是针对于使用m.html的 html 文件的相对路径。</p>
 
-<p>m.js 和 data.js 中，完整的img标签引用的资源，如果是相对路径，是相对于 m.html，否则，也是相对于使用该模板的页面。</p>
+<p>index.js 和 data.js 中，完整的img标签引用的图片或link引用的css资源，如果是相对路径，是相对于 m.html，否则，也是相对于使用该模板的页面。</p>
+
+<p>xxx.css 中，资源引用可以依照 css 文件使用相对路径，如：</p>
+
+<pre><code>div{
+    background: url(./a.jpg);
+}
+</code></pre>
+
+<p>以上代码引用的是相对于xxx.css，和其同级的 a.jpg.</p>
 
 <h4>
 <a id="集成-jstm-模版管理工具" class="anchor" href="#%E9%9B%86%E6%88%90-jstm-%E6%A8%A1%E7%89%88%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>集成 jstm 模版管理工具</h4>
@@ -183,7 +204,7 @@ kkit --init
 <pre><code>kkit -b list.html
 </code></pre>
 
-<p>运行上面的命令，会在 src/template 文件夹下生成 list 文件夹，并生成空的 m.js m.css m.__html__等。</p>
+<p>运行上面的命令，会在 src/template 文件夹下生成 list 文件夹，并生成空的 index.js xxx.css m.__html__等。</p>
 
 <p>list的后缀表示使用的模板引擎类型。</p>
 
@@ -192,7 +213,7 @@ kkit --init
 <pre><code>kkit -b list.jade
 </code></pre>
 
-<p>src/template 下，生成 list 文件夹，并生成空的 m.js m.css m.__jade__.</p>
+<p>src/template 下，生成 list 文件夹，并生成空的 index.js xxx.css m.__jade__.</p>
 
 <h4>
 <a id="编译模版" class="anchor" href="#%E7%BC%96%E8%AF%91%E6%A8%A1%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>编译模版</h4>
@@ -246,7 +267,7 @@ dist/business-min.js
 
 <p>以上代码在启动了静态服务器后，可以加载 template 模板文件夹下的 list 模板。</p>
 
-<p>如果不启动静态服务器，会默认查找 src/template/list.js，在 knighkit 中，template/list 会是文件夹，其中包含 m.js m.html m.css 等。因此，会返回 404。</p>
+<p>如果不启动静态服务器，会默认查找 src/template/list.js，在 knighkit 中，template/list 会是文件夹，其中包含 index.js m.html xxx.css 等。因此，会返回 404。</p>
 
 <p>以上请求，经中间件处理，会编译相应的模板，并将模板编译后的 js 代码返回给 js 加载器。等同于直接加载使用 <code>kkit -b</code> 以后的 js 文件：</p>
 
@@ -290,7 +311,7 @@ kkit --export
 
 <p>如果不传递任何参数，会默认在 __publish__ 下生成一个 __allpacked 的文件夹，程序会遍历根文件夹下的.html的文件，依次作为入口，打包到 __allpacked 文件夹下。这种方式比较适合含有公共模块较多的页面，在上传静态资源时，可以不必手动处理公共的静态资源。</p>
 
-<p>注意：在执行此命令前，一定要执行 kkit -b 编译模板，否则，可能会报找不到js模板的错误。</p>
+<p>注意：此命令执行时，会自动执行 kkit -b 编译模板的命令，并且在执行后删除 output 文件夹。</p>
 
 <h4>
 <a id="cms提交" class="anchor" href="#cms%E6%8F%90%E4%BA%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>CMS提交</h4>
