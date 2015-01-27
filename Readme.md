@@ -15,9 +15,26 @@ seajs 用来完成开发阶段的模块加载和调试
 #### 新型的模版组成方式，模版即模块。
 每个模块都是一个文件夹，每个模块由以下文件构成:
 * m.html/hogan/vm/jade 模版文件，支持4种，自动识别编译
-* m.js 本模块的初始化
+* index.js 本模块的js业务逻辑文件
 * m.json 本模块的测试数据
 * data.js 模版的数据处理逻辑部分
+
+##### index.js
+index.js 是标准的 commonjs 模块，自动生成时，以以下代码为模板：
+```
+define(function (require, exports, module) {
+    var _$ = require('jsonselect');  // 工具类
+    var _g = require('global');  // 工具类
+    var utils = require('utils/utils');
+    var tpHelper = require('tpHelper'); // 用于模版模块生成的工具类
+    module.exports = {
+        render: function (data) {
+            return ___template___(data);
+        }
+    }
+});
+```
+其中，m.html/hogan/vm/jade 编译完毕后的代码，会替换代码中的 ___template___(param) 部分。
 
 ##### 模板文件中的静态资源引用
 m.html 中，css文件的引用，以及img标签引用的图片，都可以使用相对路径，如：
