@@ -224,7 +224,7 @@ Dispatcher.handlers = {
         var config = require(cmd + "/kConfig/configs");
         shell.rm('-rf', config.output);   //一次性清除所有output中的中间生成文件
         shell.rm('-rf', config.cssOutput);   //清除css中间生成的文件
-        if (mainpage === '_toserver') {
+        if (/.*_toserver$/g.test(mainpage)) {
             console.log('\n');
             console.log('upload file to server, enter your passport.....');
             Dispatcher.handlers.cms();
