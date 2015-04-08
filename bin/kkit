@@ -216,28 +216,40 @@ Dispatcher.handlers = {
     },
     'export': function (mainpage) {
         checkConfigFile();
+        var pagename = mainpage;
         generate.build(function () {
         });//重新编译全部模板
         var exp = require('knighkit-publish');
-        mainpage = mainpage === true ? undefined : mainpage;
+        if (mainpage === true) {
+            mainpage = undefined;
+        }
+        //publish 和 produce 阶段都属于发布到服务器，因此，后缀改为 _toserver
+        if (/.*_publish$/g.test(mainpage) || /.*_produce$/g.test(mainpage)) {
+            mainpage = mainpage.replace(/_produce$|_publish$/g, '_toserver');
+        }
         exp.publish(mainpage);
         var config = require(cmd + "/kConfig/configs");
         shell.rm('-rf', config.output);   //一次性清除所有output中的中间生成文件
         shell.rm('-rf', config.cssOutput);   //清除css中间生成的文件
-        if (/.*_toserver$/g.test(mainpage)) {
+        if (/.*_toserver$/g.test(pagename)) {
             console.log('\n');
             console.log('upload file to server, enter your passport.....');
             Dispatcher.handlers.cms();
+        } else if (/.*_publish$/g.test(pagename)) { //发布
+            Dispatcher.handlers.cms('publish');
+        } else if (/.*_produce$/g.test(pagename)) { //生产环境
+            Dispatcher.handlers.cms('produce');
         }
     },
     /**
      * 先检查配置文件是否存在，如果不存在，请按照模板
+     *  @param stage 阶段 publish 和 produce
      */
-    'cms': function () {
+    'cms': function (stage) {
         checkConfigFile();
         var kcms = require('knighkit-cms');
         kcms.setConfig(require(path.resolve(cmd, './kConfig/configs.js')));
-        kcms.run();
+        kcms.run(stage);
     }
 };
 
@@ -245,5 +257,3 @@ Dispatcher.handlers = {
  * 执行分发命令
  */
 new Dispatcher(optimist).run();
-
-
