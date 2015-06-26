@@ -1,5 +1,5 @@
-<link href="./forHogan.css">
-<div id="test">
+<link href='./forHogan.css'>
+<div id='test'>
     hi, {{hi}}<br>
-    <a href="javascript:void(0)">{{hello}}</a>
+    <a href='javascript:void(0)'>{{hello}}</a>
 </div>

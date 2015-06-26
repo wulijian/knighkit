@@ -132,16 +132,10 @@ Dispatcher.handlers = {
         shell.chmod('-R', '777', currentPath);
         shell.chmod('-R', '777', path.resolve(__dirname, '../'));
     },
-
-    'init': function () {
-        require(path.resolve(__dirname, '../lib/initialize/initProject/templateGenerator')).initProject();
-    },
-
     'autoRebuild': function () {
         checkConfigFile();
         generate.autoBuild();
     },
-
     'startServer': function (data) {
         checkConfigFile();
         var portConfig = require(path.resolve(cmd, 'kConfig/configs'));

@@ -3,13 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>新项目</title>
-    <link rel="stylesheet" href="./src/styles/normalize.css" role="debug"/>
-    <link rel="stylesheet" href="./src/styles/base.css" role="debug"/>
-    <link rel="stylesheet" href="./src/styles/index.css" role="debug"/>
-    <link rel="stylesheet" href="./src/template/example-hogan/m.css" role="debug"/>
-    <link rel="stylesheet" href="./src/template/example-html/m.css" role="debug"/>
-    <link rel="stylesheet" href="./src/template/example-jade/m.css" role="debug"/>
-    <link rel="stylesheet" href="./src/template/example-vm/m.css" role="debug"/>
+    <link rel="stylesheet" href="/src/styles/normalize.css" role="debug"/>
+    <link rel="stylesheet" href="/src/styles/base.css" role="debug"/>
+    <link rel="stylesheet" href="/src/styles/index.css" role="debug"/>
 </head>
 <body>
 <section id="content">
@@ -18,11 +14,11 @@
     <div id="jade"></div>
     <div id="vm"></div>
 </section>
-<script charset="utf-8" src="./lib/sea-debug.js" role="debug"></script>
+<script charset="utf-8" src="/lib/sea-debug.js" role="debug"></script>
 <script charset="utf-8" type="text/javascript" role="debug">
-    seajs.use('./kConfig/configs', function (conf) {
+    seajs.use('/kConfig/configs', function (conf) {
         seajs.config(conf);
-        seajs.use('./src/scripts/index');
+        seajs.use('/src/scripts/index');
     });
 </script>
 </body>
