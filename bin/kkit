@@ -148,16 +148,7 @@ Dispatcher.handlers = {
                 runner.startHttpServer(process.cwd(), httpPort, templateRoot);
             },
             'weinre': function () {
-                //run weinre at httpPort setted
-                var weinre = path.resolve(__dirname, '../node_modules/weinre');
-                var lib = path.join(weinre, 'lib');
-                process.argv.pop();
-                process.argv.pop();
-                ('--httpPort ' + weinrePort + ' --boundHost -all-').split(' ').forEach(function (val) {
-                    process.argv.push(val);
-                });
-                var node_modules = path.join(weinre, 'node_modules');
-                require(path.join(lib, '/cli')).run();
+                runner.startWeinreServer(weinrePort);
             },
             'all': function () {
                 this['http']();
