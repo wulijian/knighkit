@@ -31,6 +31,7 @@
         "weinre": "latest",
         "knighkit-cms": "latest",
         "knighkit-publish": "latest",
+        "knighkit-tag-extension": "latest",
         "jstm": "latest",
         "optimist": "latest",
         "consoleplusplus": "latest",
