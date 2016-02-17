@@ -231,6 +231,11 @@ kkit --cms
 
 CMS 后续打算直接使用 [berserkJS](https://github.com/tapir-dream/berserkJS)，不再使用phantomjs+capsperJS。
 
+## Change logs
+
+2016/2/17 version 0.8.0 
+
+支持 include 和 puzzle 扩展标签的嵌套
 
 ## Authors and Contributors
 KnightWu (@wulijian)
