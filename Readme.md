@@ -2,7 +2,7 @@
 knighkit 是自动化，模块开发，并支持自动打包，支持远程调试的前端开发框架。
 目的是减少前端开发过程中的重复工作，使你更关注程序本身。
 
-本工作流采用新的webpack架构重新实现的版本[tua](https://www.npmjs.com/package/tua)
+推荐：基于webpack架构全新工作流[tua](https://www.npmjs.com/package/tua)
 
 ## 功能
 #### 自动化生成项目结构
