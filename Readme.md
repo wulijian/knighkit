@@ -220,18 +220,6 @@ kkit --export
 
 注意：此命令执行时，会自动执行 kkit -b 编译模板的命令，并且在执行后删除 output 文件夹。
 
-#### CMS提交
-```
-kkit -c
-kkit --cms
-```
-此处的 cms 提交是比较专有的代码，不适合所有公司的普遍情况。
-
-之所以做一个 cms 提交出来，是想提供一种技术方案，即在没有后台 cms 接口，只有 cms 管理网站的情况下，我们如何做到自动提交文件到 cms。同样适用于 CDN 的提交。
-
-内部实现暂时使用了 phantomjs，需配置环境变量，如果在使用npm安装knighkit过程中，phantomjs的自动下载一直被墙，建议直接去phantomjs官网下载，并配置环境变量。然后再执行一遍 ```npm install -g knighkit ``` 即可安装通过。 
-
-CMS 后续打算直接使用 [berserkJS](https://github.com/tapir-dream/berserkJS)，不再使用phantomjs+capsperJS。
 
 ## Change logs
 

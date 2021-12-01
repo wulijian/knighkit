@@ -63,11 +63,12 @@ var optimist = require('optimist').
     options('e', {
         alias: 'export',
         describe: 'export the project depend on the [mainpage] to "__publish__" directory. \n'
-    }).
-    options('c', {
-        alias: 'cms',
-        describe: 'upload file to cms server. \n'
-    });
+    })
+    // .
+    // options('c', {
+    //     alias: 'cms',
+    //     describe: 'upload file to cms server. \n'
+    // });
 
 /**
  * 是否函数
@@ -226,16 +227,16 @@ Dispatcher.handlers = {
             Dispatcher.handlers.cms('produce');
         }
     },
-    /**
-     * 先检查配置文件是否存在，如果不存在，请按照模板
-     *  @param stage 阶段 publish 和 produce
-     */
-    'cms': function (stage) {
-        checkConfigFile();
-        var kcms = require('knighkit-cms');
-        kcms.setConfig(require(path.resolve(cmd, './kConfig/configs.js')));
-        kcms.run(stage);
-    }
+    // /**
+    //  * 先检查配置文件是否存在，如果不存在，请按照模板
+    //  *  @param stage 阶段 publish 和 produce
+    //  */
+    // 'cms': function (stage) {
+    //     checkConfigFile();
+    //     var kcms = require('knighkit-cms');
+    //     kcms.setConfig(require(path.resolve(cmd, './kConfig/configs.js')));
+    //     kcms.run(stage);
+    // }
 };
 
 /**
