@@ -217,15 +217,15 @@ Dispatcher.handlers = {
         var config = require(cmd + "/kConfig/configs");
         shell.rm('-rf', config.output);   //一次性清除所有output中的中间生成文件
         shell.rm('-rf', config.cssOutput);   //清除css中间生成的文件
-        if (/.*_toserver$/g.test(pagename)) {
-            console.log('\n');
-            console.log('upload file to server, enter your passport.....');
-            Dispatcher.handlers.cms();
-        } else if (/.*_publish$/g.test(pagename)) { //发布
-            Dispatcher.handlers.cms('publish');
-        } else if (/.*_produce$/g.test(pagename)) { //生产环境
-            Dispatcher.handlers.cms('produce');
-        }
+        // if (/.*_toserver$/g.test(pagename)) {
+        //     console.log('\n');
+        //     console.log('upload file to server, enter your passport.....');
+        //     Dispatcher.handlers.cms();
+        // } else if (/.*_publish$/g.test(pagename)) { //发布
+        //     Dispatcher.handlers.cms('publish');
+        // } else if (/.*_produce$/g.test(pagename)) { //生产环境
+        //     Dispatcher.handlers.cms('produce');
+        // }
     },
     // /**
     //  * 先检查配置文件是否存在，如果不存在，请按照模板
